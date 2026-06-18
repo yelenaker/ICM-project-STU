@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erasmus Mobility Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        🌍 Erasmus+
+    </div>
+
+    <div class="menu">
+
+        <button class="menu-btn active" onclick="openTab('dashboard')">
+            📊 Dashboard
+        </button>
+
+        <button class="menu-btn" onclick="openTab('students')">
+            🎓 Students
+        </button>
+
+        <button class="menu-btn" onclick="openTab('staff')">
+            👨‍🏫 Staff
+        </button>
+
+        <button class="menu-btn" onclick="openTab('universities')">
+            🌎 Universities
+        </button>
+
+        <button class="menu-btn" onclick="openTab('budget')">
+            💰 Budget
+        </button>
+
+        <button class="menu-btn" onclick="openTab('documents')">
+            📄 Documents
+        </button>
+
+        <button class="menu-btn" onclick="openTab('calendar')">
+            📅 Calendar
+        </button>
+
+    </div>
+
+</div>
+
+<div class="main-content">
+
+    <!-- DASHBOARD -->
+
+    <section id="dashboard" class="tab active-tab">
+
+        <h1>Dashboard</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Mobilities</h3>
+                <p>134</p>
+            </div>
+
+            <div class="card">
+                <h3>Students</h3>
+                <p>72</p>
+            </div>
+
+            <div class="card">
+                <h3>Staff</h3>
+                <p>62</p>
+            </div>
+
+            <div class="card">
+                <h3>Budget Used</h3>
+                <p>€380K</p>
+            </div>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="panel">
+
+                <h2>Recent Mobilities</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>Status</th>
+                    </tr>
+
+                    <tr>
+                        <td>Sofia Shepelieva</td>
+                        <td>Ukraine</td>
+                        <td><span class="status green">Active</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Mesha Mbisana</td>
+                        <td>Botswana</td>
+                        <td><span class="status blue">Completed</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Ivan Špánik</td>
+                        <td>Zambia</td>
+                        <td><span class="status orange">Upcoming</span></td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="panel">
+
+                <h2>Notifications</h2>
+
+                <div class="notification">
+                    🔴 5 Missing Surveys
+                </div>
+
+                <div class="notification">
+                    🟡 3 Missing Insurance Documents
+                </div>
+
+                <div class="notification">
+                    🟢 7 Mobilities Start This Week
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- STUDENTS -->
+
+    <section id="students" class="tab">
+
+        <div class="page-header">
+
+            <h1>Students</h1>
+
+            <input
+                type="text"
+                placeholder="Search student..."
+                id="studentSearch"
+            >
+
+        </div>
+
+        <div class="students-grid" id="studentsGrid">
+
+            <div class="student-card">
+
+                <h3>Sofia Shepelieva</h3>
+
+                <p>🇺🇦 Ukraine</p>
+
+                <p>KNUBA</p>
+
+                <span class="badge green">
+                    Active
+                </span>
+
+            </div>
+
+            <div class="student-card">
+
+                <h3>Mesha Mbisana</h3>
+
+                <p>🇧🇼 Botswana</p>
+
+                <p>University of Botswana</p>
+
+                <span class="badge blue">
+                    Completed
+                </span>
+
+            </div>
+
+            <div class="student-card">
+
+                <h3>Kseniia Vii</h3>
+
+                <p>🇺🇦 Ukraine</p>
+
+                <p>Taras Shevchenko University</p>
+
+                <span class="badge green">
+                    Active
+                </span>
+
+            </div>
+
+            <div class="student-card">
+
+                <h3>Tatenda Runganga</h3>
+
+                <p>🇿🇦 South Africa</p>
+
+                <p>University of the Western Cape</p>
+
+                <span class="badge orange">
+                    Upcoming
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- STAFF -->
+
+    <section id="staff" class="tab">
+
+        <h1>Staff Mobilities</h1>
+
+        <div class="panel">
+
+            <table>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Country</th>
+                    <th>Status</th>
+                </tr>
+
+                <tr>
+                    <td>Ivan Špánik</td>
+                    <td>Teaching</td>
+                    <td>Bhutan</td>
+                    <td>Upcoming</td>
+                </tr>
+
+                <tr>
+                    <td>Olena Verenych</td>
+                    <td>Teaching</td>
+                    <td>Ukraine</td>
+                    <td>Completed</td>
+                </tr>
+
+                <tr>
+                    <td>Osden Jokonya</td>
+                    <td>Teaching</td>
+                    <td>South Africa</td>
+                    <td>Active</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- UNIVERSITIES -->
+
+    <section id="universities" class="tab">
+
+        <h1>Partner Universities</h1>
+
+        <div class="universities-grid">
+
+            <div class="uni-card">
+                <h3>KNUBA</h3>
+                <p>Ukraine</p>
+                <p>11 Mobilities</p>
+            </div>
+
+            <div class="uni-card">
+                <h3>University of Botswana</h3>
+                <p>Botswana</p>
+                <p>6 Mobilities</p>
+            </div>
+
+            <div class="uni-card">
+                <h3>University of Zambia</h3>
+                <p>Zambia</p>
+                <p>6 Mobilities</p>
+            </div>
+
+            <div class="uni-card">
+                <h3>Sherubtse College</h3>
+                <p>Bhutan</p>
+                <p>10 Mobilities</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- BUDGET -->
+
+    <section id="budget" class="tab">
+
+        <h1>Budget Overview</h1>
+
+        <div class="panel">
+
+            <table>
+
+                <tr>
+                    <th>Country</th>
+                    <th>Budget</th>
+                    <th>Used</th>
+                </tr>
+
+                <tr>
+                    <td>Ukraine</td>
+                    <td>€104,415</td>
+                    <td>96%</td>
+                </tr>
+
+                <tr>
+                    <td>Bhutan</td>
+                    <td>€22,720</td>
+                    <td>99%</td>
+                </tr>
+
+                <tr>
+                    <td>Botswana</td>
+                    <td>€28,440</td>
+                    <td>94%</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- DOCUMENTS -->
+
+    <section id="documents" class="tab">
+
+        <h1>Documents Tracker</h1>
+
+        <div class="documents-list">
+
+            <div class="document-item">
+
+                <h3>Sofia Shepelieva</h3>
+
+                <div class="progress-bar">
+                    <div class="progress" style="width:90%"></div>
+                </div>
+
+                <p>90% completed</p>
+
+            </div>
+
+            <div class="document-item">
+
+                <h3>Mesha Mbisana</h3>
+
+                <div class="progress-bar">
+                    <div class="progress" style="width:100%"></div>
+                </div>
+
+                <p>100% completed</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CALENDAR -->
+
+    <section id="calendar" class="tab">
+
+        <h1>Upcoming Events</h1>
+
+        <div class="panel">
+
+            <ul class="calendar-list">
+
+                <li>
+                    13 June — Osden Jokonya Arrival
+                </li>
+
+                <li>
+                    15 June — Teaching Mobility Starts
+                </li>
+
+                <li>
+                    28 June — Mobility Ends
+                </li>
+
+                <li>
+                    04 July — Student Departure
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

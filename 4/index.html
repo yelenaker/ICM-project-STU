@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICM Mobility Dashboard — STU Bratislava</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="logo">
+      <div class="logo-icon">ICM</div>
+      <div class="logo-text">
+        <span class="logo-title" data-en="Mobility Platform" data-sk="Mobilita Platforma">Mobility Platform</span>
+        <span class="logo-sub">STU Bratislava · 2023–1-SK01-KA171</span>
+      </div>
+    </div>
+  </div>
+  <div class="topbar-center">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6"/><path d="M15 15l-3.5-3.5"/></svg>
+      <input type="text" class="search-input" id="globalSearch" placeholder="Search students, staff, countries..." autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="lang-btn" id="langToggle" title="Switch Language">
+      <span id="langLabel">EN</span>
+    </button>
+    <button class="theme-btn" id="themeToggle" title="Toggle Theme">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="notif-wrap">
+      <button class="notif-btn" id="notifBtn" title="Notifications">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-badge">7</span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-header"><span data-en="Notifications" data-sk="Notifikácie">Notifications</span><span class="notif-count">7 new</span></div>
+        <div class="notif-item urgent"><div class="notif-dot red"></div><div><strong>Missing Visa</strong><p>Adili Mbembela — Tanzania mobility starts soon</p><time>2h ago</time></div></div>
+        <div class="notif-item urgent"><div class="notif-dot red"></div><div><strong>Reimbursement Overdue</strong><p>James Nyirenda — Zambia — 45 days pending</p><time>5h ago</time></div></div>
+        <div class="notif-item warn"><div class="notif-dot amber"></div><div><strong>LA Not Signed</strong><p>Aleksa Sabljic — Bosnia — mobility in 3 weeks</p><time>1d ago</time></div></div>
+        <div class="notif-item warn"><div class="notif-dot amber"></div><div><strong>Insurance Expiring</strong><p>Tshering Tshokey — Bhutan student</p><time>1d ago</time></div></div>
+        <div class="notif-item info"><div class="notif-dot blue"></div><div><strong>Cancelled Mobility</strong><p>Ivan Špánik — Laos training cancelled</p><time>2d ago</time></div></div>
+        <div class="notif-item info"><div class="notif-dot blue"></div><div><strong>New Nomination</strong><p>Boris Mikanovic from Bosnia submitted docs</p><time>3d ago</time></div></div>
+        <div class="notif-item info"><div class="notif-dot green"></div><div><strong>Mobility Completed</strong><p>Olena Verenych — Ukraine — survey received</p><time>4d ago</time></div></div>
+      </div>
+    </div>
+    <button class="profile-btn" id="profileBtn">
+      <div class="avatar">LM</div>
+      <div class="profile-info">
+        <span class="profile-name">Lucia Miadoková</span>
+        <span class="profile-role">IRO Coordinator</span>
+      </div>
+    </button>
+  </div>
+</header>
+
+<!-- WARNING BANNER -->
+<div class="alert-bar" id="alertBar">
+  <div class="alerts-scroll">
+    <div class="alert-item red">⚠ Missing visa: Tshering Tshokey (Bhutan)</div>
+    <div class="alert-item amber">⏰ Reimbursement overdue: James Nyirenda (Zambia, 45d)</div>
+    <div class="alert-item amber">🏠 Accommodation pending: Colin Lee (South Africa)</div>
+    <div class="alert-item red">✈ Mobility starts next week: Aleksa Sabljic — LA not signed</div>
+    <div class="alert-item blue">❌ 5 cancelled mobilities — see Cancelled tab</div>
+    <div class="alert-item amber">📄 Survey missing: Tatenda Blessing Runganga (South Africa)</div>
+    <div class="alert-item red">⚠ Missing boarding pass: 3 participants from Montenegro</div>
+  </div>
+  <button class="alert-close" id="alertClose">×</button>
+</div>
+
+<!-- LAYOUT WRAPPER -->
+<div class="layout" id="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+
+      <div class="nav-item" data-page="dashboard">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span data-en="Dashboard" data-sk="Prehľad">Dashboard</span>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label" data-en="Students" data-sk="Študenti">Students</div>
+        <div class="nav-item nav-sub" data-page="students-2023">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <span>2023/24</span>
+        </div>
+        <div class="nav-item nav-sub" data-page="students-2024">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <span>2024/25</span>
+        </div>
+        <div class="nav-item nav-sub" data-page="students-2025">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <span>2025/26</span>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label" data-en="Staff" data-sk="Zamestnanci">Staff</div>
+        <div class="nav-item nav-sub" data-page="staff-2023">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>2023/24</span>
+        </div>
+        <div class="nav-item nav-sub" data-page="staff-2024">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>2024/25</span>
+        </div>
+        <div class="nav-item nav-sub" data-page="staff-2025">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>2025/26</span>
+        </div>
+      </div>
+
+      <div class="nav-item" data-page="study">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span data-en="Study Mobilities" data-sk="Štúdijné Mobility">Study Mobilities</span>
+      </div>
+
+      <div class="nav-item" data-page="teaching">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <span data-en="Teaching & Training" data-sk="Výučba & Tréning">Teaching & Training</span>
+      </div>
+
+      <div class="nav-item" data-page="documents">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        <span data-en="Documents" data-sk="Dokumenty">Documents</span>
+      </div>
+
+      <div class="nav-item" data-page="budget">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span data-en="Budget Overview" data-sk="Prehľad Rozpočtu">Budget Overview</span>
+      </div>
+
+      <div class="nav-item" data-page="reports">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span data-en="Reports" data-sk="Správy">Reports</span>
+      </div>
+
+      <div class="nav-item" data-page="managers">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span data-en="Project Managers" data-sk="Projektoví Manažéri">Project Managers</span>
+      </div>
+
+      <div class="nav-item" data-page="coordinators">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M2 12H4M20 12h2M19.07 19.07l-1.41-1.41M5.34 5.34 3.93 3.93"/><circle cx="12" cy="12" r="9" fill="none"/></svg>
+        <span data-en="Coordinators" data-sk="Koordinátori">Coordinators</span>
+      </div>
+
+      <div class="nav-item" data-page="cancelled">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <span data-en="Cancelled" data-sk="Zrušené">Cancelled</span>
+        <span class="nav-badge red">5</span>
+      </div>
+
+      <div class="nav-item" data-page="notes">
+        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <span data-en="Notes" data-sk="Poznámky">Notes</span>
+      </div>
+
+      <div class="nav-item" data-page="settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span data-en="Settings" data-sk="Nastavenia">Settings</span>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ===================== DASHBOARD PAGE ===================== -->
+    <section class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 data-en="Dashboard Overview" data-sk="Prehľad Panela">Dashboard Overview</h1>
+          <p class="page-sub" data-en="ICM 2023 · Project 2023-1-SK01-KA171-HED-000148295" data-sk="ICM 2023 · Projekt 2023-1-SK01-KA171-HED-000148295">ICM 2023 · Project 2023-1-SK01-KA171-HED-000148295</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn-secondary" data-en="Export Report" data-sk="Exportovať Správu">Export Report</button>
+          <button class="btn-primary" data-en="+ New Mobility" data-sk="+ Nová Mobilita">+ New Mobility</button>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="stat-body">
+            <div class="stat-value">134</div>
+            <div class="stat-label" data-en="Total Mobilities" data-sk="Celkové Mobility">Total Mobilities</div>
+            <div class="stat-trend up">↑ 12% vs 2022</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="stat-body">
+            <div class="stat-value">98</div>
+            <div class="stat-label" data-en="Completed" data-sk="Dokončené">Completed</div>
+            <div class="stat-trend up">↑ 73% rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="stat-body">
+            <div class="stat-value">31</div>
+            <div class="stat-label" data-en="In Progress" data-sk="Prebieha">In Progress</div>
+            <div class="stat-trend">Active now</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+          <div class="stat-body">
+            <div class="stat-value">5</div>
+            <div class="stat-label" data-en="Cancelled" data-sk="Zrušené">Cancelled</div>
+            <div class="stat-trend down">↑ needs review</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="stat-body">
+            <div class="stat-value">€380k</div>
+            <div class="stat-label" data-en="Budget Used" data-sk="Použitý Rozpočet">Budget Used</div>
+            <div class="stat-trend up">91.2% of €416k</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="stat-body">
+            <div class="stat-value">11</div>
+            <div class="stat-label" data-en="Partner Countries" data-sk="Partnerské Krajiny">Partner Countries</div>
+            <div class="stat-trend">4 regions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div class="charts-row">
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3 data-en="Budget Usage by Country" data-sk="Využitie Rozpočtu podľa Krajiny">Budget Usage by Country</h3>
+          </div>
+          <div class="budget-bars" id="budgetBars"></div>
+        </div>
+        <div class="card chart-card small">
+          <div class="card-header">
+            <h3 data-en="Mobility Types" data-sk="Typy Mobilít">Mobility Types</h3>
+          </div>
+          <div class="donut-chart" id="donutChart">
+            <svg viewBox="0 0 200 200" id="donutSvg"></svg>
+            <div class="donut-legend" id="donutLegend"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COUNTRY OVERVIEW + RECENT ACTIVITY -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <h3 data-en="Country Overview" data-sk="Prehľad Krajín">Country Overview</h3>
+          </div>
+          <div class="country-list">
+            <div class="country-row"><span class="flag">🇧🇹</span><span class="country-name">Bhutan</span><span class="country-uni">Sherubtse College</span><div class="country-bar"><div class="bar-fill" style="width:74%"></div></div><span class="country-pct">74%</span></div>
+            <div class="country-row"><span class="flag">🇧🇦</span><span class="country-name">Bosnia</span><span class="country-uni">Apeiron + Sinergija</span><div class="country-bar"><div class="bar-fill blue" style="width:98%"></div></div><span class="country-pct">98%</span></div>
+            <div class="country-row"><span class="flag">🇧🇼</span><span class="country-name">Botswana</span><span class="country-uni">Univ. of Botswana</span><div class="country-bar"><div class="bar-fill amber" style="width:94%"></div></div><span class="country-pct">94%</span></div>
+            <div class="country-row"><span class="flag">🇲🇪</span><span class="country-name">Montenegro</span><span class="country-uni">UCG Podgorica</span><div class="country-bar"><div class="bar-fill green" style="width:95%"></div></div><span class="country-pct">95%</span></div>
+            <div class="country-row"><span class="flag">🇮🇷</span><span class="country-name">Iran</span><span class="country-uni">Amirkabir Univ.</span><div class="country-bar"><div class="bar-fill red" style="width:0%"></div></div><span class="country-pct">0%</span></div>
+            <div class="country-row"><span class="flag">🇿🇦</span><span class="country-name">South Africa</span><span class="country-uni">UWC Cape Town</span><div class="country-bar"><div class="bar-fill purple" style="width:99%"></div></div><span class="country-pct">99%</span></div>
+            <div class="country-row"><span class="flag">🇱🇦</span><span class="country-name">Laos</span><span class="country-uni">Nat. Univ. of Laos</span><div class="country-bar"><div class="bar-fill teal" style="width:86%"></div></div><span class="country-pct">86%</span></div>
+            <div class="country-row"><span class="flag">🇳🇬</span><span class="country-name">Nigeria</span><span class="country-uni">FUTO Owerri</span><div class="country-bar"><div class="bar-fill amber" style="width:66%"></div></div><span class="country-pct">66%</span></div>
+            <div class="country-row"><span class="flag">🇹🇿</span><span class="country-name">Tanzania</span><span class="country-uni">MUST</span><div class="country-bar"><div class="bar-fill red" style="width:100%"></div></div><span class="country-pct">121%</span></div>
+            <div class="country-row"><span class="flag">🇺🇦</span><span class="country-name">Ukraine</span><span class="country-uni">KNUCA + KNU + PDABA</span><div class="country-bar"><div class="bar-fill blue" style="width:96%"></div></div><span class="country-pct">96%</span></div>
+            <div class="country-row"><span class="flag">🇿🇲</span><span class="country-name">Zambia</span><span class="country-uni">Univ. of Zambia</span><div class="country-bar"><div class="bar-fill green" style="width:100%"></div></div><span class="country-pct">99%</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 data-en="Recent Activity" data-sk="Nedávna Aktivita">Recent Activity</h3>
+          </div>
+          <div class="activity-feed">
+            <div class="activity-item"><div class="act-dot green"></div><div><strong>Tshering Tshokey</strong> arrived in Bratislava (Bhutan → STU)<time>Today, 09:14</time></div></div>
+            <div class="activity-item"><div class="act-dot blue"></div><div><strong>Aleksa Sabljic</strong> LA signed — Bosnia → STU FIIT<time>Today, 08:55</time></div></div>
+            <div class="activity-item"><div class="act-dot amber"></div><div><strong>Ivan Špánik</strong> training cancelled — Laos mobility RUŠÍ SA<time>Yesterday, 16:30</time></div></div>
+            <div class="activity-item"><div class="act-dot green"></div><div><strong>Adili Mbembela</strong> arrived — Tanzania study mobility<time>Yesterday, 11:00</time></div></div>
+            <div class="activity-item"><div class="act-dot purple"></div><div><strong>Budget alert</strong> Tanzania at 120.6% — transfer approved<time>2d ago, 14:22</time></div></div>
+            <div class="activity-item"><div class="act-dot red"></div><div><strong>Visa request</strong> sent to Zambian embassy for 3 participants<time>2d ago, 10:05</time></div></div>
+            <div class="activity-item"><div class="act-dot blue"></div><div><strong>Olena Verenych</strong> completed mobility — survey submitted<time>3d ago, 17:45</time></div></div>
+            <div class="activity-item"><div class="act-dot green"></div><div><strong>Martin Hudcovský</strong> departure confirmed — South Africa<time>3d ago, 09:30</time></div></div>
+            <div class="activity-item"><div class="act-dot amber"></div><div><strong>Reminder sent</strong> to 4 participants re: missing documents<time>4d ago, 12:00</time></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COORDINATOR SUMMARY -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header">
+          <h3 data-en="Coordinator Summary" data-sk="Prehľad Koordinátorov">Coordinator Summary</h3>
+        </div>
+        <div class="coord-summary-grid">
+          <div class="coord-summary-card">
+            <div class="cs-avatar" style="background:var(--blue-light);color:var(--blue)">LM</div>
+            <div class="cs-info">
+              <strong>Lucia Miadoková</strong>
+              <span>REC / FCHPT</span>
+            </div>
+            <div class="cs-stats">
+              <span class="badge green">Active: 18</span>
+              <span class="badge blue">Countries: 8</span>
+            </div>
+          </div>
+          <div class="coord-summary-card">
+            <div class="cs-avatar" style="background:var(--purple-light);color:var(--purple)">TH</div>
+            <div class="cs-info">
+              <strong>Tereza Hubáčková</strong>
+              <span>REC / FIIT / UM</span>
+            </div>
+            <div class="cs-stats">
+              <span class="badge green">Active: 22</span>
+              <span class="badge blue">Countries: 5</span>
+            </div>
+          </div>
+          <div class="coord-summary-card">
+            <div class="cs-avatar" style="background:var(--amber-light);color:var(--amber)">PD</div>
+            <div class="cs-info">
+              <strong>Pavle Dakić</strong>
+              <span>FIIT</span>
+            </div>
+            <div class="cs-stats">
+              <span class="badge green">Active: 12</span>
+              <span class="badge blue">Countries: 2</span>
+            </div>
+          </div>
+          <div class="coord-summary-card">
+            <div class="cs-avatar" style="background:var(--teal-light);color:var(--teal)">IS</div>
+            <div class="cs-info">
+              <strong>Ivan Špánik</strong>
+              <span>FCHPT</span>
+            </div>
+            <div class="cs-stats">
+              <span class="badge green">Active: 15</span>
+              <span class="badge blue">Countries: 6</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STUDENTS PAGES ===================== -->
+    <section class="page" id="page-students-2023">
+      <div class="page-header">
+        <div><h1 data-en="Student Mobilities 2023/24" data-sk="Študentské Mobility 2023/24">Student Mobilities 2023/24</h1><p class="page-sub">Incoming & Outgoing · Study Stays</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add Student</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select" onchange="filterTable(this)"><option value="">All Countries</option><option>Ukraine</option><option>Bosnia</option><option>Montenegro</option><option>Botswana</option><option>South Africa</option><option>Tanzania</option></select>
+        <select class="filter-select" onchange="filterTable(this)"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <select class="filter-select" onchange="filterTable(this)"><option value="">All Coordinators</option><option>Tereza</option><option>Lucia</option></select>
+        <select class="filter-select" onchange="filterTable(this)"><option value="">All Types</option><option>Long-term</option><option>Short-term</option></select>
+        <input type="text" class="filter-input" placeholder="Search name..." oninput="filterTable(this)">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="students2023Table">
+          <thead><tr>
+            <th>#</th><th>Name</th><th>Flow</th><th>Type</th><th>Country</th><th>University</th><th>Faculty</th><th>Start</th><th>End</th><th>Months</th><th>Grant</th><th>Status</th><th>Coordinator</th>
+          </tr></thead>
+          <tbody id="students2023Tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="page-students-2024">
+      <div class="page-header">
+        <div><h1>Student Mobilities 2024/25</h1><p class="page-sub">Incoming & Outgoing · Study Stays</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add Student</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Countries</option><option>Ukraine</option><option>Botswana</option><option>South Africa</option><option>Bhutan</option><option>Tanzania</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <select class="filter-select"><option value="">All Coordinators</option><option>Tereza</option><option>Lucia</option></select>
+        <input type="text" class="filter-input" placeholder="Search name...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="students2024Table">
+          <thead><tr><th>#</th><th>Name</th><th>Flow</th><th>Type</th><th>Country</th><th>University</th><th>Start</th><th>End</th><th>Months</th><th>Grant</th><th>Status</th><th>Coordinator</th></tr></thead>
+          <tbody id="students2024Tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="page-students-2025">
+      <div class="page-header">
+        <div><h1>Student Mobilities 2025/26</h1><p class="page-sub">Incoming & Outgoing · Study Stays</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add Student</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Countries</option><option>Bhutan</option><option>Tanzania</option><option>Montenegro</option><option>Bosnia</option><option>Ukraine</option><option>Nigeria</option><option>South Africa</option><option>Zambia</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <select class="filter-select"><option value="">All Faculties</option><option>FCHPT</option><option>FIIT</option><option>SvF</option><option>MTF</option><option>UM</option></select>
+        <input type="text" class="filter-input" placeholder="Search name...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="students2025Table">
+          <thead><tr><th>#</th><th>Name</th><th>Flow</th><th>Type</th><th>Country</th><th>University</th><th>Faculty STU</th><th>Start</th><th>End</th><th>Grant</th><th>Study Field</th><th>Status</th></tr></thead>
+          <tbody id="students2025Tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== STAFF PAGES ===================== -->
+    <section class="page" id="page-staff-2023">
+      <div class="page-header">
+        <div><h1>Staff Mobilities 2023/24</h1><p class="page-sub">Teaching & Training · Incoming & Outgoing</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add Staff</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Countries</option><option>Ukraine</option><option>Bosnia</option><option>Montenegro</option><option>Laos</option></select>
+        <select class="filter-select"><option value="">All Types</option><option>Teaching</option><option>Training</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <input type="text" class="filter-input" placeholder="Search name...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="staff2023Table">
+          <thead><tr><th>#</th><th>Name</th><th>Flow</th><th>Type</th><th>Country</th><th>University</th><th>Start</th><th>End</th><th>Days</th><th>Grant</th><th>Travel</th><th>Seniority</th><th>Status</th></tr></thead>
+          <tbody id="staff2023Tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="page-staff-2024">
+      <div class="page-header">
+        <div><h1>Staff Mobilities 2024/25</h1><p class="page-sub">Teaching & Training · Incoming & Outgoing</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add Staff</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Countries</option><option>Ukraine</option><option>Bosnia</option><option>Botswana</option><option>Zambia</option><option>Bhutan</option></select>
+        <select class="filter-select"><option value="">All Types</option><option>Teaching</option><option>Training</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <input type="text" class="filter-input" placeholder="Search name...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="staff2024Table">
+          <thead><tr><th>#</th><th>Name</th><th>Flow</th><th>Type</th><th>Country</th><th>University</th><th>Faculty STU</th><th>Start</th><th>End</th><th>Days</th><th>Grant</th><th>Status</th></tr></thead>
+          <tbody id="staff2024Tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="page-staff-2025">
+      <div class="page-header">
+        <div><h1>Staff Mobilities 2025/26</h1><p class="page-sub">Teaching & Training · Incoming & Outgoing</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add Staff</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Countries</option><option>Bhutan</option><option>Laos</option><option>Zambia</option><option>Botswana</option><option>Tanzania</option><option>Montenegro</option><option>Nigeria</option><option>South Africa</option></select>
+        <select class="filter-select"><option value="">All Types</option><option>Teaching</option><option>Training</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <select class="filter-select"><option value="">All Faculties</option><option>FCHPT</option><option>FIIT</option><option>SvF</option><option>MTF</option><option>REC</option></select>
+        <input type="text" class="filter-input" placeholder="Search name...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="staff2025Table">
+          <thead><tr><th>#</th><th>Name</th><th>Flow</th><th>Type</th><th>Country</th><th>University</th><th>Faculty STU</th><th>Start</th><th>End</th><th>Days</th><th>Grant</th><th>Travel €</th><th>Status</th></tr></thead>
+          <tbody id="staff2025Tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== STUDY MOBILITIES ===================== -->
+    <section class="page" id="page-study">
+      <div class="page-header">
+        <div><h1 data-en="Study Mobilities" data-sk="Štúdijné Mobility">Study Mobilities</h1><p class="page-sub">All academic years · Incoming & Outgoing</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Countries</option><option>Ukraine</option><option>Botswana</option><option>South Africa</option><option>Bhutan</option><option>Tanzania</option><option>Montenegro</option><option>Bosnia</option><option>Nigeria</option><option>Zambia</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <select class="filter-select"><option value="">All Types</option><option>Long-term</option><option>Short-term</option></select>
+        <select class="filter-select"><option value="">Ac. Year</option><option>2023/24</option><option>2024/25</option><option>2025/26</option></select>
+        <input type="text" class="filter-input" placeholder="Search...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="studyTable">
+          <thead><tr><th>#</th><th>Name</th><th>Flow</th><th>Duration</th><th>Country</th><th>University</th><th>Faculty STU</th><th>Start</th><th>End</th><th>Months</th><th>Grant</th><th>Travel €</th><th>Ac. Year</th><th>Field</th><th>Status</th></tr></thead>
+          <tbody id="studyTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== TEACHING & TRAINING ===================== -->
+    <section class="page" id="page-teaching">
+      <div class="page-header">
+        <div><h1 data-en="Teaching & Training" data-sk="Výučba & Tréning">Teaching & Training</h1><p class="page-sub">Staff mobilities — teaching assignments & training visits</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export</button><button class="btn-primary">+ Add</button></div>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select" id="ttTypeFilter"><option value="">All Types</option><option value="teaching">Teaching</option><option value="training">Training</option></select>
+        <select class="filter-select"><option value="">All Flows</option><option>IN</option><option>OUT</option></select>
+        <select class="filter-select"><option value="">All Countries</option><option>Ukraine</option><option>Bosnia</option><option>Montenegro</option><option>Laos</option><option>Botswana</option><option>Zambia</option><option>Bhutan</option><option>Tanzania</option><option>Nigeria</option><option>South Africa</option></select>
+        <select class="filter-select"><option value="">All Faculties</option><option>FCHPT</option><option>FIIT</option><option>SvF</option><option>UM</option><option>MTF</option><option>REC</option></select>
+        <input type="text" class="filter-input" placeholder="Search staff name...">
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="teachingTable">
+          <thead><tr><th>#</th><th>Name</th><th>Type</th><th>Flow</th><th>Country</th><th>University</th><th>Faculty</th><th>Start</th><th>End</th><th>Days</th><th>Grant €</th><th>Travel €</th><th>Total €</th><th>Hours</th><th>Seniority</th><th>Ac. Year</th></tr></thead>
+          <tbody id="teachingTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== DOCUMENTS ===================== -->
+    <section class="page" id="page-documents">
+      <div class="page-header">
+        <div><h1 data-en="Document Tracking" data-sk="Sledovanie Dokumentov">Document Tracking</h1><p class="page-sub">Staff & Student documentation status</p></div>
+        <div class="page-actions">
+          <button class="btn-secondary" onclick="window.open('#','_blank')">Open Google Drive</button>
+          <button class="btn-primary">Send Bulk Reminder</button>
+        </div>
+      </div>
+      <div class="doc-tabs">
+        <button class="doc-tab active" onclick="switchDocTab(this,'doc-staff')">Staff Documents</button>
+        <button class="doc-tab" onclick="switchDocTab(this,'doc-students')">Student Documents</button>
+      </div>
+      <div class="filter-bar">
+        <select class="filter-select"><option value="">All Coordinators</option><option>Lucia</option><option>Tereza</option></select>
+        <select class="filter-select"><option value="">All Status</option><option>Complete</option><option>Missing</option><option>Pending</option></select>
+        <input type="text" class="filter-input" placeholder="Search name...">
+      </div>
+      <div id="doc-staff" class="doc-section">
+        <div class="table-wrap">
+          <table class="data-table doc-table" id="docStaffTable">
+            <thead><tr><th>#</th><th>Name</th><th>Coord.</th><th>App</th><th>Nom.</th><th>LA</th><th>Invite</th><th>Accomm.</th><th>Visa</th><th>Insurance</th><th>Flight</th><th>GA</th><th>Payment</th><th>BM</th><th>CRZ</th><th>Survey</th><th>Reimburse</th><th>Green Travel</th></tr></thead>
+            <tbody id="docStaffTbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="doc-students" class="doc-section" style="display:none">
+        <div class="table-wrap">
+          <table class="data-table doc-table" id="docStudentTable">
+            <thead><tr><th>#</th><th>Name</th><th>Coord.</th><th>App</th><th>Nom.</th><th>LA</th><th>CV</th><th>ToR</th><th>Invite</th><th>AIS</th><th>Accomm.</th><th>Insurance</th><th>Visa</th><th>Flight</th><th>GA</th><th>Payment</th><th>BM</th><th>Survey</th><th>Recognition</th></tr></thead>
+            <tbody id="docStudentTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BUDGET OVERVIEW ===================== -->
+    <section class="page" id="page-budget">
+      <div class="page-header">
+        <div><h1 data-en="Budget Overview" data-sk="Prehľad Rozpočtu">Budget Overview</h1><p class="page-sub">ICM 2023 · Total GA: €483,909</p></div>
+        <div class="page-actions"><button class="btn-secondary">Export CSV</button></div>
+      </div>
+      <div class="budget-summary-cards">
+        <div class="budget-card blue">
+          <div class="bc-label">Total in GA (Mobility)</div>
+          <div class="bc-value">€384,909</div>
+          <div class="bc-sub">Individual support</div>
+        </div>
+        <div class="budget-card green">
+          <div class="bc-label">OS (Organizational Support)</div>
+          <div class="bc-value">€67,000</div>
+          <div class="bc-sub">134 participants × €500</div>
+        </div>
+        <div class="budget-card purple">
+          <div class="bc-label">Inclusion Top-Up</div>
+          <div class="bc-value">€32,000</div>
+          <div class="bc-sub">Fewer opportunities</div>
+        </div>
+        <div class="budget-card amber">
+          <div class="bc-label">Total Used</div>
+          <div class="bc-value">€380,026</div>
+          <div class="bc-sub">98.7% of mobility GA</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h3>Budget by Country</h3></div>
+        <div class="table-wrap">
+          <table class="data-table budget-table" id="budgetTable">
+            <thead><tr><th>Country</th><th>University</th><th>GA (Mobility)</th><th>Inclusion GA</th><th>No. Mob.</th><th>OS Grant</th><th>Total Used</th><th>% Used</th><th>Status</th></tr></thead>
+            <tbody id="budgetTbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h3>Budget Rules</h3></div>
+        <div class="budget-rules">
+          <div class="rule-item"><span class="rule-dist">0–10 km</span><span class="rule-rate">€23 / participant</span></div>
+          <div class="rule-item"><span class="rule-dist">100–499 km</span><span class="rule-rate">€180 / participant</span></div>
+          <div class="rule-item"><span class="rule-dist">500–1999 km</span><span class="rule-rate">€275 / participant</span></div>
+          <div class="rule-item"><span class="rule-dist">2000–2999 km</span><span class="rule-rate">€360 / participant</span></div>
+          <div class="rule-item"><span class="rule-dist">3000–3999 km</span><span class="rule-rate">€530 / participant</span></div>
+          <div class="rule-item"><span class="rule-dist">4000–7999 km</span><span class="rule-rate">€820 / participant</span></div>
+          <div class="rule-item"><span class="rule-dist">8000+ km</span><span class="rule-rate">€1,500 / participant</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== REPORTS ===================== -->
+    <section class="page" id="page-reports">
+      <div class="page-header">
+        <div><h1 data-en="Reports" data-sk="Správy">Reports</h1><p class="page-sub">Analytics & summaries by activity category</p></div>
+      </div>
+      <div class="reports-grid">
+        <div class="card report-card">
+          <h3>Activity by Category</h3>
+          <table class="data-table">
+            <thead><tr><th>Country</th><th>Activity</th><th>Flow</th><th>Participants</th><th>Total Grant</th></tr></thead>
+            <tbody>
+              <tr><td>Bosnia & Herzegovina</td><td>Staff mobility for teaching</td><td><span class="badge blue">Incoming</span></td><td>13</td><td>€21,915</td></tr>
+              <tr><td>Bosnia & Herzegovina</td><td>Staff mobility for teaching</td><td><span class="badge amber">Outgoing</span></td><td>8</td><td>€3,075</td></tr>
+              <tr><td>Bosnia & Herzegovina</td><td>Student mobility for studies</td><td><span class="badge blue">Incoming</span></td><td>3</td><td>€39,475</td></tr>
+              <tr><td>Bosnia & Herzegovina</td><td>Rooms for studies</td><td><span class="badge blue">Incoming</span></td><td>1</td><td>€7,953</td></tr>
+              <tr><td>Montenegro</td><td>Staff mobility for teaching</td><td><span class="badge blue">Incoming</span></td><td>9</td><td>€8,050</td></tr>
+              <tr><td>Montenegro</td><td>Student mobility for studies</td><td><span class="badge blue">Incoming</span></td><td>6</td><td>€23,085</td></tr>
+              <tr><td>Ukraine</td><td>Staff mobility for teaching</td><td><span class="badge blue">Incoming</span></td><td>10</td><td>€13,000</td></tr>
+              <tr><td>Ukraine</td><td>Student mobility for studies</td><td><span class="badge blue">Incoming</span></td><td>21</td><td>€73,805</td></tr>
+              <tr><td>Total</td><td colspan="2"><strong>All</strong></td><td><strong>134</strong></td><td><strong>€115,930</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card report-card">
+          <h3>IN vs OUT Summary</h3>
+          <div class="inout-bars">
+            <div class="inout-row"><span>Bhutan</span><div class="io-bar-wrap"><div class="io-in" style="width:80%">IN: 8</div><div class="io-out" style="width:20%">OUT: 2</div></div></div>
+            <div class="inout-row"><span>Bosnia</span><div class="io-bar-wrap"><div class="io-in" style="width:55%">IN: 11</div><div class="io-out" style="width:45%">OUT: 9</div></div></div>
+            <div class="inout-row"><span>Botswana</span><div class="io-bar-wrap"><div class="io-in" style="width:60%">IN: 6</div><div class="io-out" style="width:40%">OUT: 4</div></div></div>
+            <div class="inout-row"><span>Montenegro</span><div class="io-bar-wrap"><div class="io-in" style="width:70%">IN: 14</div><div class="io-out" style="width:30%">OUT: 6</div></div></div>
+            <div class="inout-row"><span>Ukraine</span><div class="io-bar-wrap"><div class="io-in" style="width:85%">IN: 30</div><div class="io-out" style="width:15%">OUT: 5</div></div></div>
+            <div class="inout-row"><span>Laos</span><div class="io-bar-wrap"><div class="io-in" style="width:35%">IN: 3</div><div class="io-out" style="width:65%">OUT: 6</div></div></div>
+            <div class="inout-row"><span>South Africa</span><div class="io-bar-wrap"><div class="io-in" style="width:65%">IN: 7</div><div class="io-out" style="width:35%">OUT: 4</div></div></div>
+            <div class="inout-row"><span>Nigeria</span><div class="io-bar-wrap"><div class="io-in" style="width:50%">IN: 4</div><div class="io-out" style="width:50%">OUT: 4</div></div></div>
+            <div class="inout-row"><span>Tanzania</span><div class="io-bar-wrap"><div class="io-in" style="width:55%">IN: 4</div><div class="io-out" style="width:45%">OUT: 3</div></div></div>
+            <div class="inout-row"><span>Zambia</span><div class="io-bar-wrap"><div class="io-in" style="width:45%">IN: 3</div><div class="io-out" style="width:55%">OUT: 5</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROJECT MANAGERS ===================== -->
+    <section class="page" id="page-managers">
+      <div class="page-header">
+        <div><h1 data-en="Project Managers" data-sk="Projektoví Manažéri">Project Managers</h1><p class="page-sub">STU contacts, partner IRO contacts, CRZ & AIS status</p></div>
+      </div>
+      <div class="managers-grid" id="managersGrid"></div>
+    </section>
+
+    <!-- ===================== COORDINATORS ===================== -->
+    <section class="page" id="page-coordinators">
+      <div class="page-header">
+        <div><h1 data-en="Coordinators" data-sk="Koordinátori">Coordinators</h1><p class="page-sub">Faculty coordinators & international office contacts</p></div>
+      </div>
+      <div class="coordinators-grid" id="coordinatorsGrid"></div>
+    </section>
+
+    <!-- ===================== CANCELLED ===================== -->
+    <section class="page" id="page-cancelled">
+      <div class="page-header">
+        <div><h1 data-en="Cancelled Mobilities" data-sk="Zrušené Mobility">Cancelled Mobilities</h1><p class="page-sub">5 mobilities cancelled — review required</p></div>
+      </div>
+      <div class="cancelled-alert-box">
+        ⚠ These mobilities have been cancelled. Grant Agreements may need to be updated. Contact CRZ for budget reallocation.
+      </div>
+      <div class="table-wrap">
+        <table class="data-table cancelled-table" id="cancelledTable">
+          <thead><tr><th>#</th><th>Name</th><th>Type</th><th>Flow</th><th>Country</th><th>University</th><th>Faculty</th><th>Planned Start</th><th>Planned End</th><th>Cancelled On</th><th>Grant Value</th><th>Reason</th><th>Coordinator</th><th>Status</th></tr></thead>
+          <tbody id="cancelledTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== NOTES ===================== -->
+    <section class="page" id="page-notes">
+      <div class="page-header">
+        <div><h1 data-en="Notes & History" data-sk="Poznámky & História">Notes & History</h1><p class="page-sub">Coordinator notes, reminders, reimbursement comments</p></div>
+        <div class="page-actions"><button class="btn-primary">+ Add Note</button></div>
+      </div>
+      <div class="notes-timeline" id="notesTimeline"></div>
+    </section>
+
+    <!-- ===================== SETTINGS ===================== -->
+    <section class="page" id="page-settings">
+      <div class="page-header">
+        <div><h1 data-en="Settings" data-sk="Nastavenia">Settings</h1><p class="page-sub">System preferences, notifications, export options</p></div>
+      </div>
+      <div class="settings-grid">
+        <div class="card settings-card">
+          <h3>Appearance</h3>
+          <div class="setting-row"><label>Theme</label><div class="toggle-wrap"><span>Light</span><label class="toggle"><input type="checkbox" id="settingsTheme" onchange="document.getElementById('themeToggle').click()"><span class="slider"></span></label><span>Dark</span></div></div>
+          <div class="setting-row"><label>Language</label><div class="toggle-wrap"><span>EN</span><label class="toggle"><input type="checkbox" id="settingsLang" onchange="document.getElementById('langToggle').click()"><span class="slider"></span></label><span>SK</span></div></div>
+          <div class="setting-row"><label>Compact Mode</label><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+        </div>
+        <div class="card settings-card">
+          <h3>Notifications</h3>
+          <div class="setting-row"><label>Missing Visa Alerts</label><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="setting-row"><label>Reimbursement Overdue</label><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="setting-row"><label>LA Not Signed</label><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="setting-row"><label>Accommodation Missing</label><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="setting-row"><label>Mobility Starts Next Week</label><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="setting-row"><label>Budget Threshold (90%)</label><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+        </div>
+        <div class="card settings-card">
+          <h3>Export Options</h3>
+          <button class="btn-secondary full-w" style="margin-bottom:.75rem">Export All Mobility Data (CSV)</button>
+          <button class="btn-secondary full-w" style="margin-bottom:.75rem">Export Budget Report (XLSX)</button>
+          <button class="btn-secondary full-w" style="margin-bottom:.75rem">Export Document Status (PDF)</button>
+          <button class="btn-secondary full-w">Export Coordinator Report</button>
+        </div>
+        <div class="card settings-card">
+          <h3>User Permissions</h3>
+          <div class="perm-row"><div class="perm-user"><div class="avatar sm">LM</div><div><strong>Lucia Miadoková</strong><span>IRO Coordinator · Admin</span></div></div><span class="badge green">Admin</span></div>
+          <div class="perm-row"><div class="perm-user"><div class="avatar sm">TH</div><div><strong>Tereza Hubáčková</strong><span>REC / FIIT / UM Coordinator</span></div></div><span class="badge blue">Editor</span></div>
+          <div class="perm-row"><div class="perm-user"><div class="avatar sm">PD</div><div><strong>Pavle Dakić</strong><span>FIIT · Outgoing</span></div></div><span class="badge amber">Viewer</span></div>
+          <div class="perm-row"><div class="perm-user"><div class="avatar sm">IS</div><div><strong>Ivan Špánik</strong><span>FCHPT</span></div></div><span class="badge amber">Viewer</span></div>
+        </div>
+        <div class="card settings-card">
+          <h3>System Info</h3>
+          <div class="sys-row"><span>Project ID</span><span class="mono">2023-1-SK01-KA171-HED-000148295</span></div>
+          <div class="sys-row"><span>Institution</span><span>STU Bratislava</span></div>
+          <div class="sys-row"><span>Program Year</span><span>2023</span></div>
+          <div class="sys-row"><span>Total Budget</span><span>€483,909</span></div>
+          <div class="sys-row"><span>Last Sync</span><span>Today 07:30</span></div>
+          <div class="sys-row"><span>Version</span><span class="mono">ICM-Dashboard v2.1</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- RIGHT DETAIL PANEL -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<aside class="detail-panel" id="detailPanel">
+  <div class="panel-header">
+    <div class="panel-title-row">
+      <h2 id="panelName">Loading...</h2>
+      <button class="panel-close" onclick="closePanel()">×</button>
+    </div>
+    <div id="panelBadges" class="panel-badges"></div>
+  </div>
+  <div class="panel-body" id="panelBody">
+    <!-- Filled dynamically -->
+  </div>
+</aside>
+
+<script src="script.js"></script>
+</body>
+</html>

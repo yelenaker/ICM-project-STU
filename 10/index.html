@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STU Erasmus+ Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ============================================================
+   CSS VARIABLES & THEMES
+   ============================================================ */
+:root {
+  --bg: #f0f2f7;
+  --bg2: #e8eaf2;
+  --surface: #ffffff;
+  --surface2: #f7f8fc;
+  --border: #e2e5ef;
+  --border2: #d0d4e4;
+  --text: #1a1d2e;
+  --text2: #5a6080;
+  --text3: #8890a8;
+  --accent: #0057b8;
+  --accent2: #003f8c;
+  --accent-light: #e8f0fd;
+  --accent-glow: rgba(0,87,184,0.15);
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --yellow: #f59e0b;
+  --yellow-light: #fef3c7;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --orange: #f97316;
+  --orange-light: #ffedd5;
+  --sidebar-w: 230px;
+  --sidebar-collapsed-w: 60px;
+  --header-h: 58px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.14);
+  --transition: 0.2s ease;
+  --font: 'Sora', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --bg2: #161821;
+  --surface: #1e2030;
+  --surface2: #252838;
+  --border: #2e3250;
+  --border2: #3a3f62;
+  --text: #e8eaf5;
+  --text2: #9098bf;
+  --text3: #5a6080;
+  --accent: #4d8fea;
+  --accent2: #6aa3f0;
+  --accent-light: rgba(77,143,234,0.12);
+  --accent-glow: rgba(77,143,234,0.2);
+  --green: #34d399;
+  --green-light: rgba(52,211,153,0.15);
+  --yellow: #fbbf24;
+  --yellow-light: rgba(251,191,36,0.15);
+  --red: #f87171;
+  --red-light: rgba(248,113,113,0.15);
+  --purple: #a78bfa;
+  --purple-light: rgba(167,139,250,0.15);
+  --orange: #fb923c;
+  --orange-light: rgba(251,146,60,0.15);
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+}
+[data-theme="stu"] {
+  --bg: #edf2fb;
+  --surface: #ffffff;
+  --surface2: #f0f5ff;
+  --border: #c9d8f5;
+  --accent: #0038a8;
+  --accent2: #002080;
+  --accent-light: #dce8ff;
+}
+[data-theme="purple"] {
+  --accent: #7c3aed;
+  --accent2: #5b21b6;
+  --accent-light: #ede9fe;
+  --accent-glow: rgba(124,58,237,0.15);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background var(--transition),color var(--transition)}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+input,select,textarea{font-family:var(--font);outline:none}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.app-wrapper{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:width var(--transition);overflow:hidden}
+.sidebar.collapsed{width:var(--sidebar-collapsed-w)}
+.sidebar-logo{padding:16px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);min-height:var(--header-h)}
+.sidebar-logo .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sidebar-logo .logo-icon svg{width:18px;height:18px;fill:white}
+.sidebar-logo .logo-text{font-weight:700;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;line-height:1.3}
+.sidebar-logo .logo-text span{display:block;font-weight:400;font-size:11px;color:var(--text2)}
+.sidebar-nav{flex:1;overflow-y:auto;padding:10px 0}
+.nav-group{margin-bottom:4px}
+.nav-group-label{padding:8px 18px 4px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;overflow:hidden}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 18px;cursor:pointer;border-radius:0;transition:all var(--transition);position:relative;white-space:nowrap}
+.nav-item:hover{background:var(--accent-light);color:var(--accent)}
+.nav-item.active{background:var(--accent-light);color:var(--accent);font-weight:600}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:0 3px 3px 0}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:0.7}
+.nav-item.active svg,.nav-item:hover svg{opacity:1}
+.nav-item .nav-label{font-size:13px;overflow:hidden}
+.nav-item .nav-badge{margin-left:auto;background:var(--red);color:white;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;flex-shrink:0}
+.sidebar-footer{padding:12px;border-top:1px solid var(--border)}
+.collapse-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text2);font-size:12px;transition:all var(--transition)}
+.collapse-btn:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
+.collapse-btn svg{width:14px;height:14px;transition:transform var(--transition)}
+.sidebar.collapsed .collapse-btn svg{transform:rotate(180deg)}
+.sidebar.collapsed .nav-label,.sidebar.collapsed .nav-badge,.sidebar.collapsed .nav-group-label,.sidebar.collapsed .logo-text,.sidebar.collapsed .collapse-btn span{display:none}
+.sidebar.collapsed .nav-item{justify-content:center;padding:10px}
+.sidebar.collapsed .nav-item::before{display:none}
+
+/* MAIN AREA */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;transition:margin-left var(--transition)}
+.main.sidebar-collapsed{margin-left:var(--sidebar-collapsed-w)}
+
+/* HEADER */
+.header{height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;position:sticky;top:0;z-index:50;backdrop-filter:blur(8px)}
+.header-title{font-size:15px;font-weight:600;color:var(--text);flex:1}
+.header-title span{font-weight:400;color:var(--text2);font-size:13px;margin-left:6px}
+.year-selector{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;font-size:12px;font-weight:500;color:var(--text);cursor:pointer;transition:all var(--transition)}
+.year-selector:hover{border-color:var(--accent);color:var(--accent)}
+.year-selector select{background:transparent;border:none;font-family:var(--font);font-size:12px;font-weight:500;color:var(--text);cursor:pointer;appearance:none;padding-right:16px}
+.header-btn{width:34px;height:34px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition);position:relative}
+.header-btn:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.header-btn svg{width:16px;height:16px}
+.header-btn .badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:white;font-size:9px;font-weight:700;padding:1px 4px;border-radius:8px;min-width:16px;text-align:center}
+.lang-btn{padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;transition:all var(--transition)}
+.lang-btn:hover,.lang-btn.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.user-menu{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 10px;border-radius:var(--radius-sm);transition:all var(--transition)}
+.user-menu:hover{background:var(--surface2)}
+.user-avatar{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px}
+.user-name{font-size:12px;font-weight:500}
+
+/* PAGE CONTENT */
+.page-content{flex:1;padding:24px;overflow-y:auto}
+.page{display:none}
+.page.active{display:block}
+
+/* ============================================================
+   COMPONENTS
+   ============================================================ */
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:all var(--transition);position:relative;overflow:hidden}
+.kpi-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);border-color:var(--border2)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--purple))}
+.kpi-card.green::before{background:linear-gradient(90deg,var(--green),#34d399)}
+.kpi-card.yellow::before{background:linear-gradient(90deg,var(--yellow),#fbbf24)}
+.kpi-card.red::before{background:linear-gradient(90deg,var(--red),#f87171)}
+.kpi-card.purple::before{background:linear-gradient(90deg,var(--purple),#a78bfa)}
+.kpi-card.orange::before{background:linear-gradient(90deg,var(--orange),#fb923c)}
+.kpi-label{font-size:11px;color:var(--text2);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.kpi-value{font-size:26px;font-weight:700;color:var(--text);line-height:1;margin-bottom:4px}
+.kpi-sub{font-size:11px;color:var(--text3)}
+.kpi-icon{position:absolute;top:16px;right:16px;width:32px;height:32px;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.kpi-icon svg{width:16px;height:16px;color:var(--accent)}
+
+/* CHART CARD */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.chart-title{font-size:15px;font-weight:600;color:var(--text)}
+.chart-subtitle{font-size:12px;color:var(--text2);margin-top:2px}
+.chart-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.segment-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;font-size:11px;font-weight:500;color:var(--text2);cursor:pointer;transition:all var(--transition)}
+.segment-btn:hover{border-color:var(--accent);color:var(--accent)}
+.segment-btn.active{background:var(--accent);border-color:var(--accent);color:white}
+.chart-wrap{position:relative;height:320px}
+
+/* TABLE */
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:20px}
+.table-toolbar{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.table-toolbar-title{font-size:14px;font-weight:600;flex:1}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;min-width:180px}
+.search-box svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
+.search-box input{background:transparent;border:none;font-size:13px;color:var(--text);width:100%}
+.search-box input::placeholder{color:var(--text3)}
+.table-container{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--surface2);border-bottom:1px solid var(--border)}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--accent)}
+th svg{display:inline-block;vertical-align:middle;width:12px;height:12px;margin-left:3px;opacity:0.5}
+td{padding:11px 14px;font-size:13px;color:var(--text);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{transition:background var(--transition)}
+tbody tr:hover{background:var(--surface2)}
+tbody tr:last-child td{border-bottom:none}
+.table-pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border)}
+.page-info{font-size:12px;color:var(--text2)}
+.page-btns{display:flex;gap:4px}
+.page-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;font-size:12px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.page-btn:hover,.page-btn.active{background:var(--accent);border-color:var(--accent);color:white}
+
+/* BADGES & STATUS */
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;gap:4px}
+.badge.upcoming{background:var(--yellow-light);color:var(--yellow)}
+.badge.active{background:var(--green-light);color:var(--green)}
+.badge.completed{background:var(--accent-light);color:var(--accent)}
+.badge.cancelled{background:var(--red-light);color:var(--red)}
+.badge.incoming{background:var(--purple-light);color:var(--purple)}
+.badge.outgoing{background:var(--orange-light);color:var(--orange)}
+.badge.dot::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;display:block}
+
+/* FACULTY BADGES */
+.fac-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;margin:1px}
+.fac-SvF{background:#dbeafe;color:#1d4ed8}
+.fac-SjF{background:#d1fae5;color:#065f46}
+.fac-FEI{background:#ede9fe;color:#6d28d9}
+.fac-FCHPT{background:#fef3c7;color:#92400e}
+.fac-FAD{background:#fce7f3;color:#9d174d}
+.fac-MTF{background:#ffedd5;color:#c2410c}
+.fac-FIIT{background:#cffafe;color:#155e75}
+.fac-UM{background:#f3f4f6;color:#374151}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+.btn-primary{background:var(--accent);color:white;border:1px solid var(--accent)}
+.btn-primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
+.btn-ghost{background:transparent;color:var(--text2);border:none;padding:6px 8px}
+.btn-ghost:hover{color:var(--accent);background:var(--accent-light)}
+.btn-danger{background:var(--red-light);color:var(--red);border:1px solid transparent}
+.btn-danger:hover{background:var(--red);color:white}
+.btn-green{background:var(--green-light);color:var(--green);border:1px solid transparent}
+.btn-green:hover{background:var(--green);color:white}
+.btn-sm{padding:5px 10px;font-size:11px}
+.btn-lg{padding:10px 20px;font-size:13px}
+.btn-icon{width:30px;height:30px;padding:0;justify-content:center}
+
+/* FILTERS */
+.filters-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--surface2)}
+.filter-select{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;font-size:12px;color:var(--text);cursor:pointer;transition:all var(--transition)}
+.filter-select:hover{border-color:var(--accent)}
+.filter-label{font-size:11px;color:var(--text3);font-weight:500}
+
+/* ALERT CARDS */
+.alert-card{display:flex;align-items:start;gap:12px;padding:12px 16px;border-radius:var(--radius);border:1px solid;margin-bottom:8px;transition:all var(--transition)}
+.alert-card:hover{box-shadow:var(--shadow)}
+.alert-card.warning{background:var(--yellow-light);border-color:var(--yellow)}
+.alert-card.danger{background:var(--red-light);border-color:var(--red)}
+.alert-card.info{background:var(--accent-light);border-color:var(--accent)}
+.alert-card.success{background:var(--green-light);border-color:var(--green)}
+.alert-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-card.warning .alert-icon{background:var(--yellow);color:white}
+.alert-card.danger .alert-icon{background:var(--red);color:white}
+.alert-card.info .alert-icon{background:var(--accent);color:white}
+.alert-card.success .alert-icon{background:var(--green);color:white}
+.alert-icon svg{width:14px;height:14px}
+.alert-text strong{font-size:12px;font-weight:600;display:block}
+.alert-text span{font-size:11px;color:var(--text2)}
+
+/* SLIDE PANEL */
+.panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;opacity:0;pointer-events:none;transition:opacity var(--transition);backdrop-filter:blur(2px)}
+.panel-overlay.open{opacity:1;pointer-events:all}
+.slide-panel{position:fixed;top:0;right:-680px;width:660px;max-width:96vw;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:201;display:flex;flex-direction:column;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);box-shadow:var(--shadow-lg)}
+.slide-panel.open{right:0}
+.panel-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:start;gap:14px;flex-shrink:0}
+.panel-header-info{flex:1;min-width:0}
+.panel-header-info h2{font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px}
+.panel-header-info .panel-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.panel-close{width:32px;height:32px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition);flex-shrink:0}
+.panel-close:hover{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.panel-close svg{width:14px;height:14px}
+.panel-actions{display:flex;gap:6px;padding:12px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;flex-shrink:0}
+.panel-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
+.panel-tab{padding:10px 14px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all var(--transition)}
+.panel-tab:hover{color:var(--accent)}
+.panel-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.panel-body{flex:1;overflow-y:auto;padding:20px}
+.panel-tab-content{display:none}
+.panel-tab-content.active{display:block}
+
+/* FORM FIELDS */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.form-grid.single{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.span2{grid-column:1/-1}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em}
+.form-input,.form-select,.form-textarea{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;color:var(--text);width:100%;transition:all var(--transition)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px var(--accent-glow)}
+.form-textarea{resize:vertical;min-height:100px}
+.form-select{appearance:none;cursor:pointer}
+.section-title{font-size:13px;font-weight:700;color:var(--text);padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid var(--border);grid-column:1/-1}
+
+/* DOCUMENT CHECKLIST */
+.doc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.doc-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all var(--transition)}
+.doc-item:hover{border-color:var(--accent);background:var(--accent-light)}
+.doc-item.checked{border-color:var(--green);background:var(--green-light)}
+.doc-item.checked .doc-name{color:var(--green)}
+.doc-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--transition)}
+.doc-item.checked .doc-check{background:var(--green);border-color:var(--green)}
+.doc-check svg{width:10px;height:10px;color:white}
+.doc-name{font-size:12px;font-weight:500}
+.progress-bar-wrap{background:var(--surface2);border-radius:10px;height:6px;overflow:hidden;margin-top:4px}
+.progress-bar{height:100%;border-radius:10px;transition:width 0.5s ease;background:linear-gradient(90deg,var(--accent),var(--purple))}
+.progress-bar.green{background:linear-gradient(90deg,var(--green),#34d399)}
+.progress-bar.yellow{background:linear-gradient(90deg,var(--yellow),#fbbf24)}
+.progress-bar.red{background:linear-gradient(90deg,var(--red),#f87171)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius-lg);padding:24px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:modalIn 0.2s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:none}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-size:16px;font-weight:700}
+.modal-close{width:28px;height:28px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.modal-close:hover{background:var(--red-light);color:var(--red)}
+.modal-close svg{width:12px;height:12px}
+
+/* UNIVERSITY CARDS */
+.uni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.uni-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;cursor:pointer;transition:all var(--transition)}
+.uni-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--border2)}
+.uni-card-header{display:flex;align-items:start;justify-content:space-between;margin-bottom:12px}
+.uni-flag{font-size:24px;line-height:1}
+.uni-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.uni-country{font-size:11px;color:var(--text2)}
+.uni-stats{display:flex;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.uni-stat{text-align:center}
+.uni-stat-val{font-size:16px;font-weight:700;color:var(--text)}
+.uni-stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase}
+.uni-faculties{margin-top:10px;display:flex;flex-wrap:wrap;gap:2px}
+
+/* BUDGET TABLE */
+.budget-row.green td:nth-child(6){color:var(--green);font-weight:600}
+.budget-row.yellow td:nth-child(6){color:var(--yellow);font-weight:600}
+.budget-row.red td:nth-child(6){color:var(--red);font-weight:600}
+
+/* CALENDAR */
+.calendar-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.cal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.cal-nav{display:flex;align-items:center;gap:10px}
+.cal-month{font-size:15px;font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border)}
+.cal-day-name{padding:10px;text-align:center;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;background:var(--surface2);border-right:1px solid var(--border)}
+.cal-day-name:last-child{border-right:none}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-day{min-height:80px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:6px;cursor:pointer;transition:background var(--transition)}
+.cal-day:hover{background:var(--surface2)}
+.cal-day:nth-child(7n){border-right:none}
+.cal-day.other-month .cal-date{opacity:0.3}
+.cal-day.today .cal-date{background:var(--accent);color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cal-date{font-size:12px;font-weight:500;margin-bottom:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.cal-event{font-size:10px;padding:1px 5px;border-radius:3px;margin-bottom:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cal-event.departure{background:var(--red-light);color:var(--red)}
+.cal-event.arrival{background:var(--green-light);color:var(--green)}
+.cal-event.deadline{background:var(--yellow-light);color:var(--yellow)}
+
+/* TASK CARDS */
+.task-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.task-col{background:var(--surface2);border-radius:var(--radius-lg);padding:14px}
+.task-col-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.task-col-title{font-size:13px;font-weight:600}
+.task-count{background:var(--border);color:var(--text2);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.task-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;cursor:pointer;transition:all var(--transition)}
+.task-card:hover{box-shadow:var(--shadow);border-color:var(--border2)}
+.task-title{font-size:13px;font-weight:500;margin-bottom:6px}
+.task-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.task-due{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.task-due svg{width:11px;height:11px}
+.task-assignee{font-size:10px;background:var(--accent-light);color:var(--accent);padding:2px 6px;border-radius:10px;font-weight:500}
+
+/* SETTINGS */
+.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
+.settings-section h3{font-size:14px;font-weight:600;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border-bottom:none}
+.settings-row-info strong{font-size:13px;display:block}
+.settings-row-info span{font-size:11px;color:var(--text2)}
+.toggle{width:40px;height:22px;background:var(--border);border-radius:11px;cursor:pointer;position:relative;transition:background var(--transition)}
+.toggle.on{background:var(--accent)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:white;border-radius:50%;transition:transform var(--transition)}
+.toggle.on::after{transform:translateX(18px)}
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.theme-option{border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px;cursor:pointer;text-align:center;transition:all var(--transition)}
+.theme-option:hover,.theme-option.active{border-color:var(--accent)}
+.theme-swatch{height:32px;border-radius:6px;margin-bottom:6px}
+.theme-name{font-size:11px;font-weight:500}
+
+/* SEARCH OVERLAY */
+.search-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;display:none;align-items:start;justify-content:center;padding-top:80px;backdrop-filter:blur(4px)}
+.search-overlay.open{display:flex}
+.search-modal{background:var(--surface);border-radius:var(--radius-lg);width:580px;max-width:95vw;overflow:hidden;box-shadow:var(--shadow-lg);animation:modalIn 0.15s ease}
+.search-input-wrap{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.search-input-wrap svg{width:18px;height:18px;color:var(--text3);flex-shrink:0}
+.search-input-wrap input{background:transparent;border:none;font-size:16px;color:var(--text);flex:1;font-family:var(--font)}
+.search-input-wrap input::placeholder{color:var(--text3)}
+.search-results{max-height:400px;overflow-y:auto}
+.search-result-item{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;transition:background var(--transition)}
+.search-result-item:hover{background:var(--surface2)}
+.search-result-icon{width:30px;height:30px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.search-result-icon svg{width:14px;height:14px;color:var(--accent)}
+.search-result-name{font-size:13px;font-weight:500}
+.search-result-meta{font-size:11px;color:var(--text2)}
+.search-category{padding:6px 20px 2px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{width:0;border-right:none}
+  .sidebar.mobile-open{width:var(--sidebar-w)}
+  .main{margin-left:0}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .task-columns{grid-template-columns:1fr}
+  .uni-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .doc-grid{grid-template-columns:1fr}
+}
+
+/* MISC */
+.flag{font-size:16px}
+.divider{height:1px;background:var(--border);margin:14px 0}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
+.empty-state svg{width:48px;height:48px;margin:0 auto 12px;opacity:0.3}
+.empty-state p{font-size:13px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-header h2{font-size:16px;font-weight:700}
+.notification-dot{width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block}
+.country-flag{font-size:18px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:960px){.two-col,.three-col{grid-template-columns:1fr}}
+.tab-switch{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px;gap:3px;margin-bottom:16px}
+.tab-switch-btn{flex:1;padding:6px;border-radius:6px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;text-align:center;transition:all var(--transition)}
+.tab-switch-btn.active{background:var(--surface);color:var(--accent);font-weight:600;box-shadow:var(--shadow)}
+.loading-spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow-lg);z-index:500;display:flex;align-items:center;gap:10px;animation:toastIn 0.25s ease;font-size:13px;max-width:340px}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
+.tooltip{position:relative}
+.tooltip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);font-size:11px;padding:4px 8px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:999}
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="logo-text">STU Erasmus+<span>International Relations Office</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-label" data-i18n="nav.main">Main</div>
+      <div class="nav-item active" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span class="nav-label" data-i18n="nav.dashboard">Dashboard</span>
+      </div>
+      <div class="nav-item" data-page="mobilities">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="nav-label" data-i18n="nav.mobilities">Mobilities</span>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" data-i18n="nav.people">People</div>
+      <div class="nav-item" data-page="students">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="nav-label" data-i18n="nav.students">Students</span>
+      </div>
+      <div class="nav-item" data-page="staff">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="nav-label" data-i18n="nav.staff">Staff</span>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" data-i18n="nav.management">Management</div>
+      <div class="nav-item" data-page="documents">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        <span class="nav-label" data-i18n="nav.documents">Documents</span>
+        <span class="nav-badge">12</span>
+      </div>
+      <div class="nav-item" data-page="universities">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <span class="nav-label" data-i18n="nav.universities">Universities</span>
+      </div>
+      <div class="nav-item" data-page="partners">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 0 0-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 0 1 5.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 0 1 9.288 0"/></svg>
+        <span class="nav-label" data-i18n="nav.partners">Partner Managers</span>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" data-i18n="nav.finance">Finance & Planning</div>
+      <div class="nav-item" data-page="budget">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span class="nav-label" data-i18n="nav.budget">Budget</span>
+      </div>
+      <div class="nav-item" data-page="calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span class="nav-label" data-i18n="nav.calendar">Calendar</span>
+      </div>
+      <div class="nav-item" data-page="tasks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span class="nav-label" data-i18n="nav.tasks">Tasks</span>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label" data-i18n="nav.system">System</div>
+      <div class="nav-item" data-page="notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="nav-label" data-i18n="nav.notifications">Notifications</span>
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" data-page="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="nav-label" data-i18n="nav.settings">Settings</span>
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="collapse-btn" id="collapseBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      <span>Collapse</span>
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main" id="mainArea">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-title" id="pageTitle">Dashboard <span id="pageSub">Overview</span></div>
+    
+    <div class="year-selector" style="display:flex;align-items:center;gap:6px">
+      <svg style="width:13px;height:13px;opacity:0.6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <select id="yearSelect" onchange="changeYear(this.value)">
+        <option value="2025/2026" selected>2025/2026</option>
+        <option value="2024/2025">2024/2025</option>
+        <option value="2023/2024">2023/2024</option>
+        <option value="All">All Years</option>
+      </select>
+      <svg style="width:10px;height:10px;opacity:0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+
+    <div class="header-btn tooltip" data-tip="Global Search" onclick="openSearch()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+
+    <div class="header-btn tooltip" data-tip="Notifications" onclick="navigate('notifications')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="badge">5</div>
+    </div>
+
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+
+    <div class="header-btn tooltip" data-tip="Toggle Theme" onclick="cycleTheme()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </div>
+
+    <div class="user-menu">
+      <div class="user-avatar">MA</div>
+      <span class="user-name">Maria Admin</span>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <div class="page active" id="page-dashboard">
+      
+      <!-- KPI STRIP -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Mobilities</div>
+          <div class="kpi-value" id="kpi-total">247</div>
+          <div class="kpi-sub">↑ +18 vs last year</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">Active</div>
+          <div class="kpi-value" id="kpi-active">94</div>
+          <div class="kpi-sub">Currently ongoing</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-label">Upcoming</div>
+          <div class="kpi-value" id="kpi-upcoming">38</div>
+          <div class="kpi-sub">Starting in 30 days</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Completed</div>
+          <div class="kpi-value" id="kpi-completed">112</div>
+          <div class="kpi-sub">This academic year</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-label">Students</div>
+          <div class="kpi-value" id="kpi-students">196</div>
+          <div class="kpi-sub">89 in · 107 out</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+        </div>
+        <div class="kpi-card orange">
+          <div class="kpi-label">Staff</div>
+          <div class="kpi-value" id="kpi-staff">51</div>
+          <div class="kpi-sub">22 in · 29 out</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Partner Universities</div>
+          <div class="kpi-value" id="kpi-unis">84</div>
+          <div class="kpi-sub">32 countries</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">Total Budget</div>
+          <div class="kpi-value" id="kpi-budget">€1.24M</div>
+          <div class="kpi-sub">€687k used · €553k left</div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        </div>
+      </div>
+
+      <!-- MAIN ANALYTICS CHART -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Annual Analytics Overview</div>
+            <div class="chart-subtitle" id="chartSubtitle">Monthly breakdown · Academic Year 2025/2026</div>
+          </div>
+          <div class="chart-controls">
+            <button class="segment-btn active" onclick="switchChart('outgoing_students',this)">Outgoing Students</button>
+            <button class="segment-btn" onclick="switchChart('incoming_students',this)">Incoming Students</button>
+            <button class="segment-btn" onclick="switchChart('outgoing_staff',this)">Outgoing Staff</button>
+            <button class="segment-btn" onclick="switchChart('incoming_staff',this)">Incoming Staff</button>
+            <button class="segment-btn" onclick="switchChart('total_mobilities',this)">Total Mobilities</button>
+            <button class="segment-btn" onclick="switchChart('budget',this)">Budget Usage</button>
+            <button class="segment-btn" onclick="switchChart('by_faculty',this)">By Faculty</button>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="mainChart"></canvas>
+        </div>
+      </div>
+
+      <!-- ALERTS + ACTIVITY -->
+      <div class="two-col">
+        <div>
+          <div class="section-header">
+            <h2>⚠️ Active Alerts</h2>
+            <button class="btn btn-ghost btn-sm" onclick="navigate('notifications')">View All</button>
+          </div>
+          <div id="alertsContainer">
+            <div class="alert-card danger">
+              <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+              <div class="alert-text"><strong>Missing Insurance Documents</strong><span>7 students without valid insurance</span></div>
+            </div>
+            <div class="alert-card warning">
+              <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+              <div class="alert-text"><strong>12 Mobilities Starting This Week</strong><span>Confirm travel arrangements</span></div>
+            </div>
+            <div class="alert-card warning">
+              <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+              <div class="alert-text"><strong>18 Missing Final Reports</strong><span>Deadline in 14 days</span></div>
+            </div>
+            <div class="alert-card info">
+              <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+              <div class="alert-text"><strong>Budget Review Due</strong><span>Q2 financial report needed</span></div>
+            </div>
+            <div class="alert-card danger">
+              <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+              <div class="alert-text"><strong>Germany Budget Warning</strong><span>87% of country budget used</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="section-header">
+            <h2>🕐 Recent Activity</h2>
+            <button class="btn btn-ghost btn-sm">View Log</button>
+          </div>
+          <div class="table-card">
+            <div style="padding:4px 0">
+              <div style="padding:10px 16px;display:flex;align-items:start;gap:10px;border-bottom:1px solid var(--border)">
+                <div style="width:8px;height:8px;background:var(--green);border-radius:50%;margin-top:5px;flex-shrink:0"></div>
+                <div><div style="font-size:12px;font-weight:500">Tomáš Novák profile updated</div><div style="font-size:11px;color:var(--text3)">by Jana Kováčová · 10 min ago</div></div>
+              </div>
+              <div style="padding:10px 16px;display:flex;align-items:start;gap:10px;border-bottom:1px solid var(--border)">
+                <div style="width:8px;height:8px;background:var(--accent);border-radius:50%;margin-top:5px;flex-shrink:0"></div>
+                <div><div style="font-size:12px;font-weight:500">New student added: Eva Horváth</div><div style="font-size:11px;color:var(--text3)">by Martin Sloboda · 34 min ago</div></div>
+              </div>
+              <div style="padding:10px 16px;display:flex;align-items:start;gap:10px;border-bottom:1px solid var(--border)">
+                <div style="width:8px;height:8px;background:var(--purple);border-radius:50%;margin-top:5px;flex-shrink:0"></div>
+                <div><div style="font-size:12px;font-weight:500">TU Wien — IIA status updated</div><div style="font-size:11px;color:var(--text3)">by Jana Kováčová · 1 hr ago</div></div>
+              </div>
+              <div style="padding:10px 16px;display:flex;align-items:start;gap:10px;border-bottom:1px solid var(--border)">
+                <div style="width:8px;height:8px;background:var(--yellow);border-radius:50%;margin-top:5px;flex-shrink:0"></div>
+                <div><div style="font-size:12px;font-weight:500">Budget updated: Spain +€4,200</div><div style="font-size:11px;color:var(--text3)">by Peter Blaho · 2 hrs ago</div></div>
+              </div>
+              <div style="padding:10px 16px;display:flex;align-items:start;gap:10px;border-bottom:1px solid var(--border)">
+                <div style="width:8px;height:8px;background:var(--orange);border-radius:50%;margin-top:5px;flex-shrink:0"></div>
+                <div><div style="font-size:12px;font-weight:500">Final report uploaded: Marek Tóth</div><div style="font-size:11px;color:var(--text3)">by Student Portal · 3 hrs ago</div></div>
+              </div>
+              <div style="padding:10px 16px;display:flex;align-items:start;gap:10px">
+                <div style="width:8px;height:8px;background:var(--red);border-radius:50%;margin-top:5px;flex-shrink:0"></div>
+                <div><div style="font-size:12px;font-weight:500">Mobility cancelled: Anna Fischer</div><div style="font-size:11px;color:var(--text3)">by Jana Kováčová · 4 hrs ago</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== MOBILITIES ===================== -->
+    <div class="page" id="page-mobilities">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>All Mobilities</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Export
+          </button>
+          <button class="btn btn-primary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Mobility
+          </button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="filters-bar">
+          <span class="filter-label">Filters:</span>
+          <select class="filter-select" onchange="filterMobilities()"><option value="">All Countries</option><option>Germany</option><option>Spain</option><option>France</option><option>Czech Republic</option><option>Austria</option><option>Italy</option><option>Portugal</option><option>Poland</option></select>
+          <select class="filter-select" onchange="filterMobilities()"><option value="">All Statuses</option><option>Upcoming</option><option>Active</option><option>Completed</option><option>Cancelled</option></select>
+          <select class="filter-select" onchange="filterMobilities()"><option value="">All Types</option><option>Student Studies</option><option>Student Traineeship</option><option>Staff Teaching</option><option>Staff Training</option></select>
+          <select class="filter-select" onchange="filterMobilities()"><option value="">All Coordinators</option><option>Jana Kováčová</option><option>Martin Sloboda</option><option>Peter Blaho</option></select>
+          <div style="flex:1"></div>
+          <div class="search-box" style="min-width:220px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search mobilities..." oninput="filterMobilities()">
+          </div>
+        </div>
+        <div class="table-container">
+          <table id="mobilitiesTable">
+            <thead><tr>
+              <th>Name <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg></th>
+              <th>Country</th>
+              <th>University</th>
+              <th>Coordinator</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Grant</th>
+              <th>Actions</th>
+            </tr></thead>
+            <tbody id="mobilitiesBody"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <div class="page-info">Showing 1–20 of <span id="mobCount">247</span> mobilities</div>
+          <div class="page-btns">
+            <button class="page-btn">‹</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STUDENTS ===================== -->
+    <div class="page" id="page-students">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Students</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Import Excel
+          </button>
+          <button class="btn btn-secondary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Export
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openStudentPanel(null)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Student
+          </button>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="filters-bar">
+          <span class="filter-label">Filters:</span>
+          <select class="filter-select"><option value="">All Countries</option><option>Germany</option><option>Spain</option><option>France</option><option>Austria</option></select>
+          <select class="filter-select"><option value="">All Coordinators</option><option>Jana Kováčová</option><option>Martin Sloboda</option><option>Peter Blaho</option></select>
+          <select class="filter-select"><option value="">All Degrees</option><option>Bachelor</option><option>Master</option><option>PhD</option></select>
+          <select class="filter-select"><option value="">All Statuses</option><option>Upcoming</option><option>Active</option><option>Completed</option></select>
+          <select class="filter-select"><option value="">Flow</option><option>Incoming</option><option>Outgoing</option></select>
+          <div style="flex:1"></div>
+          <div class="search-box" style="min-width:220px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search students...">
+          </div>
+        </div>
+        <div class="table-container">
+          <table id="studentsTable">
+            <thead><tr>
+              <th>Name</th>
+              <th>Flow</th>
+              <th>Country</th>
+              <th>University</th>
+              <th>Faculty</th>
+              <th>Coordinator</th>
+              <th>Period</th>
+              <th>Status</th>
+              <th>Grant</th>
+              <th>Actions</th>
+            </tr></thead>
+            <tbody id="studentsBody"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <div class="page-info">Showing 1–20 of 196 students</div>
+          <div class="page-btns">
+            <button class="page-btn">‹</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STAFF ===================== -->
+    <div class="page" id="page-staff">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Staff</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">Import Excel</button>
+          <button class="btn btn-secondary btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm" onclick="openStudentPanel(null,'staff')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Staff
+          </button>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="filters-bar">
+          <span class="filter-label">Filters:</span>
+          <select class="filter-select"><option value="">All Countries</option><option>Germany</option><option>Spain</option><option>France</option></select>
+          <select class="filter-select"><option value="">All Coordinators</option><option>Jana Kováčová</option><option>Martin Sloboda</option></select>
+          <select class="filter-select"><option value="">All Types</option><option>Teaching</option><option>Training</option></select>
+          <div style="flex:1"></div>
+          <div class="search-box" style="min-width:220px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search staff...">
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr>
+              <th>Name</th><th>Flow</th><th>Country</th><th>University</th><th>Faculty</th><th>Type</th><th>Period</th><th>Status</th><th>Hours</th><th>Grant</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="staffBody"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <div class="page-info">Showing 1–20 of 51 staff</div>
+          <div class="page-btns"><button class="page-btn active">1</button><button class="page-btn">2</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== DOCUMENTS ===================== -->
+    <div class="page" id="page-documents">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Documents</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">Export Report</button>
+        </div>
+      </div>
+      <div class="tab-switch" style="max-width:300px">
+        <div class="tab-switch-btn active" onclick="switchDocTab('students',this)">Students (196)</div>
+        <div class="tab-switch-btn" onclick="switchDocTab('staff',this)">Staff (51)</div>
+      </div>
+      <div class="table-card">
+        <div class="filters-bar">
+          <select class="filter-select"><option>All Coordinators</option><option>Jana Kováčová</option><option>Martin Sloboda</option></select>
+          <select class="filter-select"><option>All Statuses</option><option>Complete</option><option>Incomplete</option></select>
+          <div style="flex:1"></div>
+          <div class="search-box" style="min-width:220px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search participants...">
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr>
+              <th>Name</th><th>Country</th><th>Coordinator</th><th>Documents</th><th>Progress</th><th>Missing</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="docsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== UNIVERSITIES ===================== -->
+    <div class="page" id="page-universities">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Partner Universities</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm" onclick="openUniPanel(null)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add University
+          </button>
+        </div>
+      </div>
+      <div class="filters-bar" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;flex-wrap:wrap">
+        <span class="filter-label">Filter by:</span>
+        <select class="filter-select" onchange="filterUniversities()"><option value="">All Countries</option><option>Germany</option><option>Spain</option><option>France</option><option>Austria</option><option>Portugal</option><option>Poland</option><option>Czech Republic</option><option>Italy</option><option>Netherlands</option></select>
+        <select class="filter-select" onchange="filterUniversities()" id="facFilter"><option value="">All Faculties</option><option>SvF</option><option>SjF</option><option>FEI</option><option>FCHPT</option><option>FAD</option><option>MTF</option><option>FIIT</option><option>UM</option></select>
+        <select class="filter-select" onchange="filterUniversities()"><option value="">All Coordinators</option><option>Jana Kováčová</option><option>Martin Sloboda</option><option>Peter Blaho</option></select>
+        <select class="filter-select" onchange="filterUniversities()"><option value="">All Partner Managers</option></select>
+        <div style="flex:1"></div>
+        <div class="search-box" style="min-width:220px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search universities..." oninput="filterUniversities()">
+        </div>
+      </div>
+      <div class="uni-grid" id="universitiesGrid"></div>
+    </div>
+
+    <!-- ===================== PARTNER MANAGERS ===================== -->
+    <div class="page" id="page-partners">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Partner Managers</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">Import Excel</button>
+          <button class="btn btn-secondary btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add University
+          </button>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="filters-bar">
+          <select class="filter-select"><option>All Countries</option><option>Germany</option><option>Spain</option><option>France</option></select>
+          <select class="filter-select"><option>All Coordinators</option><option>Jana Kováčová</option><option>Martin Sloboda</option></select>
+          <div style="flex:1"></div>
+          <div class="search-box" style="min-width:220px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search partners...">
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr>
+              <th>Country</th>
+              <th>University</th>
+              <th>STU Faculties</th>
+              <th>STU Project Manager</th>
+              <th>STU PM Email</th>
+              <th>Partner Manager</th>
+              <th>Partner Email</th>
+              <th>Coordinator</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr></thead>
+            <tbody id="partnersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== BUDGET ===================== -->
+    <div class="page" id="page-budget">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Budget Management</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">Export XLSX</button>
+          <button class="btn btn-primary btn-sm">Add Entry</button>
+        </div>
+      </div>
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="kpi-card green">
+          <div class="kpi-label">Total Budget</div>
+          <div class="kpi-value">€1,240,000</div>
+          <div class="kpi-sub">All countries combined</div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-label">Used Budget</div>
+          <div class="kpi-value">€687,400</div>
+          <div class="kpi-sub">55.4% of total</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Remaining Budget</div>
+          <div class="kpi-value">€552,600</div>
+          <div class="kpi-sub">44.6% remaining</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Budget by Country</div>
+            <div class="chart-subtitle">Allocated vs Used</div>
+          </div>
+          <div class="chart-controls">
+            <button class="segment-btn active" onclick="switchBudgetChart('country',this)">By Country</button>
+            <button class="segment-btn" onclick="switchBudgetChart('type',this)">By Type</button>
+            <button class="segment-btn" onclick="switchBudgetChart('usage',this)">Usage %</button>
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="budgetChart"></canvas>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="table-toolbar-title">Country Budget Breakdown</div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr>
+              <th>Country</th><th>Flag</th><th>Total Budget</th><th>Used</th><th>Remaining</th><th>Mobilities</th><th>Usage %</th><th>Status</th>
+            </tr></thead>
+            <tbody id="budgetBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== CALENDAR ===================== -->
+    <div class="page" id="page-calendar">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Calendar</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm">Month</button>
+          <button class="btn btn-secondary btn-sm">Week</button>
+          <button class="btn btn-secondary btn-sm">Agenda</button>
+        </div>
+      </div>
+      <div class="calendar-wrap" id="calendarWrap"></div>
+    </div>
+
+    <!-- ===================== TASKS ===================== -->
+    <div class="page" id="page-tasks">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Tasks</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary btn-sm" onclick="openTaskModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Task
+          </button>
+        </div>
+      </div>
+      <div class="task-columns" id="taskColumns"></div>
+    </div>
+
+    <!-- ===================== NOTIFICATIONS ===================== -->
+    <div class="page" id="page-notifications">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2>Notifications</h2>
+        <button class="btn btn-secondary btn-sm">Mark All Read</button>
+      </div>
+      <div id="notificationsContainer"></div>
+    </div>
+
+    <!-- ===================== SETTINGS ===================== -->
+    <div class="page" id="page-settings">
+      <div style="max-width:700px">
+        <h2 style="margin-bottom:20px;font-size:18px;font-weight:700">Settings</h2>
+
+        <div class="settings-section">
+          <h3>🌍 Language</h3>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm" onclick="setLang('en')">🇬🇧 English</button>
+            <button class="btn btn-secondary btn-sm" onclick="setLang('sk')">🇸🇰 Slovak</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>🎨 Theme</h3>
+          <div class="theme-grid">
+            <div class="theme-option active" onclick="setTheme('light')">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#f0f2f7,#ffffff)"></div>
+              <div class="theme-name">Light</div>
+            </div>
+            <div class="theme-option" onclick="setTheme('dark')">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#0f1117,#1e2030)"></div>
+              <div class="theme-name">Dark</div>
+            </div>
+            <div class="theme-option" onclick="setTheme('stu')">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#0038a8,#edf2fb)"></div>
+              <div class="theme-name">STU Blue</div>
+            </div>
+            <div class="theme-option" onclick="setTheme('purple')">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#7c3aed,#ede9fe)"></div>
+              <div class="theme-name">Purple</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>📤 Data Export</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+            <button class="btn btn-secondary" onclick="showToast('Exporting Students...','success')">Students XLSX</button>
+            <button class="btn btn-secondary" onclick="showToast('Exporting Staff...','success')">Staff XLSX</button>
+            <button class="btn btn-secondary" onclick="showToast('Exporting Universities...','success')">Universities XLSX</button>
+            <button class="btn btn-secondary" onclick="showToast('Exporting Documents...','success')">Documents XLSX</button>
+            <button class="btn btn-secondary" onclick="showToast('Exporting Budget...','success')">Budget XLSX</button>
+            <button class="btn btn-primary" onclick="showToast('Full database export started!','success')">Full Export XLSX</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>💾 Backup</h3>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-secondary" onclick="createBackup()">Create Backup</button>
+            <button class="btn btn-secondary">Restore Backup</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>⚙️ User Preferences</h3>
+          <div class="settings-row">
+            <div class="settings-row-info"><strong>Default Landing Page</strong><span>Where to go after login</span></div>
+            <select class="filter-select"><option>Dashboard</option><option>Mobilities</option><option>Students</option></select>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-info"><strong>Compact Mode</strong><span>Reduce padding and font sizes</span></div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-info"><strong>Email Notifications</strong><span>Receive email alerts</span></div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-info"><strong>Auto-save Changes</strong><span>Save without confirmation</span></div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end page-content -->
+</div><!-- end main -->
+
+</div><!-- end app-wrapper -->
+
+<!-- ===================== STUDENT PROFILE PANEL ===================== -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<div class="slide-panel" id="studentPanel">
+  <div class="panel-header">
+    <div style="width:46px;height:46px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;flex-shrink:0" id="panelAvatar">TN</div>
+    <div class="panel-header-info">
+      <h2 id="panelName">Tomáš Novák</h2>
+      <div class="panel-meta">
+        <span id="panelFlag">🇩🇪</span>
+        <span class="badge active dot" id="panelStatus">Active</span>
+        <span class="badge outgoing" id="panelFlow">Outgoing</span>
+        <span style="font-size:11px;color:var(--text2)" id="panelType">Student Studies</span>
+      </div>
+    </div>
+    <div class="panel-close" onclick="closePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+  </div>
+  <div class="panel-actions">
+    <button class="btn btn-secondary btn-sm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Google Drive
+    </button>
+    <button class="btn btn-secondary btn-sm" onclick="openContactModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact
+    </button>
+    <button class="btn btn-primary btn-sm" onclick="showToast('Changes saved!','success')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>Save
+    </button>
+  </div>
+  <div class="panel-tabs">
+    <div class="panel-tab active" onclick="switchTab('general',this)">General</div>
+    <div class="panel-tab" onclick="switchTab('mobility',this)">Mobility</div>
+    <div class="panel-tab" onclick="switchTab('academic',this)">Academic</div>
+    <div class="panel-tab" onclick="switchTab('finance',this)">Finance</div>
+    <div class="panel-tab" onclick="switchTab('contact',this)">Contact</div>
+    <div class="panel-tab" onclick="switchTab('documents',this)">Documents</div>
+    <div class="panel-tab" onclick="switchTab('notes',this)">Notes</div>
+  </div>
+  <div class="panel-body">
+    <!-- GENERAL TAB -->
+    <div class="panel-tab-content active" id="tab-general">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">First Name</label><input class="form-input" value="Tomáš"></div>
+        <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" value="Novák"></div>
+        <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" value="1999-03-14"></div>
+        <div class="form-group"><label class="form-label">Gender</label><select class="form-select"><option>Male</option><option>Female</option><option>Other</option></select></div>
+        <div class="form-group"><label class="form-label">Nationality</label><input class="form-input" value="Slovak"></div>
+        <div class="form-group"><label class="form-label">STU Faculty</label><select class="form-select"><option>FEI</option><option>SvF</option><option>SjF</option><option>FCHPT</option><option>FAD</option><option>MTF</option><option>FIIT</option><option>UM</option></select></div>
+      </div>
+    </div>
+    <!-- MOBILITY TAB -->
+    <div class="panel-tab-content" id="tab-mobility">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Coordinator</label><select class="form-select"><option>Jana Kováčová</option><option>Martin Sloboda</option><option>Peter Blaho</option></select></div>
+        <div class="form-group"><label class="form-label">Flow</label><select class="form-select"><option>Outgoing</option><option>Incoming</option></select></div>
+        <div class="form-group"><label class="form-label">Mobility Type</label><select class="form-select"><option>Student Studies</option><option>Student Traineeship</option></select></div>
+        <div class="form-group"><label class="form-label">Duration (months)</label><input class="form-input" type="number" value="5"></div>
+        <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date" value="2025-09-01"></div>
+        <div class="form-group"><label class="form-label">End Date</label><input class="form-input" type="date" value="2026-01-31"></div>
+        <div class="form-group"><label class="form-label">Country</label><input class="form-input" value="Germany"></div>
+        <div class="form-group"><label class="form-label">University</label><input class="form-input" value="TU Munich"></div>
+        <div class="form-group"><label class="form-label">Faculty (Host)</label><input class="form-input" value="Faculty of Engineering"></div>
+        <div class="form-group"><label class="form-label">Department</label><input class="form-input" value="Electrical Engineering"></div>
+      </div>
+    </div>
+    <!-- ACADEMIC TAB -->
+    <div class="panel-tab-content" id="tab-academic">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Degree</label><select class="form-select"><option>Bachelor</option><option selected>Master</option><option>PhD</option></select></div>
+        <div class="form-group"><label class="form-label">Academic Year</label><select class="form-select"><option>2025/2026</option><option>2024/2025</option></select></div>
+        <div class="form-group"><label class="form-label">Study Field</label><input class="form-input" value="Electrical Engineering"></div>
+        <div class="form-group"><label class="form-label">ISCED Code</label><input class="form-input" value="0714"></div>
+        <div class="form-group"><label class="form-label">Year of Study</label><input class="form-input" type="number" value="2"></div>
+        <div class="form-group"><label class="form-label">GPA</label><input class="form-input" value="1.4"></div>
+      </div>
+    </div>
+    <!-- FINANCE TAB -->
+    <div class="panel-tab-content" id="tab-finance">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Individual Support (€)</label><input class="form-input" type="number" value="3200"></div>
+        <div class="form-group"><label class="form-label">Travel Grant (€)</label><input class="form-input" type="number" value="360"></div>
+        <div class="form-group"><label class="form-label">Inclusion Support (€)</label><input class="form-input" type="number" value="0"></div>
+        <div class="form-group"><label class="form-label">Total Grant (€)</label><input class="form-input" type="number" value="3560" style="font-weight:700;color:var(--green)"></div>
+        <div class="form-group"><label class="form-label">Accommodation (€)</label><input class="form-input" type="number" value="1800"></div>
+        <div class="form-group"><label class="form-label">Flight Cost (€)</label><input class="form-input" type="number" value="240"></div>
+        <div class="form-group"><label class="form-label">Final Grant (€)</label><input class="form-input" type="number" value="3560"></div>
+        <div class="form-group"><label class="form-label">Payment Status</label><select class="form-select"><option>Paid</option><option>Pending</option><option>Partial</option></select></div>
+      </div>
+    </div>
+    <!-- CONTACT TAB -->
+    <div class="panel-tab-content" id="tab-contact">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="tomas.novak@stuba.sk"></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="+421 902 123 456"></div>
+        <div class="form-group"><label class="form-label">Passport Number</label><input class="form-input" value="SK1234567"></div>
+        <div class="form-group"><label class="form-label">Place of Birth</label><input class="form-input" value="Bratislava"></div>
+        <div class="form-group span2"><label class="form-label">Address</label><input class="form-input" value="Mlynská dolina 10, 841 04 Bratislava"></div>
+        <div class="form-group"><label class="form-label">Emergency Contact</label><input class="form-input" value="Jana Nováková (mother)"></div>
+        <div class="form-group"><label class="form-label">Emergency Phone</label><input class="form-input" value="+421 902 765 432"></div>
+      </div>
+    </div>
+    <!-- DOCUMENTS TAB -->
+    <div class="panel-tab-content" id="tab-documents">
+      <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:12px;color:var(--text2)">9 / 11 documents complete</span>
+        <span style="font-size:12px;font-weight:600;color:var(--green)">82%</span>
+      </div>
+      <div class="progress-bar-wrap" style="margin-bottom:16px"><div class="progress-bar green" style="width:82%"></div></div>
+      <div class="doc-grid" id="docChecklist"></div>
+    </div>
+    <!-- NOTES TAB -->
+    <div class="panel-tab-content" id="tab-notes">
+      <div class="form-group">
+        <label class="form-label">Internal Notes</label>
+        <textarea class="form-textarea" style="min-height:200px" placeholder="Add internal notes about this student...">Student confirmed departure date. Still missing final insurance document. Follow up by 15th of month.</textarea>
+      </div>
+      <div style="margin-top:12px">
+        <button class="btn btn-primary btn-sm" onclick="showToast('Notes saved!','success')">Save Notes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UNIVERSITY PANEL ===================== -->
+<div class="slide-panel" id="uniPanel" style="width:720px">
+  <div class="panel-header">
+    <div style="font-size:36px" id="uniPanelFlag">🇩🇪</div>
+    <div class="panel-header-info">
+      <h2 id="uniPanelName">Technical University of Munich</h2>
+      <div class="panel-meta">
+        <span style="font-size:12px;color:var(--text2)" id="uniPanelCountry">Germany</span>
+        <span class="badge active dot">IIA Active</span>
+      </div>
+    </div>
+    <div class="panel-close" onclick="closeUniPanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+  </div>
+  <div class="panel-actions">
+    <button class="btn btn-primary btn-sm" onclick="showToast('University saved!','success')">Save</button>
+    <button class="btn btn-secondary btn-sm">Export</button>
+  </div>
+  <div class="panel-tabs">
+    <div class="panel-tab active" onclick="switchUniTab('general',this)">General</div>
+    <div class="panel-tab" onclick="switchUniTab('contacts',this)">Contacts</div>
+    <div class="panel-tab" onclick="switchUniTab('faculties',this)">STU Faculties</div>
+    <div class="panel-tab" onclick="switchUniTab('project',this)">Project Status</div>
+    <div class="panel-tab" onclick="switchUniTab('mobilities',this)">Mobilities</div>
+    <div class="panel-tab" onclick="switchUniTab('unibudget',this)">Budget</div>
+    <div class="panel-tab" onclick="switchUniTab('uninotes',this)">Notes</div>
+  </div>
+  <div class="panel-body">
+    <div class="panel-tab-content active" id="unitab-general">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Country</label><input class="form-input" value="Germany" id="uniCountry"></div>
+        <div class="form-group"><label class="form-label">University Name</label><input class="form-input" value="Technical University of Munich" id="uniNameField"></div>
+        <div class="form-group"><label class="form-label">City</label><input class="form-input" value="Munich"></div>
+        <div class="form-group"><label class="form-label">Erasmus Code</label><input class="form-input" value="D MUNCHEN02"></div>
+        <div class="form-group"><label class="form-label">Website</label><input class="form-input" value="https://www.tum.de"></div>
+        <div class="form-group"><label class="form-label">Ranking (QS)</label><input class="form-input" type="number" value="37"></div>
+      </div>
+    </div>
+    <div class="panel-tab-content" id="unitab-contacts">
+      <div class="form-grid">
+        <div class="section-title">STU Side</div>
+        <div class="form-group"><label class="form-label">STU Project Manager</label><input class="form-input" value="Jana Kováčová"></div>
+        <div class="form-group"><label class="form-label">STU PM Email</label><input class="form-input" value="kovacova@stuba.sk"></div>
+        <div class="section-title">Partner Side</div>
+        <div class="form-group"><label class="form-label">Partner Manager</label><input class="form-input" value="Dr. Klaus Weber"></div>
+        <div class="form-group"><label class="form-label">Partner Manager Email</label><input class="form-input" value="k.weber@tum.de"></div>
+        <div class="form-group"><label class="form-label">IRO Contact</label><input class="form-input" value="International Relations Office TUM"></div>
+        <div class="form-group"><label class="form-label">IRO Email</label><input class="form-input" value="iro@tum.de"></div>
+      </div>
+    </div>
+    <div class="panel-tab-content" id="unitab-faculties">
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px">Assigned STU Faculties</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px" id="uniFacBadges"></div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px">Click to toggle faculty assignments:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px" id="uniFacToggle"></div>
+      </div>
+      <div class="divider"></div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">Faculty Cooperation Statistics</div>
+      <div id="uniFacStats"></div>
+    </div>
+    <div class="panel-tab-content" id="unitab-project">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">IIA Status</label><select class="form-select"><option>Active</option><option>Pending</option><option>Expired</option><option>None</option></select></div>
+        <div class="form-group"><label class="form-label">IIA Expiry</label><input class="form-input" type="date" value="2027-09-30"></div>
+        <div class="form-group"><label class="form-label">AIS Status</label><select class="form-select"><option>Registered</option><option>Pending</option><option>None</option></select></div>
+        <div class="form-group"><label class="form-label">Agreement Signed</label><input class="form-input" type="date" value="2022-06-15"></div>
+        <div class="form-group"><label class="form-label">Student Places (Out)</label><input class="form-input" type="number" value="4"></div>
+        <div class="form-group"><label class="form-label">Student Places (In)</label><input class="form-input" type="number" value="4"></div>
+        <div class="form-group"><label class="form-label">Staff Places (Out)</label><input class="form-input" type="number" value="2"></div>
+        <div class="form-group"><label class="form-label">Staff Places (In)</label><input class="form-input" type="number" value="2"></div>
+      </div>
+    </div>
+    <div class="panel-tab-content" id="unitab-mobilities">
+      <div id="uniMobilitiesList"></div>
+    </div>
+    <div class="panel-tab-content" id="unitab-unibudget">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Total Budget Allocated (€)</label><input class="form-input" value="48000"></div>
+        <div class="form-group"><label class="form-label">Budget Used (€)</label><input class="form-input" value="32400"></div>
+        <div class="form-group"><label class="form-label">Budget Remaining (€)</label><input class="form-input" value="15600"></div>
+        <div class="form-group"><label class="form-label">Student Budget (€)</label><input class="form-input" value="38000"></div>
+        <div class="form-group"><label class="form-label">Staff Budget (€)</label><input class="form-input" value="10000"></div>
+      </div>
+    </div>
+    <div class="panel-tab-content" id="unitab-uninotes">
+      <div class="form-group">
+        <label class="form-label">Internal Notes</label>
+        <textarea class="form-textarea" style="min-height:200px">Strong engineering partner. Contact Dr. Weber directly for nominations. Deadline for nominations: March 1st for autumn semester.</textarea>
+      </div>
+      <div style="margin-top:12px"><button class="btn btn-primary btn-sm" onclick="showToast('Notes saved!','success')">Save Notes</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONTACT MODAL ===================== -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✉️ Contact Participant</div>
+      <div class="modal-close" onclick="closeContactModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:14px">Select missing documents to include in the email:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px" id="contactDocList"></div>
+    <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="generateEmail()">Generate Email Template</button>
+    <div id="emailOutput" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Generated Email</label>
+        <textarea class="form-textarea" id="emailText" style="min-height:180px;font-family:var(--mono);font-size:12px"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-secondary" onclick="copyEmail()">Copy Email</button>
+        <a id="gmailLink" href="#" target="_blank" class="btn btn-primary">Open Gmail</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TASK MODAL ===================== -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">➕ New Task</div>
+      <div class="modal-close" onclick="closeTaskModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label class="form-label">Task Title</label>
+      <input class="form-input" id="taskTitle" placeholder="e.g. Send invitation letter">
+    </div>
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="form-group"><label class="form-label">Assignee</label><select class="form-select" id="taskAssignee"><option>Jana Kováčová</option><option>Martin Sloboda</option><option>Peter Blaho</option></select></div>
+      <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" type="date" id="taskDue"></div>
+      <div class="form-group"><label class="form-label">Priority</label><select class="form-select" id="taskPriority"><option>Normal</option><option>High</option><option>Low</option></select></div>
+      <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="taskStatus"><option value="todo">To Do</option><option value="inprogress">In Progress</option><option value="done">Completed</option></select></div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="taskDesc" placeholder="Task details..." style="min-height:80px"></textarea>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="addTask()">Create Task</button>
+  </div>
+</div>
+
+<!-- GLOBAL SEARCH -->
+<div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
+  <div class="search-modal" onclick="event.stopPropagation()">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search students, staff, universities..." id="globalSearchInput" oninput="doGlobalSearch(this.value)" onkeydown="if(event.key==='Escape')closeSearch()">
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// SAMPLE DATA
+// ============================================================
+const STU_FACULTIES = ['SvF','SjF','FEI','FCHPT','FAD','MTF','FIIT','UM'];
+
+const UNIVERSITIES = [
+  {id:1,name:'Technical University of Munich',country:'Germany',flag:'🇩🇪',coordinator:'Jana Kováčová',partnerManager:'Dr. Klaus Weber',pmEmail:'k.weber@tum.de',stuPM:'Jana Kováčová',stuPMEmail:'kovacova@stuba.sk',iroContact:'IRO TUM',iroEmail:'iro@tum.de',faculties:['FEI','FIIT','SjF'],mobilities:18,budget:48000,iia:'Active',ais:'Registered'},
+  {id:2,name:'Universidad Politécnica de Madrid',country:'Spain',flag:'🇪🇸',coordinator:'Martin Sloboda',partnerManager:'Prof. María García',pmEmail:'m.garcia@upm.es',stuPM:'Martin Sloboda',stuPMEmail:'sloboda@stuba.sk',iroContact:'IRO UPM',iroEmail:'iro@upm.es',faculties:['SvF','FAD','FCHPT'],mobilities:14,budget:38000,iia:'Active',ais:'Registered'},
+  {id:3,name:'TU Wien',country:'Austria',flag:'🇦🇹',coordinator:'Jana Kováčová',partnerManager:'Mag. Franz Huber',pmEmail:'f.huber@tuwien.ac.at',stuPM:'Jana Kováčová',stuPMEmail:'kovacova@stuba.sk',iroContact:'IRO TU Wien',iroEmail:'iro@tuwien.ac.at',faculties:['FEI','MTF','SvF'],mobilities:22,budget:56000,iia:'Active',ais:'Registered'},
+  {id:4,name:'University of Porto',country:'Portugal',flag:'🇵🇹',coordinator:'Peter Blaho',partnerManager:'Dr. Ana Costa',pmEmail:'a.costa@up.pt',stuPM:'Peter Blaho',stuPMEmail:'blaho@stuba.sk',iroContact:'IRO Porto',iroEmail:'iro@up.pt',faculties:['FEI','FIIT'],mobilities:9,budget:24000,iia:'Active',ais:'Registered'},
+  {id:5,name:'University of Bologna',country:'Italy',flag:'🇮🇹',coordinator:'Martin Sloboda',partnerManager:'Prof. Luca Rossi',pmEmail:'l.rossi@unibo.it',stuPM:'Martin Sloboda',stuPMEmail:'sloboda@stuba.sk',iroContact:'IRO Bologna',iroEmail:'iro@unibo.it',faculties:['FAD','FCHPT','SjF'],mobilities:11,budget:30000,iia:'Active',ais:'Registered'},
+  {id:6,name:'CTU Prague',country:'Czech Republic',flag:'🇨🇿',coordinator:'Jana Kováčová',partnerManager:'Ing. Pavel Novotný',pmEmail:'p.novotny@cvut.cz',stuPM:'Jana Kováčová',stuPMEmail:'kovacova@stuba.sk',iroContact:'IRO CTU',iroEmail:'iro@cvut.cz',faculties:['FEI','SvF','FIIT','MTF'],mobilities:28,budget:62000,iia:'Active',ais:'Registered'},
+  {id:7,name:'KTH Stockholm',country:'Sweden',flag:'🇸🇪',coordinator:'Peter Blaho',partnerManager:'Dr. Anna Lindqvist',pmEmail:'a.lindqvist@kth.se',stuPM:'Peter Blaho',stuPMEmail:'blaho@stuba.sk',iroContact:'IRO KTH',iroEmail:'iro@kth.se',faculties:['FEI','FIIT','SjF'],mobilities:7,budget:22000,iia:'Active',ais:'Registered'},
+  {id:8,name:'EPFL Lausanne',country:'Switzerland',flag:'🇨🇭',coordinator:'Jana Kováčová',partnerManager:'Dr. Jean Dupont',pmEmail:'j.dupont@epfl.ch',stuPM:'Jana Kováčová',stuPMEmail:'kovacova@stuba.sk',iroContact:'IRO EPFL',iroEmail:'iro@epfl.ch',faculties:['FIIT','FEI'],mobilities:5,budget:18000,iia:'Pending',ais:'Pending'},
+  {id:9,name:'AGH Krakow',country:'Poland',flag:'🇵🇱',coordinator:'Martin Sloboda',partnerManager:'Dr. Piotr Kowalski',pmEmail:'p.kowalski@agh.edu.pl',stuPM:'Martin Sloboda',stuPMEmail:'sloboda@stuba.sk',iroContact:'IRO AGH',iroEmail:'iro@agh.edu.pl',faculties:['MTF','SjF','FEI'],mobilities:16,budget:36000,iia:'Active',ais:'Registered'},
+  {id:10,name:'Universidad de Valencia',country:'Spain',flag:'🇪🇸',coordinator:'Peter Blaho',partnerManager:'Prof. Carlos Moreno',pmEmail:'c.moreno@uv.es',stuPM:'Peter Blaho',stuPMEmail:'blaho@stuba.sk',iroContact:'IRO Valencia',iroEmail:'iro@uv.es',faculties:['FAD','SvF','FCHPT'],mobilities:8,budget:22000,iia:'Active',ais:'Registered'},
+  {id:11,name:'TU Delft',country:'Netherlands',flag:'🇳🇱',coordinator:'Jana Kováčová',partnerManager:'Dr. Erik van Dijk',pmEmail:'e.vandijk@tudelft.nl',stuPM:'Jana Kováčová',stuPMEmail:'kovacova@stuba.sk',iroContact:'IRO TU Delft',iroEmail:'iro@tudelft.nl',faculties:['FEI','SvF','MTF'],mobilities:12,budget:34000,iia:'Active',ais:'Registered'},
+  {id:12,name:'Politecnico di Milano',country:'Italy',flag:'🇮🇹',coordinator:'Martin Sloboda',partnerManager:'Prof. Marco Ferrari',pmEmail:'m.ferrari@polimi.it',stuPM:'Martin Sloboda',stuPMEmail:'sloboda@stuba.sk',iroContact:'IRO PoliMi',iroEmail:'iro@polimi.it',faculties:['FAD','FCHPT','SjF'],mobilities:10,budget:28000,iia:'Active',ais:'Registered'},
+];
+
+const STUDENTS = [
+  {id:1,firstName:'Tomáš',lastName:'Novák',country:'Germany',university:'TU Munich',faculty:'FEI',coordinator:'Jana Kováčová',flow:'Outgoing',start:'2025-09',end:'2026-01',status:'active',grant:3560,degree:'Master',docs:[true,true,true,true,false,false,true,true,true,false,true]},
+  {id:2,firstName:'Eva',lastName:'Horváth',country:'Spain',university:'UPM Madrid',faculty:'FAD',coordinator:'Martin Sloboda',flow:'Outgoing',start:'2025-09',end:'2026-02',status:'active',grant:3200,degree:'Bachelor',docs:[true,true,true,true,true,true,true,true,false,false,false]},
+  {id:3,firstName:'Lukáš',lastName:'Kováč',country:'Czech Republic',university:'CTU Prague',faculty:'FIIT',coordinator:'Jana Kováčová',flow:'Outgoing',start:'2025-02',end:'2025-06',status:'completed',grant:2800,degree:'Master',docs:[true,true,true,true,true,true,true,true,true,true,true]},
+  {id:4,firstName:'Petra',lastName:'Šimková',country:'Austria',university:'TU Wien',faculty:'SvF',coordinator:'Jana Kováčová',flow:'Outgoing',start:'2026-02',end:'2026-07',status:'upcoming',grant:3200,degree:'Bachelor',docs:[true,true,false,false,false,false,false,false,false,false,false]},
+  {id:5,firstName:'Marek',lastName:'Tóth',country:'Poland',university:'AGH Krakow',faculty:'MTF',coordinator:'Martin Sloboda',flow:'Outgoing',start:'2025-09',end:'2026-01',status:'active',grant:2600,degree:'Bachelor',docs:[true,true,true,true,true,false,true,true,true,false,false]},
+  {id:6,firstName:'Anna',lastName:'Fischer',country:'Germany',university:'TU Munich',faculty:'FEI',coordinator:'Jana Kováčová',flow:'Incoming',start:'2025-09',end:'2026-02',status:'cancelled',grant:0,degree:'Master',docs:[true,false,false,false,false,false,false,false,false,false,false]},
+  {id:7,firstName:'Jakub',lastName:'Blaho',country:'Portugal',university:'University of Porto',faculty:'FEI',coordinator:'Peter Blaho',flow:'Outgoing',start:'2026-02',end:'2026-07',status:'upcoming',grant:3400,degree:'Master',docs:[true,true,true,true,false,false,false,false,false,false,false]},
+  {id:8,firstName:'Sofia',lastName:'Müller',country:'Germany',university:'TU Munich',faculty:'SjF',coordinator:'Jana Kováčová',flow:'Incoming',start:'2025-09',end:'2026-01',status:'active',grant:2800,degree:'Bachelor',docs:[true,true,true,true,true,false,true,true,false,false,false]},
+  {id:9,firstName:'Miriam',lastName:'Kováčová',country:'Spain',university:'UPM Madrid',faculty:'FCHPT',coordinator:'Martin Sloboda',flow:'Outgoing',start:'2025-09',end:'2026-02',status:'active',grant:3000,degree:'Master',docs:[true,true,true,true,true,true,true,true,true,false,false]},
+  {id:10,firstName:'Ondrej',lastName:'Pálka',country:'Italy',university:'University of Bologna',faculty:'FAD',coordinator:'Peter Blaho',flow:'Outgoing',start:'2026-02',end:'2026-07',status:'upcoming',grant:2900,degree:'Bachelor',docs:[true,true,false,false,false,false,false,false,false,false,false]},
+];
+
+const STAFF = [
+  {id:1,firstName:'Dr. Jana',lastName:'Mináčová',country:'Germany',university:'TU Munich',faculty:'FEI',coordinator:'Jana Kováčová',flow:'Outgoing',type:'Teaching',start:'2025-11',end:'2025-11',status:'upcoming',hours:8,grant:1400},
+  {id:2,firstName:'Prof. Ján',lastName:'Sloboda',country:'Spain',university:'UPM Madrid',faculty:'SjF',coordinator:'Martin Sloboda',flow:'Outgoing',type:'Training',start:'2025-10',end:'2025-10',status:'active',hours:5,grant:1200},
+  {id:3,firstName:'Dr. Elena',lastName:'Vargová',country:'Austria',university:'TU Wien',faculty:'SvF',coordinator:'Jana Kováčová',flow:'Outgoing',type:'Teaching',start:'2025-03',end:'2025-03',status:'completed',hours:8,grant:1300},
+  {id:4,firstName:'Prof. Rastislav',lastName:'Kopec',country:'Czech Republic',university:'CTU Prague',faculty:'FIIT',coordinator:'Peter Blaho',flow:'Outgoing',type:'Teaching',start:'2026-01',end:'2026-01',status:'upcoming',hours:8,grant:1100},
+  {id:5,firstName:'Dr. Marta',lastName:'Kúdelová',country:'Poland',university:'AGH Krakow',faculty:'MTF',coordinator:'Martin Sloboda',flow:'Incoming',type:'Teaching',start:'2025-09',end:'2025-09',status:'completed',hours:6,grant:1250},
+];
+
+const BUDGET_DATA = [
+  {country:'Germany',flag:'🇩🇪',budget:220000,used:182000,mobilities:48},
+  {country:'Spain',flag:'🇪🇸',budget:180000,used:124000,mobilities:38},
+  {country:'Czech Republic',flag:'🇨🇿',budget:160000,used:98000,mobilities:44},
+  {country:'Austria',flag:'🇦🇹',budget:140000,used:96000,mobilities:32},
+  {country:'Poland',flag:'🇵🇱',budget:120000,used:62000,mobilities:28},
+  {country:'Italy',flag:'🇮🇹',budget:110000,used:58000,mobilities:24},
+  {country:'Portugal',flag:'🇵🇹',budget:90000,used:42000,mobilities:18},
+  {country:'Netherlands',flag:'🇳🇱',budget:80000,used:38000,mobilities:16},
+  {country:'Sweden',flag:'🇸🇪',budget:70000,used:28000,mobilities:14},
+  {country:'Other',flag:'🌍',budget:70000,used:65400,mobilities:21},
+];
+
+const DOCS_LIST = ['Application','Nomination','Learning Agreement','Invitation','Insurance','Visa','Boarding Pass','Confirmation','Transcript','Survey','Final Report'];
+
+const TASKS_DATA = [
+  {id:1,title:'Send invitation letters to incoming students',status:'todo',assignee:'Jana Kováčová',due:'2025-10-15',priority:'High'},
+  {id:2,title:'Check insurance documents for autumn cohort',status:'todo',assignee:'Martin Sloboda',due:'2025-10-01',priority:'High'},
+  {id:3,title:'Update budget allocation for Germany',status:'inprogress',assignee:'Peter Blaho',due:'2025-10-20',priority:'Normal'},
+  {id:4,title:'Prepare nominations for CTU Prague',status:'inprogress',assignee:'Jana Kováčová',due:'2025-11-01',priority:'Normal'},
+  {id:5,title:'Follow up: missing final reports (18 students)',status:'inprogress',assignee:'Martin Sloboda',due:'2025-10-25',priority:'High'},
+  {id:6,title:'IIA renewal – TU Delft',status:'todo',assignee:'Jana Kováčová',due:'2025-12-01',priority:'Normal'},
+  {id:7,title:'Export Q1 budget report',status:'done',assignee:'Peter Blaho',due:'2025-09-30',priority:'Normal'},
+  {id:8,title:'Update partner manager contact list',status:'done',assignee:'Martin Sloboda',due:'2025-09-15',priority:'Low'},
+];
+
+const NOTIFICATIONS_DATA = [
+  {type:'danger',title:'7 Students Missing Insurance',desc:'Follow up required before departure',category:'Documents'},
+  {type:'danger',title:'18 Missing Final Reports',desc:'Deadline in 14 days — urgent action required',category:'Documents'},
+  {type:'warning',title:'12 Mobilities Starting This Week',desc:'Confirm travel arrangements and documents',category:'Mobilities'},
+  {type:'warning',title:'Germany Budget Warning',desc:'87% of country budget used (€191,000 / €220,000)',category:'Budget'},
+  {type:'info',title:'Q2 Budget Review Due',desc:'Submit financial report by end of month',category:'Budget'},
+  {type:'warning',title:'3 Expiring Insurance Documents',desc:'Insurance expires within 30 days',category:'Documents'},
+  {type:'info',title:'New IIA Available: EPFL Lausanne',desc:'Pending signature — requires coordinator review',category:'Universities'},
+];
+
+// ============================================================
+// CHART DATA
+// ============================================================
+const CHART_DATA = {
+  outgoing_students:{label:'Outgoing Students',data:[5,8,3,0,12,18,22,0,0,15,20,14],color:'#0057b8'},
+  incoming_students:{label:'Incoming Students',data:[3,5,2,0,8,12,16,0,0,10,14,10],color:'#8b5cf6'},
+  outgoing_staff:{label:'Outgoing Staff',data:[2,1,0,0,4,6,3,0,0,5,4,3],color:'#f97316'},
+  incoming_staff:{label:'Incoming Staff',data:[1,2,0,0,3,4,2,0,0,3,3,2],color:'#10b981'},
+  total_mobilities:{label:'Total Mobilities',data:[11,16,5,0,27,40,43,0,0,33,41,29],color:'#0057b8'},
+  budget:{label:'Budget Usage (k€)',data:[28,34,18,0,62,88,94,0,0,76,82,68],color:'#f59e0b'},
+  by_faculty:{label:'By Faculty',barData:{labels:['FEI','FIIT','SvF','SjF','FAD','FCHPT','MTF','UM'],data:[58,42,35,28,22,24,18,12],color:'#0057b8'},isBar:true}
+};
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+let mainChartInstance = null;
+let budgetChartInstance = null;
+let currentLang = localStorage.getItem('lang') || 'en';
+let currentTheme = localStorage.getItem('theme') || 'light';
+let sidebarCollapsed = false;
+let currentUniData = UNIVERSITIES[0];
+
+// ============================================================
+// TRANSLATIONS
+// ============================================================
+const i18n = {
+  en: {
+    'nav.main':'Main','nav.people':'People','nav.management':'Management','nav.finance':'Finance & Planning','nav.system':'System',
+    'nav.dashboard':'Dashboard','nav.mobilities':'Mobilities','nav.students':'Students','nav.staff':'Staff',
+    'nav.documents':'Documents','nav.universities':'Universities','nav.partners':'Partner Managers',
+    'nav.budget':'Budget','nav.calendar':'Calendar','nav.tasks':'Tasks','nav.notifications':'Notifications','nav.settings':'Settings',
+  },
+  sk: {
+    'nav.main':'Hlavné','nav.people':'Ľudia','nav.management':'Správa','nav.finance':'Financie a plán','nav.system':'Systém',
+    'nav.dashboard':'Prehľad','nav.mobilities':'Mobility','nav.students':'Študenti','nav.staff':'Zamestnanci',
+    'nav.documents':'Dokumenty','nav.universities':'Univerzity','nav.partners':'Kontakty partnerov',
+    'nav.budget':'Rozpočet','nav.calendar':'Kalendár','nav.tasks':'Úlohy','nav.notifications':'Oznámenia','nav.settings':'Nastavenia',
+  }
+};
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = (i18n[currentLang] || i18n['en'])[key] || key;
+  });
+  document.getElementById('langBtn').textContent = currentLang.toUpperCase();
+}
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'sk' : 'en';
+  localStorage.setItem('lang', currentLang);
+  applyLang();
+}
+function setLang(l) {
+  currentLang = l;
+  localStorage.setItem('lang', l);
+  applyLang();
+}
+
+// ============================================================
+// THEME
+// ============================================================
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  currentTheme = t;
+  localStorage.setItem('theme', t);
+  document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
+  document.querySelectorAll('.theme-option').forEach((o,i) => {
+    if(['light','dark','stu','purple'][i] === t) o.classList.add('active');
+  });
+  if (mainChartInstance) {
+    setTimeout(() => initMainChart(currentChartType), 100);
+  }
+  if (budgetChartInstance) {
+    setTimeout(() => initBudgetChart(), 100);
+  }
+}
+function cycleTheme() {
+  const themes = ['light','dark','stu','purple'];
+  const i = themes.indexOf(currentTheme);
+  setTheme(themes[(i+1) % themes.length]);
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+const PAGE_TITLES = {
+  dashboard: ['Dashboard','Overview'],
+  mobilities: ['Mobilities','All Mobilities'],
+  students: ['Students','All Students'],
+  staff: ['Staff','All Staff'],
+  documents: ['Documents','Document Management'],
+  universities: ['Universities','Partner Institutions'],
+  partners: ['Partner Managers','Contact Directory'],
+  budget: ['Budget','Financial Overview'],
+  calendar: ['Calendar','Schedule'],
+  tasks: ['Tasks','Task Board'],
+  notifications: ['Notifications','Alerts & Reminders'],
+  settings: ['Settings','System Preferences'],
+};
+
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const navItem = document.querySelector(`[data-page="${page}"]`);
+  if (navItem) navItem.classList.add('active');
+  const titles = PAGE_TITLES[page] || [page, ''];
+  document.getElementById('pageTitle').childNodes[0].textContent = titles[0] + ' ';
+  document.getElementById('pageSub').textContent = titles[1];
+  if (page === 'dashboard') setTimeout(initMainChart, 100);
+  if (page === 'budget') setTimeout(initBudgetChart, 100);
+  if (page === 'calendar') renderCalendar();
+  if (page === 'tasks') renderTasks();
+  if (page === 'notifications') renderNotifications();
+}
+
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => navigate(item.dataset.page));
+});
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+document.getElementById('collapseBtn').addEventListener('click', () => {
+  sidebarCollapsed = !sidebarCollapsed;
+  document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
+  document.getElementById('mainArea').classList.toggle('sidebar-collapsed', sidebarCollapsed);
+});
+
+// ============================================================
+// YEAR SELECTOR
+// ============================================================
+function changeYear(year) {
+  showToast(`Filtered to ${year}`, 'success');
+}
+
+// ============================================================
+// MAIN CHART
+// ============================================================
+let currentChartType = 'outgoing_students';
+
+function initMainChart(type) {
+  type = type || currentChartType;
+  currentChartType = type;
+  const ctx = document.getElementById('mainChart');
+  if (!ctx) return;
+  if (mainChartInstance) { mainChartInstance.destroy(); mainChartInstance = null; }
+  
+  const d = CHART_DATA[type];
+  const isDark = currentTheme === 'dark';
+  const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+  const textColor = isDark ? '#9098bf' : '#5a6080';
+  
+  if (d.isBar) {
+    mainChartInstance = new Chart(ctx, {
+      type:'bar',
+      data:{
+        labels: d.barData.labels,
+        datasets:[{
+          label: d.label,
+          data: d.barData.data,
+          backgroundColor: d.barData.labels.map(l => {
+            const colors = {SvF:'#dbeafe',SjF:'#d1fae5',FEI:'#ede9fe',FCHPT:'#fef3c7',FAD:'#fce7f3',MTF:'#ffedd5',FIIT:'#cffafe',UM:'#f3f4f6'};
+            return colors[l] || d.barData.color;
+          }),
+          borderColor: d.barData.labels.map(l => {
+            const colors = {SvF:'#1d4ed8',SjF:'#065f46',FEI:'#6d28d9',FCHPT:'#92400e',FAD:'#9d174d',MTF:'#c2410c',FIIT:'#155e75',UM:'#374151'};
+            return colors[l] || d.barData.color;
+          }),
+          borderWidth:2,
+          borderRadius:8,
+        }]
+      },
+      options:getChartOptions(isDark,gridColor,textColor,d.label)
+    });
+  } else {
+    const gradient = ctx.getContext('2d').createLinearGradient(0,0,0,300);
+    gradient.addColorStop(0, d.color + '30');
+    gradient.addColorStop(1, d.color + '00');
+    mainChartInstance = new Chart(ctx, {
+      type:'line',
+      data:{
+        labels: MONTHS,
+        datasets:[{
+          label: d.label,
+          data: d.data,
+          borderColor: d.color,
+          backgroundColor: gradient,
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: d.color,
+          pointBorderColor: isDark ? '#1e2030' : '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+        }]
+      },
+      options: getChartOptions(isDark,gridColor,textColor,d.label)
+    });
+  }
+}
+
+function getChartOptions(isDark, gridColor, textColor, label) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: isDark ? '#252838' : '#fff',
+        titleColor: isDark ? '#e8eaf5' : '#1a1d2e',
+        bodyColor: isDark ? '#9098bf' : '#5a6080',
+        borderColor: isDark ? '#2e3250' : '#e2e5ef',
+        borderWidth: 1,
+        padding: 10,
+        cornerRadius: 8,
+        callbacks: {
+          label: (ctx) => ` ${ctx.parsed.y} ${label.includes('€') ? '(k€)' : 'mobilities'}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: gridColor, drawBorder: false },
+        ticks: { color: textColor, font: { family:'Sora', size:11 } }
+      },
+      y: {
+        grid: { color: gridColor, drawBorder: false },
+        ticks: { color: textColor, font: { family:'Sora', size:11 } },
+        beginAtZero: true
+      }
+    },
+    animation: { duration: 400, easing: 'easeInOutQuart' }
+  };
+}
+
+function switchChart(type, btn) {
+  document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = {
+    outgoing_students:'Outgoing Students – Monthly Breakdown',
+    incoming_students:'Incoming Students – Monthly Breakdown',
+    outgoing_staff:'Outgoing Staff – Monthly Breakdown',
+    incoming_staff:'Incoming Staff – Monthly Breakdown',
+    total_mobilities:'Total Mobilities – Monthly Breakdown',
+    budget:'Budget Usage (k€) – Monthly Breakdown',
+    by_faculty:'Mobilities by STU Faculty'
+  };
+  document.getElementById('chartSubtitle').textContent = labels[type] || '';
+  initMainChart(type);
+}
+
+// ============================================================
+// BUDGET CHART
+// ============================================================
+function initBudgetChart() {
+  const ctx = document.getElementById('budgetChart');
+  if (!ctx) return;
+  if (budgetChartInstance) { budgetChartInstance.destroy(); budgetChartInstance = null; }
+  const isDark = currentTheme === 'dark';
+  const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+  const textColor = isDark ? '#9098bf' : '#5a6080';
+  budgetChartInstance = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: BUDGET_DATA.map(b=>b.country),
+      datasets:[
+        {label:'Total Budget',data:BUDGET_DATA.map(b=>b.budget/1000),backgroundColor:'rgba(0,87,184,0.2)',borderColor:'#0057b8',borderWidth:2,borderRadius:4},
+        {label:'Used',data:BUDGET_DATA.map(b=>b.used/1000),backgroundColor:'rgba(16,185,129,0.7)',borderColor:'#10b981',borderWidth:2,borderRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,labels:{color:textColor,font:{family:'Sora',size:11}}},
+      tooltip:{backgroundColor:isDark?'#252838':'#fff',titleColor:isDark?'#e8eaf5':'#1a1d2e',bodyColor:textColor,borderColor:isDark?'#2e3250':'#e2e5ef',borderWidth:1,cornerRadius:8}},
+      scales:{x:{grid:{color:gridColor},ticks:{color:textColor,font:{family:'Sora',size:10}}},y:{grid:{color:gridColor},ticks:{color:textColor,font:{family:'Sora',size:10},callback:v=>v+'k€'}}}
+    }
+  });
+}
+
+function switchBudgetChart(type, btn) {
+  document.querySelectorAll('#page-budget .segment-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ============================================================
+// MOBILITIES TABLE
+// ============================================================
+function renderMobilities() {
+  const tbody = document.getElementById('mobilitiesBody');
+  if (!tbody) return;
+  const allItems = [...STUDENTS.map(s=>({...s,personType:'student'})),...STAFF.map(s=>({...s,personType:'staff'}))];
+  tbody.innerHTML = allItems.map(item => `
+    <tr>
+      <td><span style="font-weight:600">${item.firstName} ${item.lastName}</span></td>
+      <td>${item.country}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${item.university}</td>
+      <td>${item.coordinator}</td>
+      <td><span style="font-family:var(--mono);font-size:12px">${item.start}</span></td>
+      <td><span style="font-family:var(--mono);font-size:12px">${item.end}</span></td>
+      <td><span class="badge ${item.personType==='student'?'incoming':'upcoming'}">${item.personType==='student'?'Student':'Staff'}</span></td>
+      <td><span class="badge ${item.status} dot">${item.status.charAt(0).toUpperCase()+item.status.slice(1)}</span></td>
+      <td style="font-weight:600;color:var(--green)">€${item.grant.toLocaleString()}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm btn-icon tooltip" data-tip="Open Profile" onclick="openStudentPanel(${item.id},'${item.personType}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon tooltip" data-tip="Google Drive" onclick="showToast('Opening Google Drive...','success')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon tooltip" data-tip="Contact" onclick="openContactModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterMobilities() { renderMobilities(); }
+
+// ============================================================
+// STUDENTS TABLE
+// ============================================================
+function renderStudents() {
+  const tbody = document.getElementById('studentsBody');
+  if (!tbody) return;
+  tbody.innerHTML = STUDENTS.map(s => `
+    <tr>
+      <td><span style="font-weight:600;cursor:pointer;color:var(--accent)" onclick="openStudentPanel(${s.id})">${s.firstName} ${s.lastName}</span></td>
+      <td><span class="badge ${s.flow==='Outgoing'?'outgoing':'incoming'} dot">${s.flow}</span></td>
+      <td>${s.country}</td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${s.university}</td>
+      <td><span class="fac-badge fac-${s.faculty}">${s.faculty}</span></td>
+      <td>${s.coordinator}</td>
+      <td><span style="font-family:var(--mono);font-size:11px">${s.start} – ${s.end}</span></td>
+      <td><span class="badge ${s.status} dot">${s.status.charAt(0).toUpperCase()+s.status.slice(1)}</span></td>
+      <td style="font-weight:600;color:var(--green)">€${s.grant.toLocaleString()}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="openStudentPanel(${s.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="showToast('Opening Google Drive...','success')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ============================================================
+// STAFF TABLE
+// ============================================================
+function renderStaff() {
+  const tbody = document.getElementById('staffBody');
+  if (!tbody) return;
+  tbody.innerHTML = STAFF.map(s => `
+    <tr>
+      <td><span style="font-weight:600;cursor:pointer;color:var(--accent)" onclick="openStudentPanel(${s.id},'staff')">${s.firstName} ${s.lastName}</span></td>
+      <td><span class="badge ${s.flow==='Outgoing'?'outgoing':'incoming'} dot">${s.flow}</span></td>
+      <td>${s.country}</td>
+      <td>${s.university}</td>
+      <td><span class="fac-badge fac-${s.faculty}">${s.faculty}</span></td>
+      <td>${s.type}</td>
+      <td><span style="font-family:var(--mono);font-size:11px">${s.start} – ${s.end}</span></td>
+      <td><span class="badge ${s.status} dot">${s.status.charAt(0).toUpperCase()+s.status.slice(1)}</span></td>
+      <td><span style="font-family:var(--mono)">${s.hours}h</span></td>
+      <td style="font-weight:600;color:var(--green)">€${s.grant.toLocaleString()}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="openStudentPanel(${s.id},'staff')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="showToast('Opening Google Drive...','success')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ============================================================
+// DOCUMENTS TABLE
+// ============================================================
+function renderDocs() {
+  const tbody = document.getElementById('docsBody');
+  if (!tbody) return;
+  tbody.innerHTML = STUDENTS.map(s => {
+    const checked = s.docs.filter(Boolean).length;
+    const total = s.docs.length;
+    const pct = Math.round(checked/total*100);
+    const missing = DOCS_LIST.filter((_,i) => !s.docs[i]);
+    let barClass = 'green';
+    if (pct < 80) barClass = 'yellow';
+    if (pct < 50) barClass = 'red';
+    return `
+      <tr>
+        <td><span style="font-weight:600;cursor:pointer;color:var(--accent)" onclick="openStudentPanel(${s.id},'student','documents')">${s.firstName} ${s.lastName}</span></td>
+        <td>${s.country}</td>
+        <td>${s.coordinator}</td>
+        <td><span style="font-family:var(--mono)">${checked} / ${total}</span></td>
+        <td style="min-width:120px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="progress-bar-wrap" style="flex:1"><div class="progress-bar ${barClass}" style="width:${pct}%"></div></div>
+            <span style="font-size:11px;font-weight:600;color:var(--${barClass})">${pct}%</span>
+          </div>
+        </td>
+        <td>${missing.length > 0 ? missing.map(m=>`<span style="font-size:10px;background:var(--red-light);color:var(--red);padding:1px 5px;border-radius:3px;margin:1px;display:inline-block">${m}</span>`).join('') : '<span style="color:var(--green);font-size:11px;font-weight:600">✓ Complete</span>'}</td>
+        <td>
+          <div style="display:flex;gap:4px">
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="openStudentPanel(${s.id},'student','documents')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="openContactModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function switchDocTab(type, btn) {
+  document.querySelectorAll('.tab-switch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ============================================================
+// UNIVERSITIES
+// ============================================================
+function renderUniversities(list) {
+  list = list || UNIVERSITIES;
+  const grid = document.getElementById('universitiesGrid');
+  if (!grid) return;
+  grid.innerHTML = list.map(u => `
+    <div class="uni-card" onclick="openUniPanel(${u.id})">
+      <div class="uni-card-header">
+        <div>
+          <div class="uni-flag">${u.flag}</div>
+        </div>
+        <div style="text-align:right">
+          <span class="badge ${u.iia==='Active'?'active':'upcoming'}">${u.iia}</span>
+        </div>
+      </div>
+      <div class="uni-name">${u.name}</div>
+      <div class="uni-country">${u.country}</div>
+      <div class="uni-faculties">
+        ${u.faculties.map(f=>`<span class="fac-badge fac-${f}">${f}</span>`).join('')}
+      </div>
+      <div class="uni-stats">
+        <div class="uni-stat"><div class="uni-stat-val">${u.mobilities}</div><div class="uni-stat-lbl">Mobilities</div></div>
+        <div class="uni-stat"><div class="uni-stat-val">${u.faculties.length}</div><div class="uni-stat-lbl">Faculties</div></div>
+        <div class="uni-stat"><div class="uni-stat-val">€${(u.budget/1000).toFixed(0)}k</div><div class="uni-stat-lbl">Budget</div></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text2)">
+        <span style="font-weight:500">STU PM:</span> ${u.stuPM}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterUniversities() { renderUniversities(); }
+
+// ============================================================
+// PARTNERS TABLE
+// ============================================================
+function renderPartners() {
+  const tbody = document.getElementById('partnersBody');
+  if (!tbody) return;
+  tbody.innerHTML = UNIVERSITIES.map(u => `
+    <tr>
+      <td>${u.flag} ${u.country}</td>
+      <td style="font-weight:600;cursor:pointer;color:var(--accent)" onclick="openUniPanel(${u.id})">${u.name}</td>
+      <td>${u.faculties.map(f=>`<span class="fac-badge fac-${f}">${f}</span>`).join('')}</td>
+      <td>${u.stuPM}</td>
+      <td><a href="mailto:${u.stuPMEmail}" style="color:var(--accent);font-size:12px">${u.stuPMEmail}</a></td>
+      <td>${u.partnerManager}</td>
+      <td><a href="mailto:${u.pmEmail}" style="color:var(--accent);font-size:12px">${u.pmEmail}</a></td>
+      <td>${u.coordinator}</td>
+      <td><button class="btn btn-ghost btn-sm">View</button></td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="openUniPanel(${u.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="showToast('University deleted','error')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ============================================================
+// BUDGET TABLE
+// ============================================================
+function renderBudget() {
+  const tbody = document.getElementById('budgetBody');
+  if (!tbody) return;
+  tbody.innerHTML = BUDGET_DATA.map(b => {
+    const pct = Math.round(b.used/b.budget*100);
+    let rowClass = 'green', statusText = '✓ Healthy', statusColor = 'var(--green)';
+    if (pct > 75) { rowClass='yellow'; statusText='⚠ Warning'; statusColor='var(--yellow)'; }
+    if (pct > 90) { rowClass='red'; statusText='✗ Critical'; statusColor='var(--red)'; }
+    return `
+      <tr class="budget-row ${rowClass}">
+        <td><span style="font-weight:600">${b.flag} ${b.country}</span></td>
+        <td>${b.flag}</td>
+        <td>€${b.budget.toLocaleString()}</td>
+        <td>€${b.used.toLocaleString()}</td>
+        <td>€${(b.budget-b.used).toLocaleString()}</td>
+        <td>${b.mobilities}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="progress-bar-wrap" style="width:80px"><div class="progress-bar ${rowClass}" style="width:${pct}%"></div></div>
+            <span style="font-weight:600;font-size:12px">${pct}%</span>
+          </div>
+        </td>
+        <td><span style="font-size:11px;font-weight:600;color:${statusColor}">${statusText}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// STUDENT PANEL
+// ============================================================
+function openStudentPanel(id, type, openTab) {
+  document.getElementById('panelOverlay').classList.add('open');
+  document.getElementById('studentPanel').classList.add('open');
+  if (openTab) {
+    switchTab(openTab, document.querySelector(`.panel-tab[onclick*="${openTab}"]`));
+  } else {
+    switchTab('general', document.querySelector('.panel-tab'));
+  }
+  renderDocChecklist();
+}
+
+function closePanel() {
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.getElementById('studentPanel').classList.remove('open');
+  document.getElementById('uniPanel').classList.remove('open');
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('#studentPanel .panel-tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#studentPanel .panel-tab').forEach(t=>t.classList.remove('active'));
+  const el = document.getElementById('tab-'+tab);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function renderDocChecklist() {
+  const container = document.getElementById('docChecklist');
+  if (!container) return;
+  const sampleDocs = STUDENTS[0].docs;
+  container.innerHTML = DOCS_LIST.map((doc, i) => `
+    <div class="doc-item ${sampleDocs[i]?'checked':''}" onclick="this.classList.toggle('checked')">
+      <div class="doc-check">
+        ${sampleDocs[i]?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>':''}
+      </div>
+      <span class="doc-name">${doc}</span>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// UNIVERSITY PANEL
+// ============================================================
+function openUniPanel(id) {
+  const u = UNIVERSITIES.find(u=>u.id===id) || UNIVERSITIES[0];
+  currentUniData = u;
+  document.getElementById('uniPanelFlag').textContent = u.flag;
+  document.getElementById('uniPanelName').textContent = u.name;
+  document.getElementById('uniPanelCountry').textContent = u.country;
+  document.getElementById('panelOverlay').classList.add('open');
+  document.getElementById('uniPanel').classList.add('open');
+  switchUniTab('general', document.querySelector('#uniPanel .panel-tab'));
+  renderUniFaculties(u);
+  renderUniMobilities(u);
+}
+
+function closeUniPanel() {
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.getElementById('uniPanel').classList.remove('open');
+}
+
+function switchUniTab(tab, btn) {
+  document.querySelectorAll('#uniPanel .panel-tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#uniPanel .panel-tab').forEach(t=>t.classList.remove('active'));
+  const el = document.getElementById('unitab-'+tab);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function renderUniFaculties(u) {
+  const badges = document.getElementById('uniFacBadges');
+  const toggle = document.getElementById('uniFacToggle');
+  const stats = document.getElementById('uniFacStats');
+  if (!badges) return;
+  
+  let assigned = [...(u.faculties||[])];
+  
+  function refreshBadges() {
+    badges.innerHTML = assigned.length ? assigned.map(f=>`<span class="fac-badge fac-${f}" style="font-size:12px;padding:4px 10px">${f}</span>`).join('') : '<span style="color:var(--text3);font-size:12px">No faculties assigned</span>';
+  }
+  refreshBadges();
+  
+  toggle.innerHTML = STU_FACULTIES.map(f => `
+    <div class="fac-badge fac-${f}" style="cursor:pointer;font-size:12px;padding:5px 12px;border:2px solid ${assigned.includes(f)?'currentColor':'transparent'};border-radius:6px" 
+      onclick="toggleFac('${f}',this)" data-fac="${f}">${f}</div>
+  `).join('');
+  
+  stats.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      ${assigned.map(f=>`
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+          <div style="margin-bottom:6px"><span class="fac-badge fac-${f}">${f}</span></div>
+          <div style="font-size:20px;font-weight:700">${Math.floor(Math.random()*8)+2}</div>
+          <div style="font-size:11px;color:var(--text2)">Mobilities</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">${Math.floor(Math.random()*6)} students · ${Math.floor(Math.random()*3)} staff</div>
+          <div style="font-size:11px;color:var(--green);margin-top:2px">€${(Math.floor(Math.random()*15)+5)}k budget</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function toggleFac(fac, el) {
+  const u = currentUniData;
+  if (!u.faculties) u.faculties = [];
+  const idx = u.faculties.indexOf(fac);
+  if (idx > -1) {
+    u.faculties.splice(idx, 1);
+    el.style.border = '2px solid transparent';
+  } else {
+    u.faculties.push(fac);
+    el.style.border = '2px solid currentColor';
+  }
+  renderUniFaculties(u);
+}
+
+function renderUniMobilities(u) {
+  const container = document.getElementById('uniMobilitiesList');
+  if (!container) return;
+  const uniStudents = STUDENTS.filter(s=>s.university.includes(u.name.split(' ')[0]));
+  const uniStaff = STAFF.filter(s=>s.university.includes(u.name.split(' ')[0]));
+  const all = [...uniStudents,...uniStaff];
+  if (!all.length) {
+    container.innerHTML = '<div class="empty-state"><p>No mobilities found for this university</p></div>';
+    return;
+  }
+  container.innerHTML = `
+    <div style="margin-bottom:10px;font-size:12px;color:var(--text2)">${all.length} connected mobility records</div>
+    ${all.map(p=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;cursor:pointer" onclick="closeUniPanel();openStudentPanel(${p.id})">
+        <div style="width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px;flex-shrink:0">${p.firstName[0]}${p.lastName[0]}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600">${p.firstName} ${p.lastName}</div>
+          <div style="font-size:11px;color:var(--text2)">${p.start} – ${p.end}</div>
+        </div>
+        <span class="badge ${p.status} dot">${p.status}</span>
+        <span style="font-size:12px;font-weight:600;color:var(--green)">€${p.grant.toLocaleString()}</span>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ============================================================
+// CONTACT MODAL
+// ============================================================
+function openContactModal() {
+  const modal = document.getElementById('contactModal');
+  modal.classList.add('open');
+  const container = document.getElementById('contactDocList');
+  const missingDocs = ['Insurance','Survey','Learning Agreement','Invitation','Visa','Final Report'];
+  container.innerHTML = missingDocs.map(d => `
+    <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all var(--transition)" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <input type="checkbox" style="accent-color:var(--accent)" checked> 
+      <span style="font-size:12px;font-weight:500">${d}</span>
+    </label>
+  `).join('');
+  document.getElementById('emailOutput').style.display = 'none';
+}
+
+function closeContactModal() {
+  document.getElementById('contactModal').classList.remove('open');
+}
+
+function generateEmail() {
+  const checkboxes = document.querySelectorAll('#contactDocList input[type=checkbox]:checked');
+  const selected = Array.from(checkboxes).map(cb=>cb.nextElementSibling.textContent.trim());
+  const email = `Dear Tomáš,
+
+I hope this email finds you well. I am writing regarding your Erasmus+ mobility at TU Munich.
+
+After reviewing your file, we noticed that the following documents are still missing:
+${selected.map(d=>`  • ${d}`).join('\n')}
+
+Please submit the required documents as soon as possible using the student portal or by sending them directly to this email address.
+
+If you have any questions or need assistance, do not hesitate to contact us.
+
+Best regards,
+Jana Kováčová
+International Relations Office
+Slovak University of Technology in Bratislava
+erasmus@stuba.sk | +421 2 5729 6000`;
+  
+  document.getElementById('emailText').value = email;
+  document.getElementById('emailOutput').style.display = 'block';
+  const subject = encodeURIComponent('Missing Erasmus+ Documents – Action Required');
+  const body = encodeURIComponent(email);
+  document.getElementById('gmailLink').href = `https://mail.google.com/mail/?view=cm&su=${subject}&body=${body}`;
+}
+
+function copyEmail() {
+  navigator.clipboard.writeText(document.getElementById('emailText').value);
+  showToast('Email copied to clipboard!','success');
+}
+
+// ============================================================
+// CALENDAR
+// ============================================================
+function renderCalendar() {
+  const container = document.getElementById('calendarWrap');
+  if (!container) return;
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const monthName = now.toLocaleString('default',{month:'long'});
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  
+  const calEvents = {
+    [now.getDate()]: [{text:'Departure: T.Novák',type:'departure'},{text:'Arrival: S.Müller',type:'arrival'}],
+    [(now.getDate()+3)%daysInMonth||1]: [{text:'Doc deadline: LA',type:'deadline'}],
+    [(now.getDate()+7)%daysInMonth||2]: [{text:'Departure: E.Horváth',type:'departure'}],
+    [(now.getDate()+12)%daysInMonth||5]: [{text:'Arrival: J.Blaho',type:'arrival'},{text:'Budget deadline',type:'deadline'}],
+    [(now.getDate()+18)%daysInMonth||8]: [{text:'Departure: M.Tóth',type:'departure'}],
+  };
+  
+  let html = `
+    <div class="cal-header">
+      <div class="cal-nav">
+        <button class="btn btn-ghost btn-sm btn-icon">‹</button>
+        <div class="cal-month">${monthName} ${year}</div>
+        <button class="btn btn-ghost btn-sm btn-icon">›</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="display:flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;background:var(--red);border-radius:2px;display:inline-block"></span>Departure</span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;background:var(--green);border-radius:2px;display:inline-block"></span>Arrival</span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:11px"><span style="width:8px;height:8px;background:var(--yellow);border-radius:2px;display:inline-block"></span>Deadline</span>
+      </div>
+    </div>
+    <div class="cal-grid">
+      ${days.map(d=>`<div class="cal-day-name">${d}</div>`).join('')}
+    </div>
+    <div class="cal-days">
+  `;
+  
+  for (let i=0;i<firstDay;i++) {
+    html += `<div class="cal-day other-month"><div class="cal-date">${daysInMonth-firstDay+i+1}</div></div>`;
+  }
+  for (let d=1;d<=daysInMonth;d++) {
+    const isToday = d === now.getDate();
+    const events = calEvents[d] || [];
+    html += `
+      <div class="cal-day${isToday?' today':''}">
+        <div class="cal-date">${d}</div>
+        ${events.map(e=>`<div class="cal-event ${e.type}">${e.text}</div>`).join('')}
+      </div>
+    `;
+  }
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ============================================================
+// TASKS
+// ============================================================
+let tasks = [...TASKS_DATA];
+
+function renderTasks() {
+  const container = document.getElementById('taskColumns');
+  if (!container) return;
+  const cols = {todo:'To Do',inprogress:'In Progress',done:'Completed'};
+  const colColors = {todo:'var(--yellow)',inprogress:'var(--accent)',done:'var(--green)'};
+  container.innerHTML = Object.entries(cols).map(([key,label]) => {
+    const colTasks = tasks.filter(t=>t.status===key);
+    return `
+      <div class="task-col">
+        <div class="task-col-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:8px;height:8px;border-radius:50%;background:${colColors[key]}"></div>
+            <div class="task-col-title">${label}</div>
+          </div>
+          <span class="task-count">${colTasks.length}</span>
+        </div>
+        ${colTasks.map(t=>`
+          <div class="task-card">
+            <div class="task-title">${t.title}</div>
+            <div class="task-meta">
+              <span class="task-assignee">${t.assignee.split(' ')[0]}</span>
+              <span class="task-due"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${t.due}</span>
+              ${t.priority==='High'?`<span style="font-size:10px;background:var(--red-light);color:var(--red);padding:2px 5px;border-radius:3px;font-weight:600">High</span>`:''}
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:6px;justify-content:center" onclick="openTaskModal()">
+          + Add task
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function openTaskModal() {
+  document.getElementById('taskModal').classList.add('open');
+}
+
+function closeTaskModal() {
+  document.getElementById('taskModal').classList.remove('open');
+}
+
+function addTask() {
+  const title = document.getElementById('taskTitle').value;
+  if (!title.trim()) { showToast('Please enter a task title','error'); return; }
+  tasks.push({
+    id: Date.now(),
+    title,
+    assignee: document.getElementById('taskAssignee').value,
+    due: document.getElementById('taskDue').value || '2025-12-31',
+    priority: document.getElementById('taskPriority').value,
+    status: document.getElementById('taskStatus').value,
+  });
+  closeTaskModal();
+  renderTasks();
+  showToast('Task created!','success');
+  document.getElementById('taskTitle').value='';
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+function renderNotifications() {
+  const container = document.getElementById('notificationsContainer');
+  if (!container) return;
+  container.innerHTML = NOTIFICATIONS_DATA.map(n=>`
+    <div class="alert-card ${n.type}" style="margin-bottom:10px">
+      <div class="alert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="alert-text" style="flex:1">
+        <strong>${n.title}</strong>
+        <span>${n.desc}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:end;gap:6px">
+        <span style="font-size:10px;background:var(--surface2);padding:2px 6px;border-radius:10px;color:var(--text2)">${n.category}</span>
+        <button class="btn btn-ghost btn-sm" onclick="this.closest('.alert-card').remove()">Dismiss</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// GLOBAL SEARCH
+// ============================================================
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('globalSearchInput').focus(), 100);
+}
+
+function closeSearch(e) {
+  if (!e || e.target === document.getElementById('searchOverlay')) {
+    document.getElementById('searchOverlay').classList.remove('open');
+  }
+}
+
+function doGlobalSearch(q) {
+  const container = document.getElementById('searchResults');
+  if (!q.trim()) { container.innerHTML=''; return; }
+  q = q.toLowerCase();
+  const results = [];
+  STUDENTS.filter(s=>`${s.firstName} ${s.lastName}`.toLowerCase().includes(q)||s.university.toLowerCase().includes(q)||s.country.toLowerCase().includes(q)).forEach(s=>{
+    results.push({type:'student',name:`${s.firstName} ${s.lastName}`,meta:`${s.country} · ${s.university}`,id:s.id});
+  });
+  STAFF.filter(s=>`${s.firstName} ${s.lastName}`.toLowerCase().includes(q)).forEach(s=>{
+    results.push({type:'staff',name:`${s.firstName} ${s.lastName}`,meta:`${s.country} · ${s.university}`,id:s.id});
+  });
+  UNIVERSITIES.filter(u=>u.name.toLowerCase().includes(q)||u.country.toLowerCase().includes(q)).forEach(u=>{
+    results.push({type:'university',name:u.name,meta:`${u.flag} ${u.country} · ${u.mobilities} mobilities`,id:u.id});
+  });
+  
+  if (!results.length) {
+    container.innerHTML='<div class="empty-state" style="padding:20px"><p>No results found</p></div>';
+    return;
+  }
+  
+  const icons = {
+    student:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>`,
+    staff:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    university:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`
+  };
+  
+  let html = '';
+  const categories = [...new Set(results.map(r=>r.type))];
+  categories.forEach(cat => {
+    html += `<div class="search-category">${cat.charAt(0).toUpperCase()+cat.slice(1)}s</div>`;
+    results.filter(r=>r.type===cat).forEach(r=>{
+      html += `
+        <div class="search-result-item" onclick="closeSearch();${r.type==='university'?`openUniPanel(${r.id})`:`openStudentPanel(${r.id},'${r.type}')`}">
+          <div class="search-result-icon">${icons[r.type]||''}</div>
+          <div><div class="search-result-name">${r.name}</div><div class="search-result-meta">${r.meta}</div></div>
+        </div>
+      `;
+    });
+  });
+  container.innerHTML = html;
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type='success') {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const icons = {
+    success:`<svg style="width:16px;height:16px;color:var(--green)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+    error:`<svg style="width:16px;height:16px;color:var(--red)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`
+  };
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `${icons[type]||''}<span>${msg}</span>`;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3000);
+}
+
+// ============================================================
+// BACKUP
+// ============================================================
+function createBackup() {
+  const data = {students:STUDENTS,staff:STAFF,universities:UNIVERSITIES,tasks,timestamp:new Date().toISOString()};
+  localStorage.setItem('erasmus_backup', JSON.stringify(data));
+  showToast('Backup created successfully!','success');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  // Load saved theme/lang
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const savedLang = localStorage.getItem('lang') || 'en';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  currentTheme = savedTheme;
+  currentLang = savedLang;
+  
+  applyLang();
+  renderStudents();
+  renderStaff();
+  renderMobilities();
+  renderUniversities();
+  renderPartners();
+  renderBudget();
+  renderDocs();
+  renderDocChecklist();
+  
+  setTimeout(initMainChart, 200);
+  
+  // Keyboard shortcut for search
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+    if (e.key === 'Escape') {
+      closeSearch();
+      closePanel();
+      closeContactModal();
+      closeTaskModal();
+    }
+  });
+}
+
+init();
+</script>
+</body>
+</html>

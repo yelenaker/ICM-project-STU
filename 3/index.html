@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STU Erasmus ICM Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="light">
+
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-area">
+      <div class="logo-box">STU</div>
+      <div>
+        <h2>ICM Mobility</h2>
+        <p>Enterprise Dashboard</p>
+      </div>
+    </div>
+
+    <div class="sidebar-scroll">
+
+      <div class="nav-section">
+        <p class="nav-title">MAIN</p>
+
+        <button class="nav-item active" data-page="dashboard">
+          <span>📊</span>
+          <span data-en="Dashboard" data-sk="Dashboard">Dashboard</span>
+        </button>
+
+        <div class="nav-group">
+          <div class="nav-group-title">
+            <span>🎓</span>
+            <span data-en="Students" data-sk="Študenti">Students</span>
+          </div>
+
+          <button class="sub-nav" data-page="students2023">2023</button>
+          <button class="sub-nav" data-page="students2024">2024</button>
+          <button class="sub-nav" data-page="students2025">2025</button>
+          <button class="sub-nav" data-page="students2026">2026</button>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">
+            <span>👨‍🏫</span>
+            <span data-en="Staff" data-sk="Zamestnanci">Staff</span>
+          </div>
+
+          <button class="sub-nav" data-page="staff2023">2023</button>
+          <button class="sub-nav" data-page="staff2024">2024</button>
+          <button class="sub-nav" data-page="staff2025">2025</button>
+          <button class="sub-nav" data-page="staff2026">2026</button>
+        </div>
+
+        <button class="nav-item" data-page="study">
+          <span>📚</span>
+          <span data-en="Study Mobilities" data-sk="Študijné mobility">Study Mobilities</span>
+        </button>
+
+        <button class="nav-item" data-page="teaching">
+          <span>🏫</span>
+          <span data-en="Teaching & Training" data-sk="Výučba a školenia">Teaching & Training</span>
+        </button>
+
+        <button class="nav-item" data-page="documents">
+          <span>📁</span>
+          <span data-en="Documents" data-sk="Dokumenty">Documents</span>
+        </button>
+
+        <button class="nav-item" data-page="budget">
+          <span>💶</span>
+          <span data-en="Budget Overview" data-sk="Rozpočet">Budget Overview</span>
+        </button>
+
+        <button class="nav-item" data-page="reports">
+          <span>📈</span>
+          <span data-en="Reports" data-sk="Reporty">Reports</span>
+        </button>
+
+        <button class="nav-item" data-page="managers">
+          <span>🧑‍💼</span>
+          <span data-en="Project Managers" data-sk="Projektoví manažéri">Project Managers</span>
+        </button>
+
+        <button class="nav-item" data-page="coordinators">
+          <span>🧭</span>
+          <span data-en="Coordinators" data-sk="Koordinátori">Coordinators</span>
+        </button>
+
+        <button class="nav-item" data-page="cancelled">
+          <span>⚠️</span>
+          <span data-en="Cancelled Mobilities" data-sk="Zrušené mobility">Cancelled Mobilities</span>
+        </button>
+
+        <button class="nav-item" data-page="notes">
+          <span>📝</span>
+          <span data-en="Notes" data-sk="Poznámky">Notes</span>
+        </button>
+
+        <button class="nav-item" data-page="settings">
+          <span>⚙️</span>
+          <span data-en="Settings" data-sk="Nastavenia">Settings</span>
+        </button>
+
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-toggle" id="mobileToggle">☰</button>
+
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" placeholder="Search mobilities, universities, coordinators..." id="searchInput">
+        </div>
+      </div>
+
+      <div class="topbar-right">
+
+        <button class="top-btn" id="langToggle">
+          🌐 EN/SK
+        </button>
+
+        <button class="top-btn" id="themeToggle">
+          🌙
+        </button>
+
+        <div class="notification-wrapper">
+          <button class="top-btn" id="notifBtn">
+            🔔
+            <span class="notif-dot"></span>
+          </button>
+
+          <div class="notifications-dropdown" id="notifDropdown">
+            <div class="notif-item urgent">
+              Missing visa documents for Tanzania mobilities
+            </div>
+
+            <div class="notif-item">
+              4 reimbursement forms pending approval
+            </div>
+
+            <div class="notif-item">
+              Botswana mobilities start next week
+            </div>
+
+            <div class="notif-item">
+              Accommodation confirmation missing for 3 students
+            </div>
+
+            <div class="notif-item cancel">
+              Ivan Špánik Laos mobility cancelled
+            </div>
+          </div>
+        </div>
+
+        <div class="profile">
+          <div class="avatar">JM</div>
+
+          <div class="profile-info">
+            <h4>Joel Manager</h4>
+            <p>International Office</p>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content-wrapper">
+
+      <!-- DASHBOARD -->
+      <section class="page active-page" id="dashboard">
+
+        <div class="warning-banner">
+          <div class="warning-item">⚠️ 7 missing visas</div>
+          <div class="warning-item">⚠️ 4 reimbursements overdue</div>
+          <div class="warning-item">⚠️ 5 mobilities start next week</div>
+          <div class="warning-item danger">⚠️ 5 cancelled mobilities</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <p>Total Mobilities</p>
+              <h2>134</h2>
+            </div>
+            <span>🌍</span>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>Total Budget</p>
+              <h2>€483,909</h2>
+            </div>
+            <span>💶</span>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>Budget Used</p>
+              <h2>91.15%</h2>
+            </div>
+            <span>📈</span>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>Countries</p>
+              <h2>11</h2>
+            </div>
+            <span>🧭</span>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <div class="card large-card">
+            <div class="card-header">
+              <h3>Mobility Overview</h3>
+
+              <select>
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+              </select>
+            </div>
+
+            <div class="chart-area">
+              <div class="bar" style="height: 75%">
+                <span>Bosnia</span>
+              </div>
+
+              <div class="bar" style="height: 90%">
+                <span>Ukraine</span>
+              </div>
+
+              <div class="bar" style="height: 50%">
+                <span>Bhutan</span>
+              </div>
+
+              <div class="bar" style="height: 65%">
+                <span>Laos</span>
+              </div>
+
+              <div class="bar" style="height: 70%">
+                <span>Africa</span>
+              </div>
+
+              <div class="bar" style="height: 55%">
+                <span>Iran</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Budget Usage</h3>
+            </div>
+
+            <div class="budget-progress">
+              <div class="budget-item">
+                <div>
+                  <h4>Ukraine</h4>
+                  <p>€100,707 used</p>
+                </div>
+
+                <div class="progress">
+                  <div style="width:96%"></div>
+                </div>
+              </div>
+
+              <div class="budget-item">
+                <div>
+                  <h4>Bhutan</h4>
+                  <p>€22,520 used</p>
+                </div>
+
+                <div class="progress">
+                  <div style="width:99%"></div>
+                </div>
+              </div>
+
+              <div class="budget-item">
+                <div>
+                  <h4>Tanzania</h4>
+                  <p>€17,808 used</p>
+                </div>
+
+                <div class="progress red">
+                  <div style="width:100%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Activity</h3>
+            </div>
+
+            <div class="activity-feed">
+
+              <div class="activity-item">
+                <div class="activity-dot green"></div>
+                <div>
+                  <h4>Learning Agreement approved</h4>
+                  <p>Tshering Tshokey • Bhutan</p>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-dot orange"></div>
+                <div>
+                  <h4>Visa document requested</h4>
+                  <p>Colin Lee • South Africa</p>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-dot red"></div>
+                <div>
+                  <h4>Mobility cancelled</h4>
+                  <p>Ivan Špánik • Laos</p>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-dot blue"></div>
+                <div>
+                  <h4>Accommodation booked</h4>
+                  <p>Mariia Honcharuk • Ukraine</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Coordinator Summary</h3>
+            </div>
+
+            <div class="coord-summary">
+              <div class="coord-line">
+                <span>Lucia Špánik</span>
+                <strong>42 mobilities</strong>
+              </div>
+
+              <div class="coord-line">
+                <span>Tereza Husár</span>
+                <strong>38 mobilities</strong>
+              </div>
+
+              <div class="coord-line">
+                <span>Pavle Dakić</span>
+                <strong>16 mobilities</strong>
+              </div>
+
+              <div class="coord-line">
+                <span>Oliver Moravčík</span>
+                <strong>9 mobilities</strong>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card full-width">
+          <div class="card-header">
+            <h3>Mobility Overview Table</h3>
+
+            <div class="table-actions">
+              <select>
+                <option>All Countries</option>
+                <option>Ukraine</option>
+                <option>Botswana</option>
+                <option>Bhutan</option>
+              </select>
+
+              <select>
+                <option>All Statuses</option>
+                <option>Approved</option>
+                <option>Pending</option>
+                <option>Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>University</th>
+              <th>Type</th>
+              <th>Coordinator</th>
+              <th>Status</th>
+              <th>Grant</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr onclick="openPanel('Tshering Tshokey')">
+              <td>Tshering Tshokey</td>
+              <td>Bhutan</td>
+              <td>Sherubtse College</td>
+              <td>Study</td>
+              <td>Lucia Špánik</td>
+              <td><span class="badge success">Approved</span></td>
+              <td>€3,220</td>
+            </tr>
+
+            <tr onclick="openPanel('Mesha Mbisana')">
+              <td>Mesha Mbisana</td>
+              <td>Botswana</td>
+              <td>University of Botswana</td>
+              <td>Study</td>
+              <td>Lucia Špánik</td>
+              <td><span class="badge warning">Pending</span></td>
+              <td>€3,900</td>
+            </tr>
+
+            <tr onclick="openPanel('Olena Verenych')">
+              <td>Olena Verenych</td>
+              <td>Ukraine</td>
+              <td>KNUCA</td>
+              <td>Teaching</td>
+              <td>Tereza Husár</td>
+              <td><span class="badge success">Completed</span></td>
+              <td>€1,300</td>
+            </tr>
+
+            <tr onclick="openPanel('Ivan Špánik')">
+              <td>Ivan Špánik</td>
+              <td>Laos</td>
+              <td>National University of Laos</td>
+              <td>Training</td>
+              <td>Lucia Špánik</td>
+              <td><span class="badge danger">Cancelled</span></td>
+              <td>€4,146</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- STUDY -->
+      <section class="page" id="study">
+        <div class="page-header">
+          <h1>Study Mobilities</h1>
+          <p>Long-term and short-term student mobilities</p>
+        </div>
+
+        <div class="filters">
+          <select><option>Country</option></select>
+          <select><option>Faculty</option></select>
+          <select><option>IN / OUT</option></select>
+          <select><option>Coordinator</option></select>
+          <select><option>University</option></select>
+        </div>
+
+        <div class="card full-width">
+          <table class="data-table">
+            <thead>
+            <tr>
+              <th>Student</th>
+              <th>Country</th>
+              <th>University</th>
+              <th>Duration</th>
+              <th>Field</th>
+              <th>Grant</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr onclick="openPanel('Alevtyna Liaskovska')">
+              <td>Alevtyna Liaskovska</td>
+              <td>Ukraine</td>
+              <td>KNUCA</td>
+              <td>5 months</td>
+              <td>Urban Planning</td>
+              <td>€5,570</td>
+              <td><span class="badge success">Completed</span></td>
+            </tr>
+
+            <tr onclick="openPanel('Tatenda Blessing Runganga')">
+              <td>Tatenda Blessing Runganga</td>
+              <td>South Africa</td>
+              <td>UWC</td>
+              <td>20 days</td>
+              <td>Information Systems</td>
+              <td>€3,054</td>
+              <td><span class="badge success">Active</span></td>
+            </tr>
+
+            <tr onclick="openPanel('Ekene Joel Ibeziako')">
+              <td>Ekene Joel Ibeziako</td>
+              <td>Nigeria</td>
+              <td>FUTO</td>
+              <td>2 months</td>
+              <td>Civil Engineering</td>
+              <td>€2,220</td>
+              <td><span class="badge warning">Pending Recognition</span></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TEACHING -->
+      <section class="page" id="teaching">
+        <div class="page-header">
+          <h1>Teaching & Training</h1>
+          <p>Academic staff and administrative mobilities</p>
+        </div>
+
+        <div class="card full-width">
+          <table class="data-table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Flow</th>
+              <th>Country</th>
+              <th>University</th>
+              <th>Type</th>
+              <th>Dates</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr onclick="openPanel('Pavle Dakić')">
+              <td>Pavle Dakić</td>
+              <td>OUT</td>
+              <td>Bosnia</td>
+              <td>Apeiron</td>
+              <td>Teaching</td>
+              <td>17.3.2026 - 26.3.2026</td>
+              <td><span class="badge success">Approved</span></td>
+            </tr>
+
+            <tr onclick="openPanel('Osden Jokonya')">
+              <td>Osden Jokonya</td>
+              <td>IN</td>
+              <td>South Africa</td>
+              <td>UWC</td>
+              <td>Teaching</td>
+              <td>15.6.2026 - 28.6.2026</td>
+              <td><span class="badge warning">Pending Docs</span></td>
+            </tr>
+
+            <tr onclick="openPanel('Ivan Špánik')">
+              <td>Ivan Špánik</td>
+              <td>OUT</td>
+              <td>Tanzania</td>
+              <td>MUST</td>
+              <td>Training</td>
+              <td>9.2.2026 - 18.2.2026</td>
+              <td><span class="badge success">Approved</span></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- DOCUMENTS -->
+      <section class="page" id="documents">
+        <div class="page-header">
+          <h1>Document Tracking</h1>
+          <p>Student & Staff document overview</p>
+        </div>
+
+        <div class="documents-grid">
+
+          <div class="doc-card">
+            <h3>Learning Agreement</h3>
+            <span class="badge success">Completed</span>
+            <button>Open Folder</button>
+          </div>
+
+          <div class="doc-card">
+            <h3>Insurance</h3>
+            <span class="badge warning">Missing</span>
+            <button>Send Reminder</button>
+          </div>
+
+          <div class="doc-card">
+            <h3>Visa</h3>
+            <span class="badge danger">Urgent</span>
+            <button>Upload</button>
+          </div>
+
+          <div class="doc-card">
+            <h3>Boarding Pass</h3>
+            <span class="badge success">Uploaded</span>
+            <button>Download PDF</button>
+          </div>
+
+          <div class="doc-card">
+            <h3>Grant Agreement</h3>
+            <span class="badge success">Signed</span>
+            <button>Open Folder</button>
+          </div>
+
+          <div class="doc-card">
+            <h3>Recognition</h3>
+            <span class="badge warning">Ongoing</span>
+            <button>Send Reminder</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- BUDGET -->
+      <section class="page" id="budget">
+        <div class="page-header">
+          <h1>Budget Overview</h1>
+          <p>GA, OS and inclusion tracking</p>
+        </div>
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <div>
+              <p>Total in GA</p>
+              <h2>€384,909</h2>
+            </div>
+            <span>💰</span>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>OS Budget</p>
+              <h2>€67,000</h2>
+            </div>
+            <span>🏛️</span>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <p>Inclusion</p>
+              <h2>€32,000</h2>
+            </div>
+            <span>➕</span>
+          </div>
+
+        </div>
+
+        <div class="card full-width">
+          <table class="data-table">
+            <thead>
+            <tr>
+              <th>Country</th>
+              <th>Budget</th>
+              <th>Used</th>
+              <th>% Used</th>
+              <th>Mobilities</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr onclick="openPanel('Ukraine Budget')">
+              <td>Ukraine</td>
+              <td>€104,415</td>
+              <td>€100,707</td>
+              <td>96.45%</td>
+              <td>33</td>
+            </tr>
+
+            <tr onclick="openPanel('Bhutan Budget')">
+              <td>Bhutan</td>
+              <td>€22,720</td>
+              <td>€22,520</td>
+              <td>99.12%</td>
+              <td>10</td>
+            </tr>
+
+            <tr onclick="openPanel('Tanzania Budget')">
+              <td>Tanzania</td>
+              <td>€14,760</td>
+              <td>€17,808</td>
+              <td>120.65%</td>
+              <td>6</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- REPORTS -->
+      <section class="page" id="reports">
+        <div class="page-header">
+          <h1>Reports</h1>
+          <p>Operational analytics and exports</p>
+        </div>
+
+        <div class="report-grid">
+
+          <div class="report-card">
+            <h3>Outgoing Staff Analysis</h3>
+            <p>2023-2026 mobility comparison</p>
+            <button>Generate Report</button>
+          </div>
+
+          <div class="report-card">
+            <h3>Budget Efficiency</h3>
+            <p>Grant utilization overview</p>
+            <button>Export PDF</button>
+          </div>
+
+          <div class="report-card">
+            <h3>Recognition Delays</h3>
+            <p>Pending AIS recognition cases</p>
+            <button>Open Analysis</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- MANAGERS -->
+      <section class="page" id="managers">
+        <div class="page-header">
+          <h1>Project Managers</h1>
+          <p>Partner university management overview</p>
+        </div>
+
+        <div class="manager-grid">
+
+          <div class="manager-card">
+            <div class="manager-top">
+              <div class="avatar large">LM</div>
+
+              <div>
+                <h3>Lucia Miadoková</h3>
+                <p>REC Project Manager</p>
+              </div>
+            </div>
+
+            <div class="manager-body">
+              <div class="manager-line">
+                <span>Country</span>
+                <strong>Bosnia</strong>
+              </div>
+
+              <div class="manager-line">
+                <span>University</span>
+                <strong>Apeiron</strong>
+              </div>
+
+              <div class="manager-line">
+                <span>CRZ</span>
+                <strong class="green-text">OK</strong>
+              </div>
+
+              <div class="manager-line">
+                <span>Project Status</span>
+                <span class="badge success">Delivered</span>
+              </div>
+
+              <div class="manager-line">
+                <span>Reminder</span>
+                <strong>Active</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="manager-card">
+            <div class="manager-top">
+              <div class="avatar large">TH</div>
+
+              <div>
+                <h3>Tereza Hubáčková</h3>
+                <p>UM / FIIT Projects</p>
+              </div>
+            </div>
+
+            <div class="manager-body">
+              <div class="manager-line">
+                <span>Country</span>
+                <strong>Ukraine</strong>
+              </div>
+
+              <div class="manager-line">
+                <span>University</span>
+                <strong>KNUCA</strong>
+              </div>
+
+              <div class="manager-line">
+                <span>AIS</span>
+                <strong class="green-text">Uploaded</strong>
+              </div>
+
+              <div class="manager-line">
+                <span>Project Status</span>
+                <span class="badge warning">CRZ Exhausted</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- COORDINATORS -->
+      <section class="page" id="coordinators">
+        <div class="page-header">
+          <h1>Coordinators</h1>
+          <p>Faculty and mobility coordinators</p>
+        </div>
+
+        <div class="coord-grid">
+
+          <div class="coord-card">
+            <div class="coord-photo"></div>
+
+            <h3>Lucia Špánik</h3>
+
+            <p>FCHPT Coordinator</p>
+
+            <div class="coord-stats">
+              <div>
+                <strong>42</strong>
+                <span>Mobilities</span>
+              </div>
+
+              <div>
+                <strong>7</strong>
+                <span>Countries</span>
+              </div>
+            </div>
+
+            <div class="coord-details">
+              <p>Bhutan, Laos, Botswana, Zambia</p>
+              <p>ivan.spanik@stuba.sk</p>
+            </div>
+          </div>
+
+          <div class="coord-card">
+            <div class="coord-photo"></div>
+
+            <h3>Tereza Husár</h3>
+
+            <p>UM Coordinator</p>
+
+            <div class="coord-stats">
+              <div>
+                <strong>38</strong>
+                <span>Mobilities</span>
+              </div>
+
+              <div>
+                <strong>4</strong>
+                <span>Countries</span>
+              </div>
+            </div>
+
+            <div class="coord-details">
+              <p>Ukraine, Nigeria</p>
+              <p>milan.husar@stuba.sk</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CANCELLED -->
+      <section class="page" id="cancelled">
+
+        <div class="page-header">
+          <h1>Cancelled Mobilities</h1>
+          <p>Critical mobility cancellations and issues</p>
+        </div>
+
+        <div class="cancelled-alert">
+          ⚠️ 5 mobilities cancelled in current cycle
+        </div>
+
+        <div class="card full-width">
+          <table class="data-table danger-table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>University</th>
+              <th>Reason</th>
+              <th>Coordinator</th>
+              <th>Grant</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr onclick="openPanel('Cancelled Ivan Spanik')">
+              <td>Ivan Špánik</td>
+              <td>Laos</td>
+              <td>National University of Laos</td>
+              <td>Mobility cancelled</td>
+              <td>Lucia</td>
+              <td>€4,146</td>
+            </tr>
+
+            <tr onclick="openPanel('Cancelled Chishiya Mulenga')">
+              <td>Chishiya Mulenga</td>
+              <td>Zambia</td>
+              <td>University of Zambia</td>
+              <td>Project termination</td>
+              <td>Lucia</td>
+              <td>€4,020</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- NOTES -->
+      <section class="page" id="notes">
+
+        <div class="page-header">
+          <h1>Notes & History</h1>
+          <p>Timeline and coordinator comments</p>
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-card">
+              <h3>Recognition ongoing</h3>
+              <p>Recognition is ongoing at partner institution</p>
+              <span>23.4.2026 • Lucia</span>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-card">
+              <h3>Visa reminder sent</h3>
+              <p>Reminder email sent for Tanzania participants</p>
+              <span>29.4.2026 • Tereza</span>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-card">
+              <h3>Accommodation issue</h3>
+              <p>Mladá Garda room confirmation delayed</p>
+              <span>10.5.2026 • Lucia</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="page" id="settings">
+
+        <div class="page-header">
+          <h1>Settings</h1>
+          <p>System configuration and permissions</p>
+        </div>
+
+        <div class="settings-grid">
+
+          <div class="settings-card">
+            <h3>Language</h3>
+
+            <label class="switch-line">
+              English
+              <input type="checkbox">
+            </label>
+
+            <label class="switch-line">
+              Slovak
+              <input type="checkbox" checked>
+            </label>
+          </div>
+
+          <div class="settings-card">
+            <h3>Notifications</h3>
+
+            <label class="switch-line">
+              Visa alerts
+              <input type="checkbox" checked>
+            </label>
+
+            <label class="switch-line">
+              Reimbursement reminders
+              <input type="checkbox" checked>
+            </label>
+
+            <label class="switch-line">
+              Budget alerts
+              <input type="checkbox">
+            </label>
+          </div>
+
+          <div class="settings-card">
+            <h3>Export</h3>
+
+            <button class="settings-btn">Export Excel</button>
+            <button class="settings-btn">Export PDF</button>
+            <button class="settings-btn">Generate Report</button>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- EXTRA YEAR PAGES -->
+      <section class="page" id="students2023">
+        <div class="simple-year-page">
+          <h1>Students 2023</h1>
+          <p>Ukraine, Botswana, Bhutan, Bosnia student mobilities.</p>
+        </div>
+      </section>
+
+      <section class="page" id="students2024">
+        <div class="simple-year-page">
+          <h1>Students 2024</h1>
+        </div>
+      </section>
+
+      <section class="page" id="students2025">
+        <div class="simple-year-page">
+          <h1>Students 2025</h1>
+        </div>
+      </section>
+
+      <section class="page" id="students2026">
+        <div class="simple-year-page">
+          <h1>Students 2026</h1>
+        </div>
+      </section>
+
+      <section class="page" id="staff2023">
+        <div class="simple-year-page">
+          <h1>Staff 2023</h1>
+        </div>
+      </section>
+
+      <section class="page" id="staff2024">
+        <div class="simple-year-page">
+          <h1>Staff 2024</h1>
+        </div>
+      </section>
+
+      <section class="page" id="staff2025">
+        <div class="simple-year-page">
+          <h1>Staff 2025</h1>
+        </div>
+      </section>
+
+      <section class="page" id="staff2026">
+        <div class="simple-year-page">
+          <h1>Staff 2026</h1>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closePanel()"></div>
+
+<aside class="detail-panel" id="detailPanel">
+
+  <div class="detail-header">
+    <div>
+      <h2 id="panelTitle">Mobility Detail</h2>
+      <p>International Mobility Record</p>
+    </div>
+
+    <button onclick="closePanel()">✕</button>
+  </div>
+
+  <div class="detail-content">
+
+    <div class="detail-section">
+      <h3>Status</h3>
+
+      <div class="status-row">
+        <span class="badge success">Approved</span>
+        <span class="badge warning">Recognition Pending</span>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Personal Information</h3>
+
+      <div class="detail-grid">
+        <div>
+          <label>Nationality</label>
+          <p>Ukrainian</p>
+        </div>
+
+        <div>
+          <label>Gender</label>
+          <p>Female</p>
+        </div>
+
+        <div>
+          <label>Email</label>
+          <p>mobility@university.edu</p>
+        </div>
+
+        <div>
+          <label>Passport</label>
+          <p>FE805121</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Mobility Information</h3>
+
+      <div class="detail-grid">
+        <div>
+          <label>University</label>
+          <p>KYIV NATIONAL UNIVERSITY</p>
+        </div>
+
+        <div>
+          <label>Type</label>
+          <p>Study Mobility</p>
+        </div>
+
+        <div>
+          <label>Dates</label>
+          <p>01.02.2026 - 30.06.2026</p>
+        </div>
+
+        <div>
+          <label>Grant</label>
+          <p>€5,570</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Documents</h3>
+
+      <div class="doc-status-list">
+
+        <div class="doc-status">
+          <span>📄 Learning Agreement</span>
+          <span class="badge success">Completed</span>
+        </div>
+
+        <div class="doc-status">
+          <span>🛂 Visa</span>
+          <span class="badge warning">Pending</span>
+        </div>
+
+        <div class="doc-status">
+          <span>🏥 Insurance</span>
+          <span class="badge success">Uploaded</span>
+        </div>
+
+        <div class="doc-status">
+          <span>🏨 Accommodation</span>
+          <span class="badge success">Confirmed</span>
+        </div>
+
+      </div>
+
+      <div class="panel-buttons">
+        <button>Open Google Drive Folder</button>
+        <button>Download PDF</button>
+        <button>Send Reminder</button>
+      </div>
+
+    </div>
+
+    <div class="detail-section">
+      <h3>Payment Information</h3>
+
+      <div class="detail-grid">
+        <div>
+          <label>Travel Grant</label>
+          <p>€320</p>
+        </div>
+
+        <div>
+          <label>Individual Support</label>
+          <p>€4,000</p>
+        </div>
+
+        <div>
+          <label>Reimbursement</label>
+          <p>Pending</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>History Log</h3>
+
+      <div class="history-log">
+        <div class="history-item">
+          <strong>Visa reminder sent</strong>
+          <span>29.4.2026</span>
+        </div>
+
+        <div class="history-item">
+          <strong>Accommodation approved</strong>
+          <span>15.4.2026</span>
+        </div>
+
+        <div class="history-item">
+          <strong>Learning Agreement signed</strong>
+          <span>10.4.2026</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</aside>
+
+<script src="script.js"></script>
+</body>
+</html>

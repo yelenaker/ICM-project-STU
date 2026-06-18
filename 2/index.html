@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Erasmus / ICM Mobility Dashboard</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+            <div class="logo">
+                <div class="logo-icon">E</div>
+                <div>
+                    <h2>Erasmus ICM</h2>
+                    <p>Mobility Dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll">
+
+            <div class="sidebar-section">
+
+                <div class="menu-item active">
+                    <span>📊</span>
+                    Dashboard
+                </div>
+
+            </div>
+
+            <div class="sidebar-title">Students</div>
+
+            <div class="submenu">
+
+                <div class="menu-item">
+                    <span>🎓</span>
+                    2023
+                </div>
+
+                <div class="menu-item">
+                    <span>🎓</span>
+                    2024
+                </div>
+
+                <div class="menu-item active-sub">
+                    <span>🎓</span>
+                    2025
+                </div>
+
+                <div class="menu-item">
+                    <span>🎓</span>
+                    2026
+                </div>
+
+            </div>
+
+            <div class="sidebar-title">Staff</div>
+
+            <div class="submenu">
+
+                <div class="menu-item">
+                    <span>👨‍🏫</span>
+                    2023
+                </div>
+
+                <div class="menu-item">
+                    <span>👨‍🏫</span>
+                    2024
+                </div>
+
+                <div class="menu-item">
+                    <span>👨‍🏫</span>
+                    2025
+                </div>
+
+                <div class="menu-item">
+                    <span>👨‍🏫</span>
+                    2026
+                </div>
+
+            </div>
+
+            <div class="sidebar-title">Management</div>
+
+            <div class="submenu">
+
+                <div class="menu-item">
+                    <span>📄</span>
+                    Documents
+                </div>
+
+                <div class="menu-item">
+                    <span>💰</span>
+                    Finance
+                </div>
+
+                <div class="menu-item">
+                    <span>📈</span>
+                    Reports
+                </div>
+
+                <div class="menu-item">
+                    <span>⚙️</span>
+                    Settings
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="search-box">
+                <input type="text" placeholder="Search mobilities, universities, coordinators..." />
+            </div>
+
+            <div class="topbar-right">
+
+                <button class="top-btn lang-btn">
+                    EN / SK
+                </button>
+
+                <button class="top-btn theme-btn">
+                    ☀️
+                </button>
+
+                <button class="icon-btn">
+                    🔔
+                </button>
+
+                <div class="profile">
+                    <div class="profile-avatar">
+                        JM
+                    </div>
+
+                    <div>
+                        <h4>Joel Admin</h4>
+                        <p>Mobility Office</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <div class="page-header">
+
+                <div>
+                    <h1>Students — 2025</h1>
+                    <p>
+                        Erasmus+ ICM mobility management overview
+                    </p>
+                </div>
+
+                <button class="primary-btn">
+                    + Add Mobility
+                </button>
+            </div>
+
+            <!-- ADD THIS INSIDE .content UNDER THE PAGE HEADER -->
+
+<!-- TABS NAVIGATION -->
+
+<section class="tabs-nav">
+
+    <button class="tab-btn active-tab" data-tab="dashboardTab">
+        Dashboard
+    </button>
+
+    <button class="tab-btn" data-tab="studentsTab">
+        Students
+    </button>
+
+    <button class="tab-btn" data-tab="staffTab">
+        Staff
+    </button>
+
+    <button class="tab-btn" data-tab="documentsTab">
+        Documents
+    </button>
+
+    <button class="tab-btn" data-tab="financeTab">
+        Finance
+    </button>
+
+    <button class="tab-btn" data-tab="reportsTab">
+        Reports
+    </button>
+
+    <button class="tab-btn" data-tab="settingsTab">
+        Settings
+    </button>
+
+</section>
+
+<!-- ========================= -->
+<!-- DASHBOARD TAB -->
+<!-- ========================= -->
+
+<div class="tab-page active-page" id="dashboardTab">
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>🎓</span>
+                <span class="stat-trend positive">+12%</span>
+            </div>
+
+            <h2>42</h2>
+            <p>Active Mobilities</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>📄</span>
+                <span class="stat-trend negative">-4%</span>
+            </div>
+
+            <h2>11</h2>
+            <p>Missing Documents</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>💶</span>
+                <span class="stat-trend positive">91%</span>
+            </div>
+
+            <h2>€384K</h2>
+            <p>Budget Usage</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-top">
+                <span>🌍</span>
+                <span class="stat-trend neutral">14</span>
+            </div>
+
+            <h2>14</h2>
+            <p>Partner Countries</p>
+        </div>
+
+    </section>
+
+    <!-- DASHBOARD GRID -->
+
+    <section class="dashboard-grid">
+
+        <!-- GRAPH -->
+
+        <div class="dashboard-card large-card">
+
+            <div class="card-header">
+                <h3>Mobility Activity</h3>
+                <p>Monthly mobilities overview</p>
+            </div>
+
+            <div class="fake-chart">
+
+                <div class="chart-bars">
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:40%"></div>
+                        <span>Jan</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:65%"></div>
+                        <span>Feb</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:80%"></div>
+                        <span>Mar</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:55%"></div>
+                        <span>Apr</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:90%"></div>
+                        <span>May</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:70%"></div>
+                        <span>Jun</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:95%"></div>
+                        <span>Jul</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- COUNTRY OVERVIEW -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+                <h3>Top Countries</h3>
+            </div>
+
+            <div class="country-list">
+
+                <div class="country-row">
+                    <span>🇺🇦 Ukraine</span>
+                    <strong>18</strong>
+                </div>
+
+                <div class="country-row">
+                    <span>🇧🇼 Botswana</span>
+                    <strong>7</strong>
+                </div>
+
+                <div class="country-row">
+                    <span>🇿🇲 Zambia</span>
+                    <strong>6</strong>
+                </div>
+
+                <div class="country-row">
+                    <span>🇧🇹 Bhutan</span>
+                    <strong>5</strong>
+                </div>
+
+                <div class="country-row">
+                    <span>🇲🇪 Montenegro</span>
+                    <strong>4</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- STUDENTS TAB -->
+<!-- ========================= -->
+
+<div class="tab-page" id="studentsTab">
+
+    <section class="page-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Students Management</h2>
+                <p>Incoming and outgoing student mobilities</p>
+            </div>
+
+            <button class="primary-btn">
+                + Add Student
+            </button>
+        </div>
+
+        <div class="student-grid">
+
+            <div class="mini-card">
+                <h3>Incoming</h3>
+                <h1>28</h1>
+                <p>Students</p>
+            </div>
+
+            <div class="mini-card">
+                <h3>Outgoing</h3>
+                <h1>14</h1>
+                <p>Students</p>
+            </div>
+
+            <div class="mini-card">
+                <h3>Waiting Visa</h3>
+                <h1>5</h1>
+                <p>Pending</p>
+            </div>
+
+            <div class="mini-card">
+                <h3>Completed</h3>
+                <h1>19</h1>
+                <p>Mobilities</p>
+            </div>
+
+        </div>
+
+        <div class="kanban">
+
+            <div class="kanban-column">
+
+                <div class="kanban-title">
+                    Pending
+                </div>
+
+                <div class="kanban-card">
+                    <h4>Mesha Mbisana</h4>
+                    <p>Visa missing</p>
+                </div>
+
+                <div class="kanban-card">
+                    <h4>František Dugovič</h4>
+                    <p>Insurance pending</p>
+                </div>
+
+            </div>
+
+            <div class="kanban-column">
+
+                <div class="kanban-title">
+                    Processing
+                </div>
+
+                <div class="kanban-card">
+                    <h4>Ana Jokanović</h4>
+                    <p>Accommodation approval</p>
+                </div>
+
+            </div>
+
+            <div class="kanban-column">
+
+                <div class="kanban-title">
+                    Completed
+                </div>
+
+                <div class="kanban-card">
+                    <h4>Sofiia Mishchenko</h4>
+                    <p>All documents approved</p>
+                </div>
+
+                <div class="kanban-card">
+                    <h4>Ekene Joel Ibeziako</h4>
+                    <p>Grant processed</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- STAFF TAB -->
+<!-- ========================= -->
+
+<div class="tab-page" id="staffTab">
+
+    <section class="page-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Staff Mobilities</h2>
+                <p>Teaching and training mobilities</p>
+            </div>
+        </div>
+
+        <div class="staff-cards">
+
+            <div class="staff-card">
+
+                <div class="staff-avatar">
+                    L
+                </div>
+
+                <div>
+                    <h4>Lucia Miadoková</h4>
+                    <p>REC Coordinator</p>
+                </div>
+
+            </div>
+
+            <div class="staff-card">
+
+                <div class="staff-avatar pink-bg">
+                    T
+                </div>
+
+                <div>
+                    <h4>Tereza Hubáčková</h4>
+                    <p>UM Coordinator</p>
+                </div>
+
+            </div>
+
+            <div class="staff-card">
+
+                <div class="staff-avatar blue-bg">
+                    P
+                </div>
+
+                <div>
+                    <h4>Pavle Dakić</h4>
+                    <p>FIIT Mobility</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-content">
+                    <h4>Staff Week — Bosnia</h4>
+                    <p>13 Apr 2026 • Apeiron University</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+
+                <div class="timeline-content">
+                    <h4>Training Mobility — Zambia</h4>
+                    <p>10 May 2026 • University of Zambia</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- DOCUMENTS TAB -->
+<!-- ========================= -->
+
+<div class="tab-page" id="documentsTab">
+
+    <section class="page-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Documents Center</h2>
+                <p>Track all mobility documentation</p>
+            </div>
+        </div>
+
+        <div class="docs-grid">
+
+            <div class="doc-stat">
+                <h1>214</h1>
+                <p>Total Documents</p>
+            </div>
+
+            <div class="doc-stat">
+                <h1>18</h1>
+                <p>Missing</p>
+            </div>
+
+            <div class="doc-stat">
+                <h1>42</h1>
+                <p>Awaiting Signature</p>
+            </div>
+
+            <div class="doc-stat">
+                <h1>156</h1>
+                <p>Approved</p>
+            </div>
+
+        </div>
+
+        <div class="documents-table">
+
+            <div class="doc-table-row">
+                <span>Learning Agreements</span>
+                <span class="badge green">Approved</span>
+            </div>
+
+            <div class="doc-table-row">
+                <span>Visa Documents</span>
+                <span class="badge red">5 Missing</span>
+            </div>
+
+            <div class="doc-table-row">
+                <span>Insurance</span>
+                <span class="badge yellow">12 Pending</span>
+            </div>
+
+            <div class="doc-table-row">
+                <span>Grant Agreements</span>
+                <span class="badge green">Ready</span>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- FINANCE TAB -->
+<!-- ========================= -->
+
+<div class="tab-page" id="financeTab">
+
+    <section class="page-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Finance Overview</h2>
+                <p>Budget and reimbursement management</p>
+            </div>
+        </div>
+
+        <div class="finance-grid">
+
+            <div class="finance-card">
+                <h4>Total Budget</h4>
+                <h1>€483,909</h1>
+            </div>
+
+            <div class="finance-card">
+                <h4>Total Used</h4>
+                <h1>€380,026</h1>
+            </div>
+
+            <div class="finance-card">
+                <h4>Remaining</h4>
+                <h1>€103,883</h1>
+            </div>
+
+        </div>
+
+        <div class="progress-section">
+
+            <div class="progress-row">
+                <div class="progress-top">
+                    <span>Ukraine Budget</span>
+                    <span>96%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:96%"></div>
+                </div>
+            </div>
+
+            <div class="progress-row">
+                <div class="progress-top">
+                    <span>Bhutan & Laos</span>
+                    <span>91%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:91%"></div>
+                </div>
+            </div>
+
+            <div class="progress-row">
+                <div class="progress-top">
+                    <span>Africa Region</span>
+                    <span>93%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:93%"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- REPORTS TAB -->
+<!-- ========================= -->
+
+<div class="tab-page" id="reportsTab">
+
+    <section class="page-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Reports & Analytics</h2>
+                <p>Operational reporting and export center</p>
+            </div>
+
+            <button class="primary-btn">
+                Generate Report
+            </button>
+        </div>
+
+        <div class="reports-grid">
+
+            <div class="report-card">
+
+                <h3>Monthly Mobility Report</h3>
+
+                <p>
+                    Active mobility statistics and trends.
+                </p>
+
+                <button>
+                    Open Report
+                </button>
+
+            </div>
+
+            <div class="report-card">
+
+                <h3>Finance Audit</h3>
+
+                <p>
+                    Budget usage and reimbursements.
+                </p>
+
+                <button>
+                    Open Report
+                </button>
+
+            </div>
+
+            <div class="report-card">
+
+                <h3>Missing Documents</h3>
+
+                <p>
+                    Incomplete participant documentation.
+                </p>
+
+                <button>
+                    Open Report
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="pie-chart-card">
+
+            <div class="fake-pie">
+                <div class="pie-center">
+                    91%
+                </div>
+            </div>
+
+            <p>
+                Overall budget consumption
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- SETTINGS TAB -->
+<!-- ========================= -->
+
+<div class="tab-page" id="settingsTab">
+
+    <section class="page-section">
+
+        <div class="section-header">
+            <div>
+                <h2>System Settings</h2>
+                <p>Dashboard preferences and management</p>
+            </div>
+        </div>
+
+        <div class="settings-grid">
+
+            <div class="setting-box">
+
+                <div>
+                    <h4>Email Notifications</h4>
+                    <p>Receive reminders and alerts</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <div class="setting-box">
+
+                <div>
+                    <h4>Automatic Reminders</h4>
+                    <p>Send reminders before deadlines</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <div class="setting-box">
+
+                <div>
+                    <h4>Dark Mode</h4>
+                    <p>Enterprise dark appearance</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+            <!-- CARDS -->
+
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>🎓</span>
+                        <span class="stat-trend positive">+12%</span>
+                    </div>
+
+                    <h2>42</h2>
+                    <p>Active Mobilities</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>📄</span>
+                        <span class="stat-trend negative">-4%</span>
+                    </div>
+
+                    <h2>11</h2>
+                    <p>Missing Documents</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>⏰</span>
+                        <span class="stat-trend neutral">Today</span>
+                    </div>
+
+                    <h2>7</h2>
+                    <p>Upcoming Deadlines</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>💶</span>
+                        <span class="stat-trend positive">91%</span>
+                    </div>
+
+                    <h2>€384K</h2>
+                    <p>Budget Usage</p>
+                </div>
+
+            </section>
+
+            <!-- WARNING -->
+
+            <div class="warning-bar">
+                ⚠️ 3 visas missing • 2 reimbursements overdue • 5 mobilities start next week
+            </div>
+
+            <!-- FILTERS -->
+
+            <section class="filters">
+
+                <div class="filter-group">
+
+                    <button class="filter-btn">
+                        Coordinator
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-item">All Coordinators</div>
+                        <div class="dropdown-item">Lucia</div>
+                        <div class="dropdown-item">Tereza</div>
+                    </div>
+
+                </div>
+
+                <div class="filter-group">
+
+                    <button class="filter-btn">
+                        Country
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-item">All Countries</div>
+                        <div class="dropdown-item">Ukraine</div>
+                        <div class="dropdown-item">Botswana</div>
+                        <div class="dropdown-item">Bhutan</div>
+                        <div class="dropdown-item">Montenegro</div>
+                    </div>
+
+                </div>
+
+                <div class="filter-group">
+
+                    <button class="filter-btn">
+                        IN / OUT
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-item">All</div>
+                        <div class="dropdown-item">IN</div>
+                        <div class="dropdown-item">OUT</div>
+                    </div>
+
+                </div>
+
+                <div class="filter-group">
+
+                    <button class="filter-btn">
+                        Status
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-item">All Statuses</div>
+                        <div class="dropdown-item">Pending</div>
+                        <div class="dropdown-item">Completed</div>
+                        <div class="dropdown-item">Missing</div>
+                    </div>
+
+                </div>
+
+                <div class="filter-group">
+
+                    <button class="filter-btn">
+                        Missing Docs
+                        <span>⌄</span>
+                    </button>
+
+                    <div class="dropdown">
+                        <div class="dropdown-item">All</div>
+                        <div class="dropdown-item">Visa</div>
+                        <div class="dropdown-item">Insurance</div>
+                        <div class="dropdown-item">LA</div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TABLE -->
+
+            <section class="table-card">
+
+                <div class="table-top">
+                    <div>
+                        <h3>Mobility Overview</h3>
+                        <p>Based on real Erasmus / ICM operational structure :contentReference[oaicite:0]{index=0}</p>
+                    </div>
+
+                    <button class="ghost-btn">
+                        Export CSV
+                    </button>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Č. zmluvy</th>
+                            <th>Koordinátor</th>
+                            <th>Flow</th>
+                            <th>Meno</th>
+                            <th>Priezvisko</th>
+                            <th>Krajina</th>
+                            <th>Univerzita</th>
+                            <th>Fakulta</th>
+                            <th>Začiatok</th>
+                            <th>Koniec</th>
+                            <th>Deadline</th>
+                            <th>Grant</th>
+                            <th>Dokumenty</th>
+                            <th>Status</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-014</td>
+                            <td><span class="badge blue">Lucia</span></td>
+                            <td>IN</td>
+                            <td>Mesha</td>
+                            <td>Mbisana</td>
+                            <td>Botswana</td>
+                            <td>University of Botswana</td>
+                            <td>FCHPT</td>
+                            <td>05.06.2025</td>
+                            <td>04.09.2025</td>
+                            <td>12.05.2025</td>
+                            <td>€3,900</td>
+                            <td><span class="badge red">Missing Visa</span></td>
+                            <td><span class="badge yellow">Pending</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-021</td>
+                            <td><span class="badge pink">Tereza</span></td>
+                            <td>IN</td>
+                            <td>Sofiia</td>
+                            <td>Mishchenko</td>
+                            <td>Ukraine</td>
+                            <td>Taras Shevchenko National University</td>
+                            <td>UM</td>
+                            <td>03.03.2025</td>
+                            <td>17.05.2025</td>
+                            <td>08.02.2025</td>
+                            <td>€2,625</td>
+                            <td><span class="badge green">Complete</span></td>
+                            <td><span class="badge green">Completed</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-033</td>
+                            <td><span class="badge blue">Lucia</span></td>
+                            <td>OUT</td>
+                            <td>Martin</td>
+                            <td>Hudcovský</td>
+                            <td>South Africa</td>
+                            <td>University of the Western Cape</td>
+                            <td>MTF</td>
+                            <td>19.05.2026</td>
+                            <td>28.05.2026</td>
+                            <td>15.04.2026</td>
+                            <td>€2,448</td>
+                            <td><span class="badge yellow">Insurance</span></td>
+                            <td><span class="badge yellow">Pending</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-028</td>
+                            <td><span class="badge pink">Tereza</span></td>
+                            <td>IN</td>
+                            <td>Aleksa</td>
+                            <td>Sabljic</td>
+                            <td>Bosnia</td>
+                            <td>Apeiron University</td>
+                            <td>FIIT</td>
+                            <td>10.02.2026</td>
+                            <td>09.07.2026</td>
+                            <td>28.01.2026</td>
+                            <td>€4,180</td>
+                            <td><span class="badge green">Complete</span></td>
+                            <td><span class="badge green">Completed</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-024</td>
+                            <td><span class="badge blue">Lucia</span></td>
+                            <td>IN</td>
+                            <td>Adili</td>
+                            <td>Mbembela</td>
+                            <td>Tanzania</td>
+                            <td>Mbeya University</td>
+                            <td>FCHPT</td>
+                            <td>25.09.2025</td>
+                            <td>24.12.2025</td>
+                            <td>01.09.2025</td>
+                            <td>€3,220</td>
+                            <td><span class="badge red">Missing</span></td>
+                            <td><span class="badge yellow">Pending</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-050</td>
+                            <td><span class="badge pink">Tereza</span></td>
+                            <td>IN</td>
+                            <td>Ana</td>
+                            <td>Jokanović</td>
+                            <td>Montenegro</td>
+                            <td>University of Montenegro</td>
+                            <td>FIIT</td>
+                            <td>01.05.2026</td>
+                            <td>30.06.2026</td>
+                            <td>12.04.2026</td>
+                            <td>€1,875</td>
+                            <td><span class="badge yellow">Accommodation</span></td>
+                            <td><span class="badge yellow">Pending</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-059</td>
+                            <td><span class="badge blue">Lucia</span></td>
+                            <td>OUT</td>
+                            <td>František</td>
+                            <td>Dugovič</td>
+                            <td>Zambia</td>
+                            <td>University of Zambia</td>
+                            <td>FCHPT</td>
+                            <td>04.05.2026</td>
+                            <td>13.05.2026</td>
+                            <td>25.03.2026</td>
+                            <td>€1,768</td>
+                            <td><span class="badge red">Missing Visa</span></td>
+                            <td><span class="badge yellow">Pending</span></td>
+                        </tr>
+
+                        <tr onclick="openPanel()">
+                            <td>#2025-060</td>
+                            <td><span class="badge pink">Tereza</span></td>
+                            <td>OUT</td>
+                            <td>Ekene Joel</td>
+                            <td>Ibeziako</td>
+                            <td>Nigeria</td>
+                            <td>Federal University of Technology Owerri</td>
+                            <td>SvF</td>
+                            <td>01.06.2026</td>
+                            <td>31.07.2026</td>
+                            <td>06.03.2026</td>
+                            <td>€2,220</td>
+                            <td><span class="badge green">Complete</span></td>
+                            <td><span class="badge green">Completed</span></td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- OVERLAY -->
+
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+
+<!-- RIGHT PANEL -->
+
+<aside class="detail-panel" id="detailPanel">
+
+    <div class="panel-header">
+
+        <div>
+            <h2>Mesha Mbisana</h2>
+            <p>University of Botswana</p>
+        </div>
+
+        <button class="close-btn" onclick="closePanel()">
+            ✕
+        </button>
+
+    </div>
+
+    <div class="panel-content">
+
+        <!-- STATUS -->
+
+        <section class="panel-section">
+
+            <div class="section-title">
+                STATUS
+            </div>
+
+            <div class="status-grid">
+
+                <div class="info-box">
+                    <span class="small-label">Insurance</span>
+                    <div class="badge red">Missing</div>
+                </div>
+
+                <div class="info-box">
+                    <span class="small-label">Deadline</span>
+                    <div class="badge yellow">12.05.2025</div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- PERSONAL -->
+
+        <section class="panel-section">
+
+            <div class="section-title">
+                PERSONAL INFORMATION
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span>Dátum narodenia</span>
+                    <strong>21.07.1998</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Nationality</span>
+                    <strong>Botswana</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Pohlavie</span>
+                    <strong>Female</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Fakulta</span>
+                    <strong>Faculty of Science</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Adresa</span>
+                    <strong>Plot Z940 B Taukobong</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Miesto narodenia</span>
+                    <strong>Tutume</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Číslo pasu</span>
+                    <strong>BN1800585</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Telefón</span>
+                    <strong>+267 75465732</strong>
+                </div>
+
+                <div class="info-item full">
+                    <span>Email</span>
+                    <strong>mbisanam@ub.ac.bw</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- MOBILITY -->
+
+        <section class="panel-section">
+
+            <div class="section-title">
+                MOBILITY INFORMATION
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span>Začiatok</span>
+                    <strong>05.06.2025</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Koniec</span>
+                    <strong>04.09.2025</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Mesiace/Dni</span>
+                    <strong>3 months</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Grant-I</span>
+                    <strong>€2,400</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Grant Cestovné</span>
+                    <strong>€1,500</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Celkový Grant</span>
+                    <strong>€3,900</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Platba letenky</span>
+                    <strong>€511</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Ak. Rok</span>
+                    <strong>2024/2025</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Study Field</span>
+                    <strong>Analytical Chemistry</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>ISCED Kód</span>
+                    <strong>531</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- DOCUMENTS -->
+
+        <section class="panel-section">
+
+            <div class="section-title">
+                DOCUMENTS
+            </div>
+
+            <div class="docs-list">
+
+                <div class="doc-row">
+                    <div>
+                        <strong>Learning Agreement</strong>
+                    </div>
+
+                    <div class="doc-actions">
+                        <span class="doc-status green-dot"></span>
+                        <button>Open</button>
+                    </div>
+                </div>
+
+                <div class="doc-row">
+                    <div>
+                        <strong>Invitation</strong>
+                    </div>
+
+                    <div class="doc-actions">
+                        <span class="doc-status green-dot"></span>
+                        <button>Open</button>
+                    </div>
+                </div>
+
+                <div class="doc-row">
+                    <div>
+                        <strong>Visa</strong>
+                    </div>
+
+                    <div class="doc-actions">
+                        <span class="doc-status red-dot"></span>
+                        <button>Upload</button>
+                    </div>
+                </div>
+
+                <div class="doc-row">
+                    <div>
+                        <strong>Insurance</strong>
+                    </div>
+
+                    <div class="doc-actions">
+                        <span class="doc-status red-dot"></span>
+                        <button>Upload</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="drive-btn">
+                Open Google Drive Folder
+            </button>
+
+        </section>
+
+        <!-- NOTES -->
+
+        <section class="panel-section">
+
+            <div class="section-title">
+                NOTES
+            </div>
+
+            <div class="notes">
+
+                <div class="note">
+                    <div class="note-top">
+                        <strong>Lucia</strong>
+                        <span>12 Apr 2025 • 14:30</span>
+                    </div>
+
+                    <p>
+                        Visa documents requested from participant.
+                    </p>
+                </div>
+
+                <div class="note">
+                    <div class="note-top">
+                        <strong>Tereza</strong>
+                        <span>18 Apr 2025 • 09:12</span>
+                    </div>
+
+                    <p>
+                        Insurance confirmation still missing.
+                    </p>
+                </div>
+
+            </div>
+
+            <textarea placeholder="Add note..."></textarea>
+
+            <button class="primary-btn full-btn">
+                Add Note
+            </button>
+
+        </section>
+
+    </div>
+
+</aside>
+
+<script src="script.js"></script>
+
+</body>
+</html>

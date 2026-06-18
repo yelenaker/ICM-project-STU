@@ -1,0 +1,52 @@
+body{
+    font-family: Arial;
+    background:#f5f7fb;
+    padding:30px;
+}
+
+.container{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#1f2937;
+    color:white;
+    padding:12px;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+.complete{
+    color:green;
+    font-weight:bold;
+}
+
+.missing{
+    color:red;
+    font-weight:bold;
+}
+
+.pending{
+    color:orange;
+    font-weight:bold;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+}

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erasmus+ Management Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-wrapper">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <div class="sidebar-logo-mark">E+</div>
+        <div class="sidebar-logo-text">
+        <span>Erasmus+ Portal</span>
+        <span>STU Bratislava</span>
+        </div>
+    </div>
+    <div class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">❮</div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-label" data-en="Overview" data-sk="Prehľad">Overview</div>
+        <div class="nav-item active" data-page="dashboard">
+        <div class="nav-icon">⊞</div>
+        <div class="nav-label" data-en="Dashboard" data-sk="Dashboard">Dashboard</div>
+        <div class="nav-tooltip" data-en="Dashboard" data-sk="Dashboard">Dashboard</div>
+        </div>
+        <div class="nav-section-label" data-en="Mobilities" data-sk="Mobility">Mobilities</div>
+        <div class="nav-item" data-page="mobilities">
+        <div class="nav-icon">✈</div>
+        <div class="nav-label" data-en="Mobilities" data-sk="Mobility">Mobilities</div>
+        <div class="nav-tooltip">Mobilities</div>
+        </div>
+        <div class="nav-item" data-page="students">
+        <div class="nav-icon">🎓</div>
+        <div class="nav-label" data-en="Students" data-sk="Študenti">Students</div>
+        <div class="nav-tooltip">Students</div>
+        </div>
+        <div class="nav-item" data-page="staff">
+        <div class="nav-icon">👩‍💼</div>
+        <div class="nav-label" data-en="Staff" data-sk="Personál">Staff</div>
+        <div class="nav-tooltip">Staff</div>
+        </div>
+        <div class="nav-section-label" data-en="Management" data-sk="Správa">Management</div>
+        <div class="nav-item" data-page="documents">
+        <div class="nav-icon">📋</div>
+        <div class="nav-label" data-en="Documents" data-sk="Dokumenty">Documents</div>
+        <div class="nav-badge">3</div>
+        <div class="nav-tooltip">Documents</div>
+        </div>
+        <div class="nav-item" data-page="universities">
+        <div class="nav-icon">🏛</div>
+        <div class="nav-label" data-en="Universities" data-sk="Univerzity">Universities</div>
+        <div class="nav-tooltip">Universities</div>
+        </div>
+        <div class="nav-item" data-page="partners">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-label" data-en="Partner Managers" data-sk="Partneri">Partner Managers</div>
+        <div class="nav-tooltip">Partners</div>
+        </div>
+        <div class="nav-section-label" data-en="Finance & Planning" data-sk="Financie">Finance & Planning</div>
+        <div class="nav-item" data-page="budget">
+        <div class="nav-icon">💰</div>
+        <div class="nav-label" data-en="Budget" data-sk="Rozpočet">Budget</div>
+        <div class="nav-tooltip">Budget</div>
+        </div>
+        <div class="nav-item" data-page="calendar">
+        <div class="nav-icon">📅</div>
+        <div class="nav-label" data-en="Calendar" data-sk="Kalendár">Calendar</div>
+        <div class="nav-tooltip">Calendar</div>
+        </div>
+        <div class="nav-item" data-page="tasks">
+        <div class="nav-icon">✅</div>
+        <div class="nav-label" data-en="Tasks" data-sk="Úlohy">Tasks</div>
+        <div class="nav-badge">5</div>
+        <div class="nav-tooltip">Tasks</div>
+        </div>
+        <div class="nav-section-label" data-en="System" data-sk="Systém">System</div>
+        <div class="nav-item" data-page="notifications">
+        <div class="nav-icon">🔔</div>
+        <div class="nav-label" data-en="Notifications" data-sk="Notifikácie">Notifications</div>
+        <div class="nav-badge">7</div>
+        <div class="nav-tooltip">Notifications</div>
+        </div>
+        <div class="nav-item" data-page="settings">
+        <div class="nav-icon">⚙</div>
+        <div class="nav-label" data-en="Settings" data-sk="Nastavenia">Settings</div>
+        <div class="nav-tooltip">Settings</div>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+        <div class="user-avatar">MK</div>
+        <div class="user-info">
+            <div class="user-name">Mgr. Katarína M.</div>
+            <div class="user-role">IRO Coordinator</div>
+        </div>
+        </div>
+    </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content" id="mainContent">
+
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+        <div class="header-breadcrumb">
+        <span style="font-size:13px">⊞</span>
+        <span style="color:var(--text-muted)">/</span>
+        <span class="page-title" id="currentPageTitle">Dashboard</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+        <div class="year-selector">
+            <span>📅</span>
+            <select id="yearSelector" onchange="changeYear(this.value)">
+            <option value="2023/2024">2023/2024</option>
+            <option value="2024/2025" selected>2024/2025</option>
+            <option value="2025/2026">2025/2026</option>
+            <option value="all">All Years</option>
+            </select>
+        </div>
+        <div class="header-divider"></div>
+        <div class="header-btn" onclick="openGlobalSearch()" title="Global Search (Ctrl+K)">🔍</div>
+        <div class="header-btn" onclick="navigateTo('notifications')" title="Notifications">
+            🔔<div class="header-badge">7</div>
+        </div>
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">SK</button>
+        <div class="header-btn" id="themeBtn" onclick="cycleTheme()" title="Toggle Theme">🌙</div>
+        <div class="header-divider"></div>
+        <div class="header-user">
+            <div class="header-user-avatar">MK</div>
+            <div class="header-user-name">Mgr. Katarína</div>
+            <span style="font-size:10px;color:var(--text-muted)">▾</span>
+        </div>
+        </div>
+    </header>
+
+    <!-- ===== PAGE CONTENT ===== -->
+    <main class="page-content">
+
+        <!-- ========== DASHBOARD ========== -->
+        <div class="page active" id="page-dashboard">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Dashboard Overview" data-sk="Prehľad systému">Dashboard Overview</div>
+            <div class="section-subtitle" id="dashSubtitle" data-en="Academic Year 2024/2025 — All mobility data" data-sk="Akademický rok 2024/2025 — Všetky mobility">Academic Year 2024/2025 — All mobility data</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="exportData('dashboard')"><span>⬇</span> Export Report</button>
+            <button class="btn btn-primary" onclick="navigateTo('mobilities')"><span>+</span> New Mobility</button>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiGrid">
+            <!-- dynamically filled -->
+        </div>
+
+        <!-- Alerts -->
+        <div id="alertsSection" style="margin-bottom:20px"></div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+            <h3>📍 Mobilities by Country</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartCountry"></canvas></div>
+            </div>
+            <div class="chart-card">
+            <h3>💰 Budget by Country</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartBudgetCountry"></canvas></div>
+            </div>
+            <div class="chart-card">
+            <h3>👥 Students vs Staff</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartStudentsStaff"></canvas></div>
+            </div>
+            <div class="chart-card">
+            <h3>📊 Mobility Types</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartMobilityTypes"></canvas></div>
+            </div>
+            <div class="chart-card" style="grid-column: span 2">
+            <h3>📈 Monthly Mobility Activity</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartMonthly"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Bottom 2 widgets -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <!-- Recent Activity -->
+            <div class="card">
+            <div class="card-header">
+                <span class="card-title">🕐 Recent Activity</span>
+                <button class="btn btn-ghost btn-sm">View All</button>
+            </div>
+            <div class="card-body" style="padding:12px 18px">
+                <div id="activityFeed"></div>
+            </div>
+            </div>
+            <!-- Upcoming Mobilities Widget -->
+            <div class="card">
+            <div class="card-header">
+                <span class="card-title">✈ Upcoming Mobilities</span>
+                <button class="btn btn-ghost btn-sm" onclick="navigateTo('calendar')">Calendar →</button>
+            </div>
+            <div class="card-body" style="padding:0">
+                <div id="upcomingWidget"></div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== MOBILITIES ========== -->
+        <div class="page" id="page-mobilities">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Mobilities" data-sk="Mobility">Mobilities</div>
+            <div class="section-subtitle" id="mobCount">Loading...</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="exportData('mobilities')"><span>⬇</span> Export</button>
+            <button class="btn btn-primary" onclick="openAddModal('mobility')"><span>+</span> Add Mobility</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body" style="padding:14px">
+            <div class="filters-bar">
+                <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search mobilities..." id="mobSearchInput" oninput="filterMobilities()">
+                </div>
+                <select class="filter-select" id="mobFilterCountry" onchange="filterMobilities()">
+                <option value="">All Countries</option>
+                </select>
+                <select class="filter-select" id="mobFilterStatus" onchange="filterMobilities()">
+                <option value="">All Statuses</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+                </select>
+                <select class="filter-select" id="mobFilterType" onchange="filterMobilities()">
+                <option value="">All Types</option>
+                <option value="Studies">Studies</option>
+                <option value="Traineeship">Traineeship</option>
+                <option value="Teaching">Teaching</option>
+                <option value="Training">Training</option>
+                </select>
+            </div>
+            </div>
+            <div class="table-wrap">
+            <table class="data-table" id="mobilitiesTable">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>University</th>
+                    <th>Coordinator</th>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Grant</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="mobilitiesTbody"></tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== STUDENTS ========== -->
+        <div class="page" id="page-students">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Students" data-sk="Študenti">Students</div>
+            <div class="section-subtitle" id="studCount">Loading...</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="showImportModal()"><span>⬆</span> Import</button>
+            <button class="btn btn-secondary" onclick="exportData('students')"><span>⬇</span> Export</button>
+            <button class="btn btn-primary" onclick="openStudentPanel(null)"><span>+</span> Add Student</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body" style="padding:14px">
+            <div class="filters-bar">
+                <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search by name, email, university..." id="studSearchInput" oninput="filterStudents()">
+                </div>
+                <select class="filter-select" id="studFilterCountry" onchange="filterStudents()">
+                <option value="">All Countries</option>
+                </select>
+                <select class="filter-select" id="studFilterStatus" onchange="filterStudents()">
+                <option value="">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Cancelled">Cancelled</option>
+                </select>
+                <select class="filter-select" id="studFilterDegree" onchange="filterStudents()">
+                <option value="">All Degrees</option>
+                <option value="Bachelor">Bachelor</option>
+                <option value="Master">Master</option>
+                <option value="PhD">PhD</option>
+                </select>
+                <select class="filter-select" id="studFilterCoord" onchange="filterStudents()">
+                <option value="">All Coordinators</option>
+                </select>
+            </div>
+            </div>
+            <div class="table-wrap">
+            <table class="data-table" id="studentsTable">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" onchange="selectAll(this,'studentsTable')"></th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>University</th>
+                    <th>Coordinator</th>
+                    <th>Degree</th>
+                    <th>Period</th>
+                    <th>Status</th>
+                    <th>Grant</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="studentsTbody"></tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== STAFF ========== -->
+        <div class="page" id="page-staff">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Staff" data-sk="Personál">Staff</div>
+            <div class="section-subtitle" id="staffCount">Loading...</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="exportData('staff')"><span>⬇</span> Export</button>
+            <button class="btn btn-primary" onclick="openStaffPanel(null)"><span>+</span> Add Staff</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body" style="padding:14px">
+            <div class="filters-bar">
+                <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search staff..." id="staffSearchInput" oninput="filterStaff()">
+                </div>
+                <select class="filter-select" id="staffFilterCountry" onchange="filterStaff()">
+                <option value="">All Countries</option>
+                </select>
+                <select class="filter-select" id="staffFilterStatus" onchange="filterStaff()">
+                <option value="">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+                <option value="Upcoming">Upcoming</option>
+                </select>
+            </div>
+            </div>
+            <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>University</th>
+                    <th>Coordinator</th>
+                    <th>Type</th>
+                    <th>Period</th>
+                    <th>Status</th>
+                    <th>Grant</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="staffTbody"></tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== DOCUMENTS ========== -->
+        <div class="page" id="page-documents">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Documents" data-sk="Dokumenty">Documents</div>
+            <div class="section-subtitle">Track document completion for all participants</div>
+            </div>
+            <div class="page-header-actions">
+            <div class="tab-switch" id="docTypeSwitch">
+                <button class="tab-switch-btn active" onclick="switchDocType('students',this)">Students</button>
+                <button class="tab-switch-btn" onclick="switchDocType('staff',this)">Staff</button>
+            </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body" style="padding:14px">
+            <div class="filters-bar">
+                <div class="search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search participants..." id="docSearchInput" oninput="filterDocs()">
+                </div>
+                <select class="filter-select" onchange="filterDocs()">
+                <option value="">All Coordinators</option>
+                </select>
+            </div>
+            </div>
+            <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Coordinator</th>
+                    <th>University</th>
+                    <th>Progress</th>
+                    <th>Missing</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="docsTbody"></tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== UNIVERSITIES ========== -->
+        <div class="page" id="page-universities">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Universities" data-sk="Univerzity">Universities</div>
+            <div class="section-subtitle" id="uniCount">Loading...</div>
+            </div>
+            <div class="page-header-actions">
+            <div class="search-input-wrap" style="max-width:240px">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search universities..." id="uniSearchInput" oninput="filterUniversities()">
+            </div>
+            <button class="btn btn-primary" onclick="openAddModal('university')"><span>+</span> Add University</button>
+            </div>
+        </div>
+        <div class="uni-grid" id="uniGrid"></div>
+        </div>
+
+        <!-- ========== PARTNER MANAGERS ========== -->
+        <div class="page" id="page-partners">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Partner Managers" data-sk="Partneri">Partner Managers</div>
+            <div class="section-subtitle">Manage all partner institution contacts</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="exportData('partners')"><span>⬇</span> Export</button>
+            <button class="btn btn-primary" onclick="openAddModal('partner')"><span>+</span> Add Partner</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>University</th>
+                    <th>Coordinator (STU)</th>
+                    <th>STU Project Manager</th>
+                    <th>Partner Manager</th>
+                    <th>Partner Email</th>
+                    <th>IIA Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="partnersTbody"></tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== BUDGET ========== -->
+        <div class="page" id="page-budget">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Budget Management" data-sk="Správa rozpočtu">Budget Management</div>
+            <div class="section-subtitle">Academic Year 2024/2025 financial overview</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="exportData('budget')"><span>⬇</span> Export Budget</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid" id="budgetKpis" style="grid-template-columns:repeat(3,1fr)"></div>
+
+        <div class="charts-grid" style="margin-bottom:20px">
+            <div class="chart-card">
+            <h3>💰 Budget by Country</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartBudgetByCountry"></canvas></div>
+            </div>
+            <div class="chart-card">
+            <h3>📊 Budget by Mobility Type</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartBudgetByType"></canvas></div>
+            </div>
+            <div class="chart-card">
+            <h3>📈 Budget Usage %</h3>
+            <div class="chart-canvas-wrap"><canvas id="chartBudgetUsage"></canvas></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+            <span class="card-title">Budget by Country</span>
+            <span style="font-size:11px;color:var(--text-muted)">Click row to expand details</span>
+            </div>
+            <div class="table-wrap">
+            <table class="data-table" id="budgetTable">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Country</th>
+                    <th>Total Budget</th>
+                    <th>Used</th>
+                    <th>Remaining</th>
+                    <th>Mobilities</th>
+                    <th>Usage %</th>
+                </tr>
+                </thead>
+                <tbody id="budgetTbody"></tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ========== CALENDAR ========== -->
+        <div class="page" id="page-calendar">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Calendar" data-sk="Kalendár">Calendar</div>
+            <div class="section-subtitle">Mobility arrivals, departures and deadlines</div>
+            </div>
+            <div class="page-header-actions">
+            <div class="tab-switch">
+                <button class="tab-switch-btn active" onclick="calendarView='month';renderCalendar()">Month</button>
+                <button class="tab-switch-btn" onclick="calendarView='week';renderCalendar()">Week</button>
+                <button class="tab-switch-btn" onclick="calendarView='agenda';renderCalendar()">Agenda</button>
+            </div>
+            </div>
+        </div>
+        <div id="calendarContainer"></div>
+        </div>
+
+        <!-- ========== TASKS ========== -->
+        <div class="page" id="page-tasks">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Tasks" data-sk="Úlohy">Tasks</div>
+            <div class="section-subtitle">Coordinate and track all Erasmus+ tasks</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-primary" onclick="openAddModal('task')"><span>+</span> New Task</button>
+            </div>
+        </div>
+        <div class="tasks-columns" id="tasksBoard"></div>
+        </div>
+
+        <!-- ========== NOTIFICATIONS ========== -->
+        <div class="page" id="page-notifications">
+        <div class="section-header">
+            <div>
+            <div class="section-title" data-en="Notifications" data-sk="Notifikácie">Notifications</div>
+            <div class="section-subtitle" id="notifSubtitle">7 unread notifications</div>
+            </div>
+            <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="markAllRead()">Mark All Read</button>
+            </div>
+        </div>
+        <div id="notificationsContent"></div>
+        </div>
+
+        <!-- ========== SETTINGS ========== -->
+        <div class="page" id="page-settings">
+        <div class="section-title" style="margin-bottom:20px" data-en="Settings" data-sk="Nastavenia">Settings</div>
+        <div class="settings-grid">
+            <div class="settings-nav">
+            <div class="settings-nav-item active" onclick="openSettingsSection('appearance',this)">🎨 Appearance</div>
+            <div class="settings-nav-item" onclick="openSettingsSection('language',this)">🌐 Language</div>
+            <div class="settings-nav-item" onclick="openSettingsSection('export',this)">⬇ Export Data</div>
+            <div class="settings-nav-item" onclick="openSettingsSection('backup',this)">💾 Backup</div>
+            <div class="settings-nav-item" onclick="openSettingsSection('preferences',this)">⚙ Preferences</div>
+            <div class="settings-nav-item" onclick="openSettingsSection('integrations',this)">🔗 Integrations</div>
+            </div>
+            <div id="settingsPanelContent" class="settings-panel"></div>
+        </div>
+        </div>
+
+    </main>
+    </div>
+
+    <!-- ===== SLIDE PANEL: Student / Staff ===== -->
+    <div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+    <div class="slide-panel" id="slidePanel">
+    <div class="panel-header">
+        <div class="panel-avatar" id="panelAvatar">?</div>
+        <div class="panel-person-info">
+        <div class="panel-person-name" id="panelName">Loading...</div>
+        <div class="panel-person-meta">
+            <span class="flag-emoji" id="panelFlag">🌍</span>
+            <span id="panelUniversity"></span>
+            <span id="panelBadge"></span>
+        </div>
+        </div>
+        <div class="panel-close" onclick="closePanel()">✕</div>
+    </div>
+    <div class="panel-actions" id="panelActions">
+        <button class="btn btn-secondary btn-sm" onclick="openGDrive()">📁 Google Folder</button>
+        <button class="btn btn-secondary btn-sm" onclick="openContactModal()">✉ Contact</button>
+        <button class="btn btn-primary btn-sm" onclick="savePanel()">💾 Save</button>
+    </div>
+    <div class="panel-tabs" id="panelTabs">
+        <div class="panel-tab active" onclick="switchPanelTab('general',this)">General</div>
+        <div class="panel-tab" onclick="switchPanelTab('mobility',this)">Mobility</div>
+        <div class="panel-tab" onclick="switchPanelTab('academic',this)">Academic</div>
+        <div class="panel-tab" onclick="switchPanelTab('finance',this)">Finance</div>
+        <div class="panel-tab" onclick="switchPanelTab('contact',this)">Contact</div>
+        <div class="panel-tab" onclick="switchPanelTab('documents',this)">Documents</div>
+        <div class="panel-tab" onclick="switchPanelTab('notes',this)">Notes</div>
+    </div>
+    <div class="panel-body" id="panelBody">
+        <!-- Filled dynamically -->
+    </div>
+    </div>
+
+    <!-- ===== CONTACT MODAL ===== -->
+    <div class="modal-overlay" id="contactOverlay" onclick="closeContactModal()"></div>
+    <div class="modal" id="contactModal">
+    <div class="modal-header">
+        <div class="modal-title">✉ Contact Participant</div>
+        <div class="panel-close" onclick="closeContactModal()">✕</div>
+    </div>
+    <div class="modal-body" id="contactModalBody"></div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="copyEmail()">📋 Copy Email</button>
+        <button class="btn btn-primary" onclick="openGmail()">Open in Gmail</button>
+    </div>
+    </div>
+
+    <!-- ===== ADD MODAL ===== -->
+    <div class="modal-overlay" id="addModalOverlay" onclick="closeAddModal()"></div>
+    <div class="modal" id="addModal">
+    <div class="modal-header">
+        <div class="modal-title" id="addModalTitle">Add</div>
+        <div class="panel-close" onclick="closeAddModal()">✕</div>
+    </div>
+    <div class="modal-body" id="addModalBody"></div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveFromModal()">Save</button>
+    </div>
+    </div>
+
+    <!-- ===== GLOBAL SEARCH ===== -->
+    <div class="global-search-wrap" id="globalSearch" onclick="closeGlobalSearch(event)">
+    <div class="global-search-box">
+        <div class="global-search-input-wrap">
+        <span style="font-size:18px;color:var(--text-muted)">🔍</span>
+        <input type="text" class="global-search-input" id="globalSearchInput" placeholder="Search students, universities, coordinators..." oninput="runGlobalSearch(this.value)" autofocus>
+        <span style="font-size:10px;color:var(--text-muted);background:var(--bg-tertiary);padding:2px 6px;border-radius:4px">ESC</span>
+        </div>
+        <div class="search-results" id="searchResults">
+        <div style="padding:30px;text-align:center;color:var(--text-muted);font-size:13px">
+            Start typing to search across all records...
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- ===== UNIVERSITY DETAIL MODAL ===== -->
+    <div class="modal-overlay" id="uniModalOverlay" onclick="closeUniModal()"></div>
+    <div class="modal" id="uniModal" style="width:700px;max-width:95vw">
+    <div class="modal-header">
+        <div class="modal-title" id="uniModalTitle">University Profile</div>
+        <div class="panel-close" onclick="closeUniModal()">✕</div>
+    </div>
+    <div class="modal-body" id="uniModalBody" style="max-height:70vh"></div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeUniModal()">Close</button>
+        <button class="btn btn-primary">Save Changes</button>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

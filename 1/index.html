@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MobilityHub</title>
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+
+  <div class="sidebar">
+
+    <div class="logo">
+      MobilityHub
+    </div>
+
+    <div class="menu-item active">
+      🏠 Dashboard
+    </div>
+
+    <div class="menu-title">
+      Students
+    </div>
+
+    <div class="submenu">
+      <div class="menu-item">2023</div>
+      <div class="menu-item">2024</div>
+      <div class="menu-item">2025</div>
+      <div class="menu-item">2026</div>
+    </div>
+
+    <div class="menu-title">
+      Staff
+    </div>
+
+    <div class="submenu">
+      <div class="menu-item">2023</div>
+      <div class="menu-item">2024</div>
+      <div class="menu-item">2025</div>
+      <div class="menu-item">2026</div>
+    </div>
+
+    <div class="menu-title">
+      Management
+    </div>
+
+    <div class="menu-item">📄 Documents</div>
+    <div class="menu-item">💰 Finance</div>
+    <div class="menu-item">📊 Reports</div>
+    <div class="menu-item">⚙ Settings</div>
+
+  </div>
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <input
+        type="text"
+        class="search"
+        placeholder="Search participant..."
+      >
+
+      <div class="top-actions">
+
+        <div class="notification">
+          🔔
+        </div>
+
+        <div class="profile">
+          👤
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+      <div class="page-title">
+        Students — 2025
+      </div>
+
+      <!-- CARDS -->
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-title">
+            Active Mobilities
+          </div>
+
+          <div class="card-value">
+            42
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Missing Documents
+          </div>
+
+          <div class="card-value">
+            8
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Upcoming Deadlines
+          </div>
+
+          <div class="card-value">
+            5
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Budget Usage
+          </div>
+
+          <div class="card-value">
+            73%
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FILTERS -->
+
+      <div class="filters">
+
+        <div class="filter">
+          Lucia ▼
+        </div>
+
+        <div class="filter">
+          Country ▼
+        </div>
+
+        <div class="filter">
+          IN/OUT ▼
+        </div>
+
+        <div class="filter">
+          Missing Docs ▼
+        </div>
+
+        <div class="filter">
+          Status ▼
+        </div>
+
+      </div>
+
+      <!-- TABLE -->
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>From</th>
+              <th>Until</th>
+              <th>Docs</th>
+              <th>Deadline</th>
+              <th>Status</th>
+              <th>Coordinator</th>
+              <th>Grant</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr onclick="openPanel()">
+              <td>Ivan Spanik</td>
+              <td>Laos</td>
+              <td>01.10.25</td>
+              <td>10.10.25</td>
+              <td>7/9</td>
+              <td>12 Dec</td>
+              <td>
+                <span class="status yellow">
+                  Pending
+                </span>
+              </td>
+              <td>Lucia</td>
+              <td>3660€</td>
+            </tr>
+
+            <tr onclick="openPanel()">
+              <td>Anna Kowalski</td>
+              <td>Ukraine</td>
+              <td>05.11.25</td>
+              <td>18.11.25</td>
+              <td>5/9</td>
+              <td>Tomorrow</td>
+              <td>
+                <span class="status red">
+                  Missing
+                </span>
+              </td>
+              <td>Tereza</td>
+              <td>2980€</td>
+            </tr>
+
+            <tr onclick="openPanel()">
+              <td>Joel Kumar</td>
+              <td>Peru</td>
+              <td>10.09.25</td>
+              <td>30.09.25</td>
+              <td>9/9</td>
+              <td>Complete</td>
+              <td>
+                <span class="status green">
+                  Done
+                </span>
+              </td>
+              <td>Lucia</td>
+              <td>4200€</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+
+  <div class="right-panel" id="panel">
+
+    <div
+      class="close-btn"
+      onclick="closePanel()"
+    >
+      ✕
+    </div>
+
+    <div class="participant-name">
+      Ivan Spanik
+    </div>
+
+    <div class="participant-subtitle">
+      Laos • Incoming • Lucia
+    </div>
+
+    <!-- STATUS -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Status
+      </div>
+
+      <span class="status yellow">
+        Missing Insurance
+      </span>
+
+    </div>
+
+    <!-- PERSONAL INFO -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Personal Info
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <div class="info-label">
+            Dátum narodenia
+          </div>
+
+          <div class="info-value">
+            12.03.1998
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            Fakulta
+          </div>
+
+          <div class="info-value">
+            FCHPT
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            Nationality
+          </div>
+
+          <div class="info-value">
+            Laos
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            Email
+          </div>
+
+          <div class="info-value">
+            ivan@email.com
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MOBILITY INFO -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Mobility Info
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <div class="info-label">
+            Začiatok
+          </div>
+
+          <div class="info-value">
+            01.10.2025
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            Koniec
+          </div>
+
+          <div class="info-value">
+            10.10.2025
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            Grant
+          </div>
+
+          <div class="info-value">
+            2160€
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">
+            Travel
+          </div>
+
+          <div class="info-value">
+            1500€
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- DOCUMENTS -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Documents
+      </div>
+
+      <p>🟢 Learning Agreement</p>
+      <p>🟢 Invitation</p>
+      <p>🟡 Visa</p>
+      <p>🔴 Insurance</p>
+
+      <button class="btn">
+        Open Drive Folder
+      </button>
+
+    </div>
+
+    <!-- NOTES -->
+
+    <div class="section">
+
+      <div class="section-title">
+        Notes
+      </div>
+
+      <div class="note">
+
+        <div class="note-date">
+          09 Dec 2025 • 14:22 • Lucia
+        </div>
+
+        Waiting for signed insurance
+
+      </div>
+
+      <div class="note">
+
+        <div class="note-date">
+          10 Dec 2025 • 09:41 • Tereza
+        </div>
+
+        Reminder sent by email
+
+      </div>
+
+      <textarea
+        class="note-input"
+        placeholder="Write a note..."
+      ></textarea>
+
+      <button class="btn">
+        Add Note
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
